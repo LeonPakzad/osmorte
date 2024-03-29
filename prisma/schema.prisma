@@ -15,7 +15,7 @@ model Place {
   
   email       String
   website     String
-  Opening_hours String
+  opening_hours String
 
   lat         Float
   long        Float

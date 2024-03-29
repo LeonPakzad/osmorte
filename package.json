@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/LeonPakzad/osmorte#readme",
   "devDependencies": {
+    "@types/node": "^20.11.30",
     "prisma": "^5.11.0"
   },
   "dependencies": {
