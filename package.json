@@ -1,0 +1,26 @@
+{
+  "name": "osmorte",
+  "version": "1.0.0",
+  "description": "a tool to use open street map locations in your own project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonPakzad/osmorte.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeonPakzad/osmorte/issues"
+  },
+  "homepage": "https://github.com/LeonPakzad/osmorte#readme",
+  "devDependencies": {
+    "prisma": "^5.11.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.11.0"
+  }
+}
