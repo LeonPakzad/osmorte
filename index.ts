@@ -5,8 +5,8 @@ const prisma = new PrismaClient()
 async function main() {
     getPlacesAll();
     addPlace();
-    updatePlace("changed_mail@test.com");
     getPlacesAll();
+    // updatePlace("changed_mail@test.com");
     deletePlacesAll();
 }
 
