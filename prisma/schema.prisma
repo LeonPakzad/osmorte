@@ -22,7 +22,7 @@ model Place {
   addr_city   String
   addr_housenumber  Int
   addr_postcode   Int
-  addr_Street String
+  addr_street String
   
   cuisine     String
   diet_vegan Boolean

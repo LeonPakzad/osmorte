@@ -3,17 +3,22 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-    getPlacesAll();
-    addPlace();
-    getPlacesAll();
-    // updatePlace("changed_mail@test.com");
-    deletePlacesAll();
+    await getPlacesAll();
+    await addPlace();
+    await getPlacesAll();
+    
+    // await updatePlace("");
+    await getPlace(1);
+    await getPlacesLimited(1);
+    await getPlacesLimited(1);
+    
+    await deletePlacesAll();
+    await getPlacesAll();
 }
 
 async function addPlace()
 {
     await prisma.place.create({
-
         data: {
             fk_place: 12,
             node: 123,
@@ -26,8 +31,7 @@ async function addPlace()
             addr_city: 'test',   
             addr_housenumber: 1,
             addr_postcode: 11111,
-            addr_Street: 'teststreet',
-            
+            addr_street: 'teststreet',
             cuisine: 'italian',
             diet_vegan: false,
             diet_vegetarian: false
@@ -38,20 +42,54 @@ async function addPlace()
 async function getPlacesAll()
 {
     const allPlaces = await prisma.place.findMany();
-    console.log(allPlaces);
+}
+
+async function getPlacesLimited(_maxNumber:number)
+{
+    const allPlaces = await prisma.place.findMany({take: _maxNumber})
+}
+
+async function getPlace(_id:number)
+{
+    const allPlaces = await prisma.place.findUnique({
+        where: {id: _id}
+    })
 }
 
 async function deletePlacesAll()
 {
-    const allPlaces = await prisma.place.deleteMany();
-    console.log(allPlaces);
+    const deletePlaces = await prisma.place.deleteMany();
 }
 
-async function updatePlace( _email:string)
+async function deletePlace(_id:number)
+{
+    const deletePlace = await prisma.place.delete({where: {id: _id}})
+}
+
+async function updatePlace (
+    _email:string, _website:string, _opening_hours: string, 
+    _lat:number, _long:number,
+    _addr_city:string, _addr_housenumber:number, _addr_postcode:number, _addr_street:string, 
+    _cuisine:string, _diet_vegan:boolean, _diet_vegetarian:boolean
+)
 {
     const post = await prisma.place.update({
         where: { id: 1 },
-        data: { email: _email },
+        data: 
+        { 
+            email: _email,
+            website: _website,
+            opening_hours: _opening_hours,
+            lat: _lat,
+            long: _long,
+            addr_city: _addr_city,
+            addr_housenumber: _addr_housenumber,
+            addr_postcode: _addr_postcode,
+            addr_street: _addr_street,
+            cuisine: _cuisine,
+            diet_vegan: _diet_vegan,
+            diet_vegetarian: _diet_vegetarian
+        },
     })
 }
 
