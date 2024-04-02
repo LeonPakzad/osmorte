@@ -5,15 +5,15 @@ const prisma = new PrismaClient()
 async function main() {
     await getPlacesAll();
     await addPlace();
-    await getPlacesAll();
+    // await getPlacesAll();
     
     // await updatePlace("");
-    await getPlace(1);
-    await getPlacesLimited(1);
-    await getPlacesLimited(1);
+    // await getPlace(1);
+    // await getPlacesLimited(1);
+    // await getPlacesLimited(1);
     
-    await deletePlacesAll();
-    await getPlacesAll();
+    // await deletePlacesAll();
+    // await getPlacesAll();
 }
 
 async function addPlace()
