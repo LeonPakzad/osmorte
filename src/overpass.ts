@@ -24,7 +24,6 @@ async function fetchRestaurantData() {
     }
 }
 
-// Example usage
 fetchRestaurantData()
     .then(restaurants => {
         console.log('Restaurant data:', restaurants);

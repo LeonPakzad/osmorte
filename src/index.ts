@@ -1,0 +1,31 @@
+import { PrismaClient } from '@prisma/client'
+
+const express = require("express");
+const prisma = new PrismaClient()
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
+app.get("/", (_req: any, res: { json: (arg0: { message: string; }) => void; }) => {
+  res.json({ message: "ok" });
+});
+
+app.get('/restaurants', async (_req: any, res: { json: (arg0: { id: number; fk_place: number; node: number; name: string; email: string; website: string; opening_hours: string; lat: number; long: number; addr_city: string; addr_housenumber: number; addr_postcode: number; addr_street: string; cuisine: string; diet_vegan: boolean; diet_vegetarian: boolean }[]) => void }) => {
+    const restaurants = await prisma.place.findMany()
+    res.json(restaurants)
+  })
+
+// app.delete('/restaurants', async (_req: any, res: { json: (arg0: { id: number; fk_place: number; node: number; name: string; email: string; website: string; opening_hours: string; lat: number; long: number; addr_city: string; addr_housenumber: number; addr_postcode: number; addr_street: string; cuisine: string; diet_vegan: boolean; diet_vegetarian: boolean }[]) => void }) => {
+// const restaurants = await prisma.place.findMany()
+// res.json(restaurants)
+// })
+  
+app.listen(3000, () =>
+  console.log('REST API server ready at: http://localhost:3000'),
+)
