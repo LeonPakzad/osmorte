@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/placeIndex', placeIndexView);
 router.get('/placeEdit', placeEdit);
-router.get('/place', placeView);
+router.get('/place/:id', placeView);
 
 router.get('/', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("dashboard", {

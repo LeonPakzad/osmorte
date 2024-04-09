@@ -2,12 +2,29 @@
 <html>
     <head>
         <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <title>osmorte</title>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
     </head>
 
     <body>
-        test view
+        <h1>Place View</h1>
+        <div class="place-card">
+            <p><%= place.name %></p>
+            <p>id:                 <%= place.id %></p>
+            <p>fk_place:           <%= place.fk_place %></p>
+            <p>node:               <%= place.node %></p>
+            <p>email:              <%= place.email %></p>
+            <p>website:            <%= place.website %></p>
+            <p>opening_hours:      <%= place.opening_hours %></p>
+            <p>lat:                <%= place.lat %></p>
+            <p>long:               <%= place.long %></p>
+            <p>addr_city:          <%= place.addr_city %></p>
+            <p>addr_housenumber:   <%= place.addr_housenumber %></p>
+            <p>addr_postcode:      <%= place.addr_postcode %></p>
+            <p>addr_street:        <%= place.addr_street %></p>
+            <p>cuisine:            <%= place.cuisine %></p>
+            <p>diet_vegan:         <%= place.diet_vegan %></p>
+            <p>diet_vegetarian:    <%= place.diet_vegetarian %></p>
+        </div>
     </body>
 </html>

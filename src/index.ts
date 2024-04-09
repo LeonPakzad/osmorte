@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import { DefaultArgs } from '@prisma/client/runtime/library';
 
+const path = require('path');
 const express = require("express");
 const prisma = new PrismaClient()
 const app = express();
@@ -12,6 +13,8 @@ app.use(
     extended: true,
   })
 );
+
+app.use('/public', express.static(path.join(__dirname, "public")));
 
 app.set('view engine', 'ejs');
 app.use('/', require('./controllers/routes'));
