@@ -55,3 +55,9 @@ summary:hover {
     padding: .25em;
     color: black !important;
 }
+
+@media (max-width: 620px) {
+    .hide-mobile {
+        display: none;
+    }
+}

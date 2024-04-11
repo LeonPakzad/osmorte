@@ -20,7 +20,6 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
     res.render("place/view", {
         place: _place
     } );
-    console.log(_id);
 }
 
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
@@ -34,19 +33,22 @@ const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void })
 }
 
 const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
-    var _places = await fetchPlaceByBox(_req.params._box, "restaurant")
-    console.log(_req.params._box)
-    if(_places != null)
+    console.log(_req.query.box)
+    var _places = await fetchPlaceByBox(_req.query.box, "restaurant")
+    if(_places != undefined)
     {
         res.render("place/find", {
-            places: _places
+            places: _places,
+            input: _req.query.box
         } );
     }
     else 
     {
         res.render("place/find", {
+            input: _req.query.box
         } );
     }
+    console.log(_places);
 }
 
   
@@ -74,11 +76,10 @@ async function fetchPlaceByBox(_box:string, _place:string){
         out;
     `;
 
-    osmQuery.replace('{{bbox}}', _box);
-    osmQuery.replace('{{place}}', _place);
+    var newOsmQuery = osmQuery.replace('{{bbox}}', _box);
+    newOsmQuery = newOsmQuery.replace('{{place}}', _place);
 
     const overpassURL = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(osmQuery)}`;
-
     return await fetch(overpassURL);
 };
 

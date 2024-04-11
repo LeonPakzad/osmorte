@@ -4,6 +4,7 @@ const {placeIndexView, placeView, placeEdit, placeFind, placeDelete } = require(
 
 router.get('/place-index', placeIndexView);
 router.get('/place-find', placeFind);
+router.get('/place-find/:box', placeFind);
 router.get('/place-edit', placeEdit);
 router.get('/place/:id', placeView);
 router.get('/place-delete/:id', placeDelete);
