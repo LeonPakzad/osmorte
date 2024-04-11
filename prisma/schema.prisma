@@ -25,6 +25,9 @@ model Place {
   addr_street String
   
   cuisine     String
-  diet_vegan Boolean
-  diet_vegetarian Boolean
+  diet_vegan Boolean @default(false)
+  diet_vegetarian Boolean @default(false)
+
+  created DateTime  @default(now())
+  updated DateTime  @default(now())
 }

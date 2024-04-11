@@ -1,4 +1,57 @@
+div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+summary:hover {
+    cursor:pointer
+}
+
+.container, .row {
+    display: flex;
+}
+
+.head-row {
+    display: flex;
+    background: black;
+    color: white;
+}
+
+.body-row:nth-child(odd) {
+    background:lightgray;
+}
+
+.body-row {
+    display: flex;
+}
+
+.col-0-5 {
+    flex: 0.5;
+    padding:3px;
+}
+
+.col-1 {
+    flex: 1;
+    padding:3px;
+}
+
+.col-2 {
+    flex: 2;
+    padding:3px;
+}
+
 .place-card {
     margin: 10px;
+    padding: 10px;
     border: solid 2px black;
+} 
+
+[data-tooltip]:hover::after {
+    display: block;
+    position: absolute;
+    content: attr(data-tooltip);
+    border: 1px solid black;
+    background: white;
+    padding: .25em;
+    color: black !important;
 }

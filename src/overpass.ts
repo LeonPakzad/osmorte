@@ -1,7 +1,4 @@
-interface OverpassElement {
-    id: number;
-    type: string;
-}
+import fetch from 'node-fetch';
 
 const bbox = '51.477,-1.001,51.478,0.001';
 
@@ -16,8 +13,7 @@ const overpassURL = `https://overpass-api.de/api/interpreter?data=${encodeURICom
 async function fetchRestaurantData() {
     try {
         const response = await fetch(overpassURL);
-        console.log(await response.json());
-        // const data: OverpassElement[] = await response.json();
+        console.log((JSON.stringify(await response.json())));
     } catch (error) {
         console.error('Error fetching restaurant data:', error);
         return [];
@@ -25,8 +21,8 @@ async function fetchRestaurantData() {
 }
 
 fetchRestaurantData()
-    .then(restaurants => {
-        console.log('Restaurant data:', restaurants);
+    .then(response => {
+        console.log('Restaurant data:', response);
     })
     .catch(error => {
         console.error('Error:', error);

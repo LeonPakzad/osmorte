@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    
+    <%- include('../header'); -%>
+
+    <body>
+        <h1>Place Find</h1>
+        <p>bbox-string:</p>
+        <div class="row">
+            <input class="bbox-input" placeholder="51.4,-1,51,0">
+            <button>find</button>
+        </div>
+
+        <% if(places != null){%>
+
+        <% } else {  %>
+            no places yet
+        <%}%>
+    </body>
+</html>
