@@ -8,7 +8,24 @@ const query = `
     out;
 `;
 
-const overpassURL = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query.replace('{{bbox}}', bbox))}`;
+var overpassURL = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query.replace('{{bbox}}', bbox))}`;
+console.log('1: ' + overpassURL);
+
+var _place = 'restaurant';
+var _box = '51.477,-1.001,51.478,0.001'
+
+var osmQuery = `
+[out:json][timeout:25];
+nwr["amenity"="place"]({{bbox}});
+out;
+`;
+
+var boxedOSMQuery = osmQuery.replace('{{bbox}}', _box);
+var placedOSMQuery = boxedOSMQuery.replace('place', _place);
+
+overpassURL = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`;
+
+console.log('2: ' + overpassURL);
 
 async function fetchRestaurantData() {
     try {
