@@ -45,15 +45,39 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 
         try{
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`)
-            // console.log(await response.json());
+            
             var placeResponse = await response.json();
-            const placeArray = placeResponse.elements.map((element: { type: any; id: any; lat: any; lon: any; tags: any; }) => {
+            
+            interface TagMap {
+                [key: string]: string;
+            }
+
+            const placeArray = placeResponse.elements.map((element: { type: any; id: any; lat: any; lon: any; tags: any; }) => 
+            {
+
+                // sanitize restaurant tags
+                const tags: TagMap = {};
+                for (const key in element.tags) {
+                    var alteredKey = key.startsWith('addr:') ? key.substring(5) : key;
+                    tags[alteredKey] = element.tags[key];
+                }
+
                 return {
-                    type:   element.type,
-                    id:     element.id,
-                    lat:    element.lat,
-                    lon:    element.lon,
-                    tags:   element.tags
+                    id:                 element.id,
+                    lat:                element.lat             != undefined ? element.lat : '-',
+                    long:               element.lon             != undefined ? element.lon : '-',
+                    name:               tags.name               != undefined ? tags.name : '-',
+                    fk_place:           tags.fk_place           != undefined ? tags.fk_place : '-', 
+                    website:            tags.website            != undefined ? tags.website : '-',
+                    email:              tags.email              != undefined ? tags.email : '-', 
+                    opening_hours:      tags.opening_hours      != undefined ? tags.opening_hours : '-',
+                    city:               tags.city               != undefined ? tags.city : '-',
+                    postcode:           tags.postcode           != undefined ? tags.postcode : '-',
+                    street:             tags.street             != undefined ? tags.street : '-',
+                    housenumber:        tags.housenumber        != undefined ? tags.housenumber : '-',
+                    cuisine:            tags.cuisine            != undefined ? tags.cuisine : '-',
+                    diet_vegan:         tags.diet_vegan         != undefined ? tags.diet_vegan : '-',   
+                    diet_vegetarian:    tags.diet_vegetarian    != undefined ? tags.diet_vegetarian : '-',
                 };
             });
 
@@ -62,7 +86,6 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             res.render("place/find", {
                 input: _req.query.box,
                 places: placeArray
-                // places: Object.values(response)
             } );
 
         } catch(error)
@@ -79,7 +102,8 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
     }
 }
 
-const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
+const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
+{
     const { name, email, location, password, confirm } = _req.body;
     
     if (!prisma.place) {
@@ -95,8 +119,8 @@ const placeCreate = () => {
 
 }
 
-function fetchPlaceByBox(_box:string, _place:string){
-
+function fetchPlaceByBox(_box:string, _place:string)
+{
     var osmQuery = `
     [out:json][timeout:25];
     nwr["amenity"="place"]({{bbox}});
@@ -107,7 +131,6 @@ function fetchPlaceByBox(_box:string, _place:string){
     var placedOSMQuery = boxedOSMQuery.replace('place', _place);
 
     return fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`);
-
 };
 
 module.exports =  {
