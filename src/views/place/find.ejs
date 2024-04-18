@@ -5,36 +5,61 @@
 
     <body>
         <h1>Place Find</h1>
-        <p>bbox-string:</p>
-        <button onclick="requestLocation()">get current location</button>
+
+        <button onclick="requestLocation()">find position</button>
+
+        <br>
+
+        <label for="latitudeInput">latitude:</label>
+        <input type="text" id="latitudeInput">
+
+        <label for="longitudeInput">logitude:</label>
+        <input type="text" id="longitudeInput">
+
+        <label for="distanceSelect">Entfernung (Kilometer):</label>
+        <select id="distanceSelect" onchange="updateDistanceSelect()">
+          <option value="1">1 km</option>
+          <option value="2">2 km</option>
+          <option value="3">3 km</option>
+          <option value="5">5 km</option>
+          <option value="10">10 km</option>
+          <option value="15">15 km</option>
+          <option value="20">20 km</option>
+          <option value="custom">custom</option>
+        </select>
+        
+        <input type="number" id="distanceInput" style="display: none;">
+        
+        <button onclick="calculateBoundingBox()">calculate bounding-box</button>
+
         <form action="/place-find">
-            
             <div class="row">
-                <input name="box" class="bbox-input" placeholder="51.4,-1,51,0">
-                <button>find</button>
+                <input name="box" id ="bbox-input" class="bbox-input" placeholder="51.4,-1,51,0">
+                <button>find places</button>
             </div>
         </form>
+
+        <div class="head-row">
+            <div class="col-1"                  data-tooltip="Id"><b>OSM Node</b></div>
+            <div class="col-1"                  data-tooltip="Name"><b>Name</b></div>
+            <div class="col-2 hide-mobile"      data-tooltip="Email"><b>Email</b></div>
+            <div class="col-2 hide-mobile"      data-tooltip="Website"><b>Website</b></div>
+            <div class="col-2 hide-mobile"      data-tooltip="Opening_hours"><b>Opening Hours</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Lat"><b>Lat</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Long"><b>Long</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="City"><b>City</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="PLZ"><b>PLZ</b></div>
+            <div class="col-2 hide-mobile"      data-tooltip="Street"><b>Street</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Number"><b>Number</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Cuisine"><b>Cuisine</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Vegan"><b>Vegan</b></div>
+            <div class="col-1 hide-mobile"      data-tooltip="Vegetarian"><b>Vegetarian</b></div>
+            <div class="col-2"                  data-tooltip="actions"><b>Actions</b></div>
+        </div>
+        
         <% if(places == undefined){%>
-            no places yet
+            no places found
         <% } else {  %>
-            <div class="head-row">
-                <div class="col-1"                  data-tooltip="Id"><b>OSM Node</b></div>
-                <div class="col-1"                  data-tooltip="Name"><b>Name</b></div>
-                <div class="col-2 hide-mobile"      data-tooltip="Email"><b>Email</b></div>
-                <div class="col-2 hide-mobile"      data-tooltip="Website"><b>Website</b></div>
-                <div class="col-2 hide-mobile"      data-tooltip="Opening_hours"><b>Opening Hours</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Lat"><b>Lat</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Long"><b>Long</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="City"><b>City</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="PLZ"><b>PLZ</b></div>
-                <div class="col-2 hide-mobile"      data-tooltip="Street"><b>Street</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Number"><b>Number</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Cuisine"><b>Cuisine</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Vegan"><b>Vegan</b></div>
-                <div class="col-1 hide-mobile"      data-tooltip="Vegetarian"><b>Vegetarian</b></div>
-                <div class="col-2"                  data-tooltip="actions"><b>Actions</b></div>
-            </div>
-            
             <% places.forEach(function(place) { %>
                 <div class="body-row">
                     <div class="col-1"              data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
@@ -52,7 +77,7 @@
                     <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
                     <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegetarian %>    ><%= place.diet_vegetarian %></div>
                     <div class="col-2">
-                        <a href="/place-add/<%= JSON.stringify(place) %>">save</a>
+                        <a href="/place-add/<%= encodeURIComponent(JSON.stringify(place)) %>">save</a>
                     </div>
                 </div>  
             <% }); %>
@@ -61,18 +86,97 @@
 </html>
 <script>
 
-const successCallback = (position) => {
-    console.log(position);
-};
-  
-const errorCallback = (error) => {
-    console.log(error);
-};
+function showPosition(position) {
+    document.getElementById('latitudeInput').value = position.coords.latitude;
+    document.getElementById('longitudeInput').value = position.coords.longitude;
+}
 
 function requestLocation()
 {
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-    successCallback();
+    if(navigator.geolocation)
+    {
+        navigator.geolocation.getCurrentPosition(showPosition, showError)
+    }
+    else 
+    {
+        allert("Geolocation wird von diesem Browser leider nicht unterstützt");
+    }
+}
+
+function updateDistanceSelect()
+{
+    if (distanceSelect.value === 'custom') {
+        distanceInput.style.display = 'inline-block';
+        distanceInput.value = '';
+        distanceInput.focus();
+    } 
+    else 
+    {
+        distanceInput.style.display = 'none';
+    }
+}
+
+function showError(error) 
+{
+    switch(error.code) 
+    {
+        case error.PERMISSION_DENIED:
+            alert("Die Erlaubnis zur Standortbestimmung wurde verweigert.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Standortinformationen sind nicht verfügbar.");
+            break;
+        case error.TIMEOUT:
+            alert("Die Anforderung zur Standortbestimmung ist abgelaufen.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("Ein unbekannter Fehler ist aufgetreten.");
+            break;
+    }   
+}
+
+function calculateBoundingBox() {
+
+    latitude = document.getElementById('latitudeInput').value;
+    longitude = document.getElementById('longitudeInput').value;
+    if(document.getElementById('distanceSelect').value != 'other')
+    {
+        distance = document.getElementById('distanceSelect').value;
+    } else 
+    {
+        distance = document.getElementById('distanceInput').value;
+    }
+
+    // Radius der Erde in Kilometern
+    const earthRadius = 6371;
+    const halfGlobe = 180;
+
+    // Konvertierung der Entfernung von Kilometer in Bogenmaß
+    var distanceRad = distance / earthRadius;
+
+    // Konvertierung von Breiten- und Längengraden in Bogenmaß
+    var latRad = latitude * Math.PI / halfGlobe;
+    var lonRad = longitude * Math.PI / halfGlobe;
+
+    // Berechnung der Breiten- und Längengrad-Differenzen für die Bounding-Box
+    var deltaLat = distanceRad * (halfGlobe / Math.PI);
+    var deltaLon = distanceRad * (halfGlobe / Math.PI) / Math.cos(latRad);
+
+    // Berechnung der Bounding-Box Koordinaten
+    var minLat = (latitude  - deltaLat).toFixed(3);
+    var maxLat = (parseFloat(latitude)  + parseFloat(deltaLat)).toFixed(3);
+    var minLon = (longitude - deltaLon).toFixed(3);
+    var maxLon = (parseFloat(longitude) + parseFloat(deltaLon)).toFixed(3);
+
+    console.log(
+        minLat
+        + '+' + maxLat
+        + '+' + minLon
+        + '+' + maxLon
+    );
+
+    // document.getElementById('bbox-input').value = minLon + ',' + minLat + ',' + maxLon + ',' + maxLat;
+    document.getElementById('bbox-input').value = minLat + ',' + minLon + ',' + maxLat + ',' + maxLon;
 }
 
 </script>

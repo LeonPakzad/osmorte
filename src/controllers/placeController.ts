@@ -63,7 +63,6 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                     let alteredKey = key.startsWith('addr:') ? key.substring(5) : key;
                     let value = element.tags[key];
                 
-                    console.log(value);
                     if (value.startsWith('http://')) {
                         value = value.substring(7);
                     } else if (value.startsWith('https://')) {
@@ -114,7 +113,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 // MARK: add Place
 async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 {
-    const place = JSON.parse(_req.params.params)
+    const place = JSON.parse(decodeURIComponent(_req.params.params))
     
     await prisma.place.create({
         data: {
