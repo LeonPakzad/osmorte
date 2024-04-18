@@ -52,11 +52,8 @@
                     <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
                     <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegetarian %>    ><%= place.diet_vegetarian %></div>
                     <div class="col-2">
-                        <a href="/place/<%=place.id%>">view</a>
-                        <span> | </span>
-                        <a href="place-delete/<%=place.id%>">delete</a>
+                        <a href="/place-add/<%= JSON.stringify(place) %>">save</a>
                     </div>
-    
                 </div>  
             <% }); %>
         <%}%>

@@ -31,6 +31,7 @@ const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void })
     res.redirect("/place-index")
 }
 
+// MARK: placeFind
 const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     if(_req.query.box != undefined && _req.query.box != '')
     {
@@ -52,36 +53,44 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 [key: string]: string;
             }
 
+
             const placeArray = placeResponse.elements.map((element: { type: any; id: any; lat: any; lon: any; tags: any; }) => 
             {
 
                 // sanitize restaurant tags
                 const tags: TagMap = {};
                 for (const key in element.tags) {
-                    var alteredKey = key.startsWith('addr:') ? key.substring(5) : key;
-                    tags[alteredKey] = element.tags[key];
+                    let alteredKey = key.startsWith('addr:') ? key.substring(5) : key;
+                    let value = element.tags[key];
+                
+                    console.log(value);
+                    if (value.startsWith('http://')) {
+                        value = value.substring(7);
+                    } else if (value.startsWith('https://')) {
+                        value = value.substring(8);
+                    }
+                    
+                    tags[alteredKey] = value;
                 }
 
                 return {
                     id:                 element.id,
-                    lat:                element.lat             != undefined ? element.lat : '-',
-                    long:               element.lon             != undefined ? element.lon : '-',
-                    name:               tags.name               != undefined ? tags.name : '-',
-                    fk_place:           tags.fk_place           != undefined ? tags.fk_place : '-', 
-                    website:            tags.website            != undefined ? tags.website : '-',
-                    email:              tags.email              != undefined ? tags.email : '-', 
-                    opening_hours:      tags.opening_hours      != undefined ? tags.opening_hours : '-',
-                    city:               tags.city               != undefined ? tags.city : '-',
-                    postcode:           tags.postcode           != undefined ? tags.postcode : '-',
-                    street:             tags.street             != undefined ? tags.street : '-',
-                    housenumber:        tags.housenumber        != undefined ? tags.housenumber : '-',
-                    cuisine:            tags.cuisine            != undefined ? tags.cuisine : '-',
-                    diet_vegan:         tags.diet_vegan         != undefined ? tags.diet_vegan : '-',   
-                    diet_vegetarian:    tags.diet_vegetarian    != undefined ? tags.diet_vegetarian : '-',
+                    lat:                element.lat             == undefined ? '-' : element.lat,
+                    long:               element.lon             == undefined ? '-' : element.lon,
+                    name:               tags.name               == undefined ? '-' : tags.name,
+                    fk_place:           tags.fk_place           == undefined ? '-' : tags.fk_place, 
+                    website:            tags.website            == undefined ? '-' : tags.website,
+                    email:              tags.email              == undefined ? '-' : tags.email, 
+                    opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
+                    city:               tags.city               == undefined ? '-' : tags.city,
+                    postcode:           tags.postcode           == undefined ? '-' : tags.postcode,
+                    street:             tags.street             == undefined ? '-' : tags.street,
+                    housenumber:        tags.housenumber        == undefined ? '-' : tags.housenumber,
+                    cuisine:            tags.cuisine            == undefined ? '-' : tags.cuisine,
+                    diet_vegan:         tags.diet_vegan         == undefined ? '-' : tags.diet_vegan,   
+                    diet_vegetarian:    tags.diet_vegetarian    == undefined ? '-' : tags.diet_vegetarian,
                 };
             });
-
-            console.log(placeArray);
 
             res.render("place/find", {
                 input: _req.query.box,
@@ -100,6 +109,34 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             input: _req.query.box
         } );
     }
+}
+
+// MARK: add Place
+async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
+{
+    const place = JSON.parse(_req.params.params)
+    
+    await prisma.place.create({
+        data: {
+            fk_place:           place.fk_place          == '-' ? null : place.fk_place,
+            node:               place.id                == '-' ? null : place.id,
+            name:               place.name              == '-' ? null : place.name,
+            email:              place.email             == '-' ? null : place.email,
+            website:            place.website           == '-' ? null : place.website,
+            opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+            lat:                place.lat               == '-' ? null : place.lat,
+            long:               place.long              == '-' ? null : place.long,        
+            city:               place.city              == '-' ? null : place.city,   
+            housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
+            postcode:           place.postcode          == '-' ? null : Number(place.postcode),
+            street:             place.street            == '-' ? null : place.street,
+            cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+            diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+            diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+        },
+    })
+
+    res.redirect("/place-index")
 }
 
 const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
@@ -133,10 +170,12 @@ function fetchPlaceByBox(_box:string, _place:string)
     return fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`);
 };
 
+// MARK: Exports
 module.exports =  {
     placeIndexView,
     placeView,
     placeDelete,
     placeEdit,
-    placeFind
+    placeFind,
+    placeAdd
 };

@@ -9,22 +9,22 @@ datasource db {
 
 model Place {
   id          Int     @id @default(autoincrement())
-  fk_place    Int
-  node        Int
+  fk_place    Int? 
+  node        Int?
   name        String  @unique
   
-  email       String
-  website     String
-  opening_hours String
+  email       String?
+  website     String?
+  opening_hours String?
 
-  lat         Float
-  long        Float
-  addr_city   String
-  addr_housenumber  Int
-  addr_postcode   Int
-  addr_street String
+  lat         Float?
+  long        Float?
+  city        String?
+  housenumber Int?
+  postcode    Int?
+  street      String?
   
-  cuisine     String
+  cuisine     String?
   diet_vegan Boolean @default(false)
   diet_vegetarian Boolean @default(false)
 

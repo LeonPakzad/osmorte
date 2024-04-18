@@ -28,10 +28,10 @@ async function addPlace()
             opening_hours: "Fr: 12:00-18:00",
             lat: 1.0,
             long: 1.0,        
-            addr_city: 'test',   
-            addr_housenumber: 1,
-            addr_postcode: 11111,
-            addr_street: 'teststreet',
+            city: 'test',   
+            housenumber: 1,
+            postcode: 11111,
+            street: 'teststreet',
             cuisine: 'italian',
             diet_vegan: false,
             diet_vegetarian: false
@@ -69,7 +69,7 @@ async function deletePlace(_id:number)
 async function updatePlace (
     _email:string, _website:string, _opening_hours: string, 
     _lat:number, _long:number,
-    _addr_city:string, _addr_housenumber:number, _addr_postcode:number, _addr_street:string, 
+    _city:string, _housenumber:number, _postcode:number, _street:string, 
     _cuisine:string, _diet_vegan:boolean, _diet_vegetarian:boolean
 )
 {
@@ -82,10 +82,10 @@ async function updatePlace (
             opening_hours: _opening_hours,
             lat: _lat,
             long: _long,
-            addr_city: _addr_city,
-            addr_housenumber: _addr_housenumber,
-            addr_postcode: _addr_postcode,
-            addr_street: _addr_street,
+            city: _city,
+            housenumber: _housenumber,
+            postcode: _postcode,
+            street: _street,
             cuisine: _cuisine,
             diet_vegan: _diet_vegan,
             diet_vegetarian: _diet_vegetarian
