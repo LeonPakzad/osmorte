@@ -95,7 +95,7 @@ function requestLocation()
 {
     if(navigator.geolocation)
     {
-        navigator.geolocation.getCurrentPosition(showPosition, showError)
+        navigator.geolocation.getCurrentPosition(showPosition)
     }
     else 
     {
@@ -116,30 +116,12 @@ function updateDistanceSelect()
     }
 }
 
-function showError(error) 
-{
-    switch(error.code) 
-    {
-        case error.PERMISSION_DENIED:
-            alert("Die Erlaubnis zur Standortbestimmung wurde verweigert.");
-            break;
-        case error.POSITION_UNAVAILABLE:
-            alert("Standortinformationen sind nicht verfügbar.");
-            break;
-        case error.TIMEOUT:
-            alert("Die Anforderung zur Standortbestimmung ist abgelaufen.");
-            break;
-        case error.UNKNOWN_ERROR:
-            alert("Ein unbekannter Fehler ist aufgetreten.");
-            break;
-    }   
-}
 
 function calculateBoundingBox() {
 
     latitude = document.getElementById('latitudeInput').value;
     longitude = document.getElementById('longitudeInput').value;
-    if(document.getElementById('distanceSelect').value != 'other')
+    if(document.getElementById('distanceSelect').value != 'custom')
     {
         distance = document.getElementById('distanceSelect').value;
     } else 
