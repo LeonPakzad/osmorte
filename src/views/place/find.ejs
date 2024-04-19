@@ -2,34 +2,37 @@
 <%- include('../header'); -%>
 
 <div class="content">
-    <button  class="button" onclick="requestLocation()">find position</button>
 
-    <label for="latitudeInput">latitude:</label>
-    <input class="input" type="text" id="latitudeInput">
+    <div class="row-end">
+        
+        <input class="input" type="text" placeholder="latitude" id="latitudeInput">
+        
+        <input class="input"type="text" placeholder="longitude" id="longitudeInput">
+        
+        <button  class="button" onclick="requestLocation()">find position</button>
+    </div>
 
-    <label for="longitudeInput">logitude:</label>
-    <input class="input"type="text" id="longitudeInput">
+    <div class="row-end">
+        <label for="distanceSelect">Entfernung (Kilometer):</label>
+        <select class="input" id="distanceSelect" onchange="updateDistanceSelect()">
+            <option value="1">1 km</option>
+            <option value="2">2 km</option>
+            <option value="3">3 km</option>
+            <option value="5">5 km</option>
+            <option value="10">10 km</option>
+            <option value="15">15 km</option>
+            <option value="20">20 km</option>
+            <option value="custom">custom</option>
+        </select>
+        <input class="input" type="number" id="distanceInput" style="display: none;">
+    </div>
 
-    <label for="distanceSelect">Entfernung (Kilometer):</label>
-    <select class="input" id="distanceSelect" onchange="updateDistanceSelect()">
-        <option value="1">1 km</option>
-        <option value="2">2 km</option>
-        <option value="3">3 km</option>
-        <option value="5">5 km</option>
-        <option value="10">10 km</option>
-        <option value="15">15 km</option>
-        <option value="20">20 km</option>
-        <option value="custom">custom</option>
-    </select>
-    
-    <input class="input" type="number" id="distanceInput" style="display: none;">
-    
-    <br>
-    <button class="button" onclick="calculateBoundingBox()">calculate bounding-box</button>
-    
     <form action="/place-find">
-        <div class="row">
+        <div class="row-end">
             <input class="input" name="box" id ="bbox-input" class="bbox-input" placeholder="51.4,-1,51,0">
+            <button class="button" type="button" onclick="calculateBoundingBox()">calculate bounding-box</button>
+        </div>
+        <div class="row-end">
             <button class="button">find places</button>
         </div>
     </form>

@@ -11,10 +11,10 @@
         </h1>
     </a>
 
-    <div class="navigation-bar">
-        <a href='/'>Dashboard</a>
-        <a href='/place-index'>Index</a>
-        <a href='/place-find'>Find</a>
+    <div class="navigation-bar row">
+        <a <% if (title == 'Dashboard')     { %> class="selected" <% } %> href='/'>Dashboard</a>
+        <a <% if (title == 'Places')        { %> class="selected" <% } %> href='/place-index'>Index</a>
+        <a <% if (title == 'Find Places')   { %> class="selected" <% } %> href='/place-find'>Find</a>
     </div> 
-     
+
 </header>
