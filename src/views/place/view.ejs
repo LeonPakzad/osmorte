@@ -1,25 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <%- include('../header'); -%>
+<%- include('../header'); -%>
 
-    <body>
-        <h1>Place View: <%= place.name %></h1>
-        <div class="place-card">
-            <p>id:                  <%= place.id %></p>
-            <p>fk_place:            <%= place.fk_place %></p>
-            <p>node:                <%= place.node %></p>
-            <p>email:               <%= place.email %></p>
-            <p>website:             <%= place.website %></p>
-            <p>opening_hours:       <%= place.opening_hours %></p>
-            <p>lat:                 <%= place.lat %></p>
-            <p>long:                <%= place.long %></p>
-            <p>city:                <%= place.city %></p>
-            <p>housenumber:         <%= place.housenumber %></p>
-            <p>postcode:            <%= place.postcode %></p>
-            <p>street:              <%= place.street %></p>
-            <p>cuisine:             <%= place.cuisine %></p>
-            <p>diet_vegan:          <%= place.diet_vegan %></p>
-            <p>diet_vegetarian:     <%= place.diet_vegetarian %></p>
-        </div>
-    </body>
-</html>
+<div class="content">
+
+    <div class="place-card">
+        <p>id:                  <%= place.id %></p>
+        <p>fk_place:            <%= place.fk_place %></p>
+        <p>node:                <%= place.node %></p>
+        <p>email:               <%= place.email %></p>
+        <p>website:             <%= place.website %></p>
+        <p>opening_hours:       <%= place.opening_hours %></p>
+        <p>lat:                 <%= place.lat %></p>
+        <p>long:                <%= place.long %></p>
+        <p>city:                <%= place.city %></p>
+        <p>housenumber:         <%= place.housenumber %></p>
+        <p>postcode:            <%= place.postcode %></p>
+        <p>street:              <%= place.street %></p>
+        <p>cuisine:             <%= place.cuisine %></p>
+        <p>diet_vegan:          <%= place.diet_vegan %></p>
+        <p>diet_vegetarian:     <%= place.diet_vegetarian %></p>
+    </div>
+    <a href='/place-index'>back</a>
+    
+</div> 

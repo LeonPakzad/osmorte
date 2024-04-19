@@ -1,54 +1,53 @@
-<!DOCTYPE html>
-<html>
-    <%- include('../header'); -%>
-    <body>
-        <h1>Places</h1>
-        
-        <div class="head-row">
-            <div class="col-1"                  data-tooltip="Id"><b>Id</b></div>
-            <div class="col-1"                  data-tooltip="Name"><b>Name</b></div>
-            <div class="col-1"                  data-tooltip="fk_place"><b>fk_place</b></div>
-            <div class="col-1"                  data-tooltip="Node"><b>Node</b></div>
-            <div class="col-2 hide-mobile"      data-tooltip="Email"><b>Email</b></div>
-            <div class="col-2 hide-mobile"      data-tooltip="Website"><b>Website</b></div>
-            <div class="col-2 hide-mobile"      data-tooltip="Opening_hours"><b>Opening Hours</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Lat"><b>Lat</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Long"><b>Long</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="City"><b>City</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="PLZ"><b>PLZ</b></div>
-            <div class="col-2 hide-mobile"      data-tooltip="Street"><b>Street</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Number"><b>Number</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Cuisine"><b>Cuisine</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Vegan"><b>Vegan</b></div>
-            <div class="col-1 hide-mobile"      data-tooltip="Vegetarian"><b>Vegetarian</b></div>
-            <div class="col-2"                  data-tooltip="actions"><b>Actions</b></div>
-        </div>
-        
-        <% places.forEach(function(place) { %>
-            <div class="body-row">
-                <div class="col-1"              data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
-                <div class="col-1"              data-tooltip=   <%= place.name %>               ><%= place.name %></div>
-                <div class="col-1"              data-tooltip=   <%= place.fk_place %>           ><%= place.fk_place %></div>
-                <div class="col-1"              data-tooltip=   <%= place.node %>               ><%= place.node %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.email %>              ><%= place.email %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.website %>            ><%= place.website %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.opening_hours %>      ><%= place.opening_hours %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.lat %>                ><%= place.lat %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.long %>               ><%= place.long %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.city %>               ><%= place.city %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.postcode %>           ><%= place.postcode %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.street %>             ><%= place.street %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.housenumber %>        ><%= place.housenumber %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.cuisine %>            ><%= place.cuisine %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegetarian %>    ><%= place.diet_vegetarian %></div>
-                <div class="col-2">
-                    <a href="/place/<%=place.id%>">view</a>
-                    <span> | </span>
-                    <a href="place-delete/<%=place.id%>">delete</a>
-                </div>
+<%- include('../header'); -%>
 
-            </div>  
-        <% }); %>
-    </body>
-</html>
+<div class="content">
+    <div class="head-row">
+        <div class="col-1"                  data-tooltip="Id"><b>Id</b></div>
+        <div class="col-1"                  data-tooltip="Name"><b>Name</b></div>
+        <div class="col-1"                  data-tooltip="fk_place"><b>fk_place</b></div>
+        <div class="col-1"                  data-tooltip="Node"><b>Node</b></div>
+        <div class="col-2 hide-mobile"      data-tooltip="Email"><b>Email</b></div>
+        <div class="col-2 hide-mobile"      data-tooltip="Website"><b>Website</b></div>
+        <div class="col-2 hide-mobile"      data-tooltip="Opening_hours"><b>Opening Hours</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Lat"><b>Lat</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Long"><b>Long</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="City"><b>City</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="PLZ"><b>PLZ</b></div>
+        <div class="col-2 hide-mobile"      data-tooltip="Street"><b>Street</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Number"><b>Number</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Cuisine"><b>Cuisine</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Vegan"><b>Vegan</b></div>
+        <div class="col-1 hide-mobile"      data-tooltip="Vegetarian"><b>Vegetarian</b></div>
+        <div class="col-2"                  data-tooltip="actions"><b>Actions</b></div>
+    </div>
+    
+    <% places.forEach(function(place) { %>
+        <div class="body-row">
+            <div class="col-1"              data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
+            <div class="col-1"              data-tooltip=   <%= place.name %>               ><%= place.name %></div>
+            <div class="col-1"              data-tooltip=   <%= place.fk_place %>           ><%= place.fk_place %></div>
+            <div class="col-1"              data-tooltip=   <%= place.node %>               ><%= place.node %></div>
+            <div class="col-2 hide-mobile"  data-tooltip=   <%= place.email %>              ><%= place.email %></div>
+            <div class="col-2 hide-mobile"  data-tooltip=   <%= place.website %>            ><%= place.website %></div>
+            <div class="col-2 hide-mobile"  data-tooltip=   <%= place.opening_hours %>      ><%= place.opening_hours %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.lat %>                ><%= place.lat %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.long %>               ><%= place.long %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.city %>               ><%= place.city %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.postcode %>           ><%= place.postcode %></div>
+            <div class="col-2 hide-mobile"  data-tooltip=   <%= place.street %>             ><%= place.street %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.housenumber %>        ><%= place.housenumber %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.cuisine %>            ><%= place.cuisine %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
+            <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegetarian %>    ><%= place.diet_vegetarian %></div>
+           
+            <div class="col-2">
+                <a class="link-button" href="/place/<%=place.id%>">
+                    <img title="show place" alt="show place" src="../../public/style/assets/icon-show.png">
+                </a>
+                <a class="link-button" href="place-delete/<%=place.id%>">
+                    <img title="delete place" alt="delete place" src="../../public/style/assets/icon-delete.png">
+                </a>
+            </div>
+        </div>  
+    <% }); %>
+    </div>

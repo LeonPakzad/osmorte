@@ -5,10 +5,10 @@ const prisma = new PrismaClient()
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     var _places = await prisma.place.findMany()
     res.render("place/index", 
-        { 
-            places: _places
-        } 
-    );
+    { 
+        title: "Places",
+        places: _places
+    });
 }
 
 const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
@@ -17,9 +17,11 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         where: {id: _id}
     })
 
-    res.render("place/view", {
+    res.render("place/view", 
+    {
+        title: "place: " + _place?.name,
         place: _place
-    } );
+    });
 }
 
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
@@ -92,6 +94,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             });
 
             res.render("place/find", {
+                title: "Found Places",
                 input: _req.query.box,
                 places: placeArray
             } );
@@ -104,6 +107,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
     else 
     {
         res.render("place/find", {
+            title: "Find Places",
             places: undefined,
             input: _req.query.box
         } );

@@ -1,3 +1,32 @@
+h1 {
+    color: #9fd385;
+}
+
+.content {
+    width: 90%;
+    margin: 0 auto;
+    border: dotted 2px #9fd385;
+}
+
+.button {
+    background: none;
+    padding: 10px;
+    border: solid 2px #7092FF;
+    border-radius: 5%;
+}
+
+.link-button img{
+    width:  40px;
+    height: auto;
+}
+
+.input {
+    color: black;
+    background: none;
+    padding: 10px;
+    border: solid 2px #9fd385;
+}
+
 div {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -11,33 +40,49 @@ summary:hover {
     display: flex;
 }
 
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.navigation-bar a {
+    background: #9fd385;
+    padding: 10px;
+    height: 30px;
+}
+
 .head-row {
     display: flex;
-    background: black;
-    color: white;
+    align-items: center;
+    background: #9fd385;
 }
 
 .body-row:nth-child(odd) {
-    background:lightgray;
+    background:#EAF5EA;
 }
 
 .body-row {
     display: flex;
+    align-items: center;
 }
 
 .col-0-5 {
     flex: 0.5;
-    padding:3px;
+    align-items: center;
+    padding:5px;
 }
 
 .col-1 {
     flex: 1;
-    padding:3px;
+    align-items: center;
+    padding:5px;
 }
 
 .col-2 {
     flex: 2;
-    padding:3px;
+    align-items: center;
+    padding:5px;
 }
 
 .place-card {

@@ -20,17 +20,16 @@ router.get('/place-add/:params', placeAdd);
 
 router.get('/', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("dashboard", {
-    } );
-});
+        title: "Dashboard",
 
-router.get('/about', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
-    res.render("about", {
     } );
 });
 
 // get 404 error page for all urls that were not specified
 router.get('*', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("error", {
+        title: "404",
+
     } );
 });
 
