@@ -44,7 +44,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         `;
         
         var boxedOSMQuery = osmQuery.replace('{{bbox}}', _req.query.box);
-        var placedOSMQuery = boxedOSMQuery.replace('place', 'restaurant');
+        var placedOSMQuery = boxedOSMQuery.replace('place', _req.query.amenity);
 
         try{
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`)
@@ -76,18 +76,32 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 
                 return {
                     id:                 element.id,
+                    name:               tags.name               == undefined ? '-' : tags.name,
+                    
                     lat:                element.lat             == undefined ? '-' : element.lat,
                     long:               element.lon             == undefined ? '-' : element.lon,
-                    name:               tags.name               == undefined ? '-' : tags.name,
-                    fk_place:           tags.fk_place           == undefined ? '-' : tags.fk_place, 
-                    website:            tags.website            == undefined ? '-' : tags.website,
-                    email:              tags.email              == undefined ? '-' : tags.email, 
-                    opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
                     city:               tags.city               == undefined ? '-' : tags.city,
                     postcode:           tags.postcode           == undefined ? '-' : tags.postcode,
                     street:             tags.street             == undefined ? '-' : tags.street,
                     housenumber:        tags.housenumber        == undefined ? '-' : tags.housenumber,
+                    
+                    email:              tags.email              == undefined ? '-' : tags.email, 
+                    operator:           tags.operator           == undefined ? '-' : tags.operator,
+                    website:            tags.website            == undefined ? '-' : tags.website,
+                    opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
+                    
+                    wheelchair:         tags.wheelchair         == undefined ? '-' : tags.wheelchair,
+                    outdoor_seating:    tags.outdoor_seating    == undefined ? '-' : tags.outdoor_seating,
+                    dog:                tags.dog                == undefined ? '-' : tags.dog,
+                    
                     cuisine:            tags.cuisine            == undefined ? '-' : tags.cuisine,
+                    lunch:              tags.lunch              == undefined ? '-' : tags.lunch,
+                    organic:            tags.organic            == undefined ? '-' : tags.organic,
+                    takeaway:           tags.takeaway           == undefined ? '-' : tags.takeaway,
+                    diet_kosher:        tags.diet_kosher        == undefined ? '-' : tags.diet_kosher,
+                    diet_diabetes:      tags.diet_diabetes      == undefined ? '-' : tags.diet_diabetes,
+                    diet_halal:         tags.diet_halal         == undefined ? '-' : tags.diet_halal,
+
                     diet_vegan:         tags.diet_vegan         == undefined ? '-' : tags.diet_vegan,   
                     diet_vegetarian:    tags.diet_vegetarian    == undefined ? '-' : tags.diet_vegetarian,
                 };
@@ -121,21 +135,37 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
     
     await prisma.place.create({
         data: {
-            fk_place:           place.fk_place          == '-' ? null : place.fk_place,
             node:               place.id                == '-' ? null : place.id,
             name:               place.name              == '-' ? null : place.name,
-            email:              place.email             == '-' ? null : place.email,
-            website:            place.website           == '-' ? null : place.website,
-            opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
             lat:                place.lat               == '-' ? null : place.lat,
             long:               place.long              == '-' ? null : place.long,        
             city:               place.city              == '-' ? null : place.city,   
             housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
             postcode:           place.postcode          == '-' ? null : Number(place.postcode),
             street:             place.street            == '-' ? null : place.street,
-            cuisine:            place.cuisine           == '-' ? null : place.cuisine,
-            diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
-            diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+            
+            restaurant: {
+                create: {
+                    email:              place.fk_place          == '-' ? null : place.fk_place,
+                    operator:           place.operator          == '-' ? null : place.operator,
+                    website:            place.website           == '-' ? null : place.website,
+                    opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+                    
+                    wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
+                    outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
+                    dog:                place.dog               == '-' ? undefined : Boolean(place.dog),
+  
+                    cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+                    lunch:              place.lunch             == '-' ? null : place.lunch,
+                    organic:            place.organic           == '-' ? null : place.organic,
+                    takeaway:           place.takeaway          == '-' ? null : place.takeaway,
+                    diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
+                    diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
+                    diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
+                    diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+                    diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+                } 
+            }
         },
     })
 

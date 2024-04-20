@@ -7,27 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model Place {
+//   id              Int     @id @default(autoincrement())
+//   fk_place        Int? 
+//   node            Int?
+//   name            String  @unique
+//   lat             Float?
+//   long            Float?
+//   city            String?
+//   housenumber     Int?
+//   postcode        Int?
+//   street          String?
+  
+//   email           String?
+//   operator        String?
+//   website         String?
+//   opening_hours   String?
+
+  
+//   wheelchair      String?
+//   outdoor_seating Boolean @default(false)
+//   dog             Boolean @default(false)
+
+//   cuisine         String?
+//   lunch           String?
+//   organic         String?
+//   takeaway        Boolean @default(false)
+//   diet_kosher     Boolean @default(false)
+//   diet_halal      Boolean @default(false)
+//   diet_diabetes   Boolean @default(false)
+//   diet_vegan      Boolean @default(false)
+//   diet_vegetarian Boolean @default(false)
+
+//   created         DateTime  @default(now())
+//   updated         DateTime  @default(now())
+// }
+
 model Place {
-  id          Int     @id @default(autoincrement())
-  fk_place    Int? 
-  node        Int?
-  name        String  @unique
-  
-  email       String?
-  website     String?
-  opening_hours String?
+  id              Int @id @default(autoincrement())
+  restaurant Restaurant?
 
-  lat         Float?
-  long        Float?
-  city        String?
-  housenumber Int?
-  postcode    Int?
-  street      String?
-  
-  cuisine     String?
-  diet_vegan Boolean @default(false)
-  diet_vegetarian Boolean @default(false)
+  node            Int?
+  name            String  @unique
+  lat             Float?
+  long            Float?
+  city            String?
+  housenumber     Int?
+  postcode        Int?
+  street          String?
 
-  created DateTime  @default(now())
-  updated DateTime  @default(now())
+  created         DateTime  @default(now())
+  updated         DateTime  @default(now())
+}
+
+model Restaurant {
+  id     Int  @id @default(autoincrement())
+  place   Place @relation(fields: [fk_placeId], references: [id])
+  fk_placeId Int  @unique
+
+  email           String?
+  operator        String?
+  website         String?
+  opening_hours   String?
+
+  wheelchair      String?
+  outdoor_seating Boolean?   @default(false)
+  dog             Boolean?   @default(false)
+
+  cuisine         String?
+  lunch           String?
+  organic         String?
+  takeaway        Boolean?  @default(false)
+  diet_kosher     Boolean?  @default(false)
+  diet_halal      Boolean?  @default(false)
+  diet_diabetes   Boolean?  @default(false)
+  diet_vegan      Boolean?  @default(false)
+  diet_vegetarian Boolean?  @default(false)
+
+  created         DateTime  @default(now())
+  updated         DateTime  @default(now())
 }
