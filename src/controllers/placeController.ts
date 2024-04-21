@@ -2,12 +2,28 @@ import { PrismaClient } from '@prisma/client'
 import fetch from 'node-fetch';
 const prisma = new PrismaClient()
 
+
+const _restaurantRows = [  
+    'ID', 'name', 'email', 'operator', 'website', 'opening hours', 
+    'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
+    'wheelchair','outdoor_seating','dog',
+    'cuisine','lunch','organic','takeaway',
+    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
+];
+
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
-    var _places = await prisma.place.findMany()
+
+    var _places = await prisma.place.findMany({
+        include: {
+            restaurant: true,
+        },
+    })
+
     res.render("place/index", 
     { 
         title: "Places",
-        places: _places
+        places: _places,
+        placerows: _restaurantRows
     });
 }
 
@@ -77,18 +93,17 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 return {
                     id:                 element.id,
                     name:               tags.name               == undefined ? '-' : tags.name,
+                    email:              tags.email              == undefined ? '-' : tags.email, 
+                    operator:           tags.operator           == undefined ? '-' : tags.operator,
+                    website:            tags.website            == undefined ? '-' : tags.website,
+                    opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
                     
                     lat:                element.lat             == undefined ? '-' : element.lat,
                     long:               element.lon             == undefined ? '-' : element.lon,
                     city:               tags.city               == undefined ? '-' : tags.city,
                     postcode:           tags.postcode           == undefined ? '-' : tags.postcode,
                     street:             tags.street             == undefined ? '-' : tags.street,
-                    housenumber:        tags.housenumber        == undefined ? '-' : tags.housenumber,
-                    
-                    email:              tags.email              == undefined ? '-' : tags.email, 
-                    operator:           tags.operator           == undefined ? '-' : tags.operator,
-                    website:            tags.website            == undefined ? '-' : tags.website,
-                    opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
+                    housenumber:        tags.housenumber        == undefined ? '-' : tags.housenumber, 
                     
                     wheelchair:         tags.wheelchair         == undefined ? '-' : tags.wheelchair,
                     outdoor_seating:    tags.outdoor_seating    == undefined ? '-' : tags.outdoor_seating,
@@ -98,20 +113,34 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                     lunch:              tags.lunch              == undefined ? '-' : tags.lunch,
                     organic:            tags.organic            == undefined ? '-' : tags.organic,
                     takeaway:           tags.takeaway           == undefined ? '-' : tags.takeaway,
+                    
                     diet_kosher:        tags.diet_kosher        == undefined ? '-' : tags.diet_kosher,
                     diet_diabetes:      tags.diet_diabetes      == undefined ? '-' : tags.diet_diabetes,
                     diet_halal:         tags.diet_halal         == undefined ? '-' : tags.diet_halal,
-
                     diet_vegan:         tags.diet_vegan         == undefined ? '-' : tags.diet_vegan,   
                     diet_vegetarian:    tags.diet_vegetarian    == undefined ? '-' : tags.diet_vegetarian,
                 };
             });
 
+            var _placeRows : string[] = [];
+
+            //only refresh placerows if they are not definet yet
+            if(_req.placeRows == undefined)
+            {
+                _placeRows = _restaurantRows;
+            }
+            else 
+            {
+                _placeRows = _req.placeRows;
+            }
+                    
             res.render("place/find", {
                 title: "Found Places",
                 input: _req.query.box,
-                places: placeArray
+                places: placeArray,
+                placerows: _placeRows
             } );
+
 
         } catch(error)
         {
@@ -123,7 +152,8 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         res.render("place/find", {
             title: "Find Places",
             places: undefined,
-            input: _req.query.box
+            placerows: undefined,
+            input: _req.query.box, 
         } );
     }
 }
@@ -153,7 +183,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
                     
                     wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
                     outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
-                    dog:                place.dog               == '-' ? undefined : Boolean(place.dog),
+                    dog:                place.dog               == '-' ? null : place.dog,
   
                     cuisine:            place.cuisine           == '-' ? null : place.cuisine,
                     lunch:              place.lunch             == '-' ? null : place.lunch,

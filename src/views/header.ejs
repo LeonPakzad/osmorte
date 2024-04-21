@@ -14,7 +14,8 @@
     <div class="navigation-bar row">
         <a <% if (title == 'Dashboard')     { %> class="selected" <% } %> href='/'>Dashboard</a>
         <a <% if (title == 'Places')        { %> class="selected" <% } %> href='/place-index'>Index</a>
-        <a <% if (title == 'Find Places')   { %> class="selected" <% } %> href='/place-find'>Find</a>
+        <a <% if (title == 'Find Places' 
+                 || title == 'Found Places') { %> class="selected" <% } %> href='/place-find'>Find</a>
     </div> 
 
 </header>

@@ -24,6 +24,24 @@ h1 {
     cursor:pointer;
 }
 
+.toggle-row-button {
+    background: #7092FF;
+    color: white;
+    border: none;
+    border: solid 2px #7092FF;
+    border-radius: 5%;
+    margin: 2px;
+}
+
+.toggle-row-button + .button-activated {
+    background: none;
+    color: black;
+}
+
+.toggle-row-button:hover {
+    cursor: pointer;
+}
+
 .link-button img{
     width:  40px;
     height: auto;
@@ -92,19 +110,19 @@ summary:hover {
     align-items: center;
 }
 
-.col-0-5 {
+.col-size-0-5 {
     flex: 0.5;
     align-items: center;
     padding:5px;
 }
 
-.col-1 {
+.col-size-1 {
     flex: 1;
     align-items: center;
     padding:5px;
 }
 
-.col-2 {
+.col-size-2 {
     flex: 2;
     align-items: center;
     padding:5px;
@@ -128,6 +146,5 @@ summary:hover {
 
 @media (max-width: 620px) {
     .hide-mobile {
-        display: none;
     }
 }

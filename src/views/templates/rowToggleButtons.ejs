@@ -1,0 +1,16 @@
+<div class="">
+    <% if(placerows == undefined){%>
+
+    <% } else {  %>
+        show / hide columns:
+        
+        <% for (let i = 0 ; i < placerows.length; i++) { %>
+            <button id="display-row-<%=i%>" class="toggle-row-button" 
+                onclick="toggleRowDisplay(<%=i%>)">
+                <%= placerows[i] %>
+            </button>
+        <% } %>
+    <%}%>
+</div>
+
+<script src="../../public/scripts/table.js"></script>

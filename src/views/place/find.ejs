@@ -6,11 +6,8 @@
     <form action="/place-find">
 
         <div class="row-end">
-            
             <input class="input" type="text" placeholder="latitude" id="latitudeInput">
-            
             <input class="input"type="text" placeholder="longitude" id="longitudeInput">
-            
             <button type="button" class="button" onclick="requestLocation()">find position</button>
         </div>
 
@@ -28,7 +25,7 @@
             </select>
             <input class="input" type="number" min="1" max="100" id="distanceInput" style="display: none;">
         
-            <label for="amenitySelect">Amenity:</label>
+            <label for="amenitySelect">amenity:</label>
             <select class="input" name="amenity" id="amenitySelect">
                 <option value ="restaurant">restaurant</option>
             </select>
@@ -44,44 +41,68 @@
         </div>
     </form>
 
-    <div class="head-row">
-        <div class="col-1"                  data-tooltip="Id"><b>OSM Node</b></div>
-        <div class="col-1"                  data-tooltip="Name"><b>Name</b></div>
-        <div class="col-2 hide-mobile"      data-tooltip="Email"><b>Email</b></div>
-        <div class="col-2 hide-mobile"      data-tooltip="Website"><b>Website</b></div>
-        <div class="col-2 hide-mobile"      data-tooltip="Opening_hours"><b>Opening Hours</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Lat"><b>Lat</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Long"><b>Long</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="City"><b>City</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="PLZ"><b>PLZ</b></div>
-        <div class="col-2 hide-mobile"      data-tooltip="Street"><b>Street</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Number"><b>Number</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Cuisine"><b>Cuisine</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Vegan"><b>Vegan</b></div>
-        <div class="col-1 hide-mobile"      data-tooltip="Vegetarian"><b>Vegetarian</b></div>
-        <div class="col-2"                  data-tooltip="actions"><b>Actions</b></div>
+    <div class="">
+        <% if(placerows == undefined){%>
+
+        <% } else {  %>
+            <p>show / hide columns:</p>
+            
+            <% for (let i = 0 ; i < placerows.length; i++) { %>
+                <button id="display-row-<%=i%>" class="toggle-row-button" 
+                    onclick="toggleRowDisplay(<%=i%>)">
+                    <%= placerows[i] %>
+                </button>
+            <% } %>
+        <%}%>
     </div>
-    
+
+    <br>
+
     <% if(places == undefined){%>
         no places found
     <% } else {  %>
+        
+        <div class="head-row">
+            <% for (let i = 0 ; i < placerows.length; i++ ) { %>
+
+                <div id="row-<%=i%>" class="col-size-1" data-tooltip="<%=placerows[i]%>">
+                    <b><%=placerows[i]%></b>
+                </div>
+
+            <% } %>
+            <div class="col-size-2" data-tooltip="Actions"><b>Actions</b></div>
+
+        </div>
+        
         <% places.forEach(function(place) { %>
             <div class="body-row">
-                <div class="col-1"              data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
-                <div class="col-1"              data-tooltip=   <%= place.name %>               ><%= place.name %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.email %>              ><%= place.email %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.website %>            ><%= place.website %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.opening_hours %>      ><%= place.opening_hours %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.lat %>                ><%= place.lat %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.long %>               ><%= place.long %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.city %>               ><%= place.city %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.postcode %>           ><%= place.postcode %></div>
-                <div class="col-2 hide-mobile"  data-tooltip=   <%= place.street %>             ><%= place.street %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.housenumber %>        ><%= place.housenumber %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.cuisine %>            ><%= place.cuisine %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
-                <div class="col-1 hide-mobile"  data-tooltip=   <%= place.diet_vegetarian %>    ><%= place.diet_vegetarian %></div>
-                <div class="col-2">
+                <div class="col-size-1 row-0"   data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
+                <div class="col-size-1 row-1"   data-tooltip=   <%= place.name %>               ><%= place.name %></div>
+                <div class="col-size-1 row-2"   data-tooltip=   <%= place.email %>              ><%= place.email %></div>
+                <div class="col-size-1 row-3"   data-tooltip=   <%= place.operator %>           ><%= place.operator %></div>
+                <div class="col-size-1 row-4"   data-tooltip=   <%= place.website %>            ><%= place.website %></div>
+                <div class="col-size-1 row-5"   data-tooltip=   <%= place.opening_hours %>      ><%= place.opening_hours %></div>  
+                <div class="col-size-1 row-6"   data-tooltip=   <%= place.lat %>                ><%= place.lat %></div>
+                <div class="col-size-1 row-7"   data-tooltip=   <%= place.long %>               ><%= place.long %></div>
+                <div class="col-size-1 row-8"   data-tooltip=   <%= place.city %>               ><%= place.city %></div>
+                <div class="col-size-1 row-9"   data-tooltip=   <%= place.postcode %>           ><%= place.postcode %></div>
+                <div class="col-size-1 row-10"  data-tooltip=   <%= place.street %>             ><%= place.street %></div>
+                <div class="col-size-1 row-11"  data-tooltip=   <%= place.housenumber %>        ><%= place.housenumber %></div>
+                    
+                <div class="col-size-1 row-12"  data-tooltip=   <%= place.wheelchair %>         ><%= place.wheelchair %></div>
+                <div class="col-size-1 row-13"  data-tooltip=   <%= place.outdoor_seating %>    ><%= place.outdoor_seating %></div>
+                <div class="col-size-1 row-14"  data-tooltip=   <%= place.dog %>                ><%= place.dog %></div>    
+                <div class="col-size-1 row-15"  data-tooltip=   <%= place.cuisine %>            ><%= place.cuisine %></div>
+                <div class="col-size-1 row-16"  data-tooltip=   <%= place.lunch %>              ><%= place.lunch %></div>
+                <div class="col-size-1 row-17"  data-tooltip=   <%= place.organic %>            ><%= place.organic %></div>
+                <div class="col-size-1 row-18"  data-tooltip=   <%= place.takeaway %>           ><%= place.takeaway %></div>   
+                <div class="col-size-1 row-19"  data-tooltip=   <%= place.diet_kosher %>        ><%= place.diet_kosher %></div>
+                <div class="col-size-1 row-20"  data-tooltip=   <%= place.diet_diabetes %>      ><%= place.diet_diabetes %></div>
+                <div class="col-size-1 row-21"  data-tooltip=   <%= place.diet_halal %>         ><%= place.diet_halal %></div>
+                <div class="col-size-1 row-22"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
+                <div class="col-size-1 row-23"  data-tooltip=   <%= place.diet_vegetarian%>     ><%= place.diet_vegetarian %></div>
+
+                <div class="col-size-2">
                     <a class="link-button" href="/place-add/<%= encodeURIComponent(JSON.stringify(place)) %>">
                         <img title="download place" alt="download place" src="../../public/style/assets/icon-download.png">
                     </a>
@@ -91,81 +112,5 @@
     <%}%>
 </div>
 
-<script>
-
-function showPosition(position) {
-    document.getElementById('latitudeInput').value = position.coords.latitude;
-    document.getElementById('longitudeInput').value = position.coords.longitude;
-}
-
-function requestLocation()
-{
-    if(navigator.geolocation)
-    {
-        navigator.geolocation.getCurrentPosition(showPosition)
-    }
-    else 
-    {
-        allert("Geolocation wird von diesem Browser leider nicht unterstützt");
-    }
-}
-
-function updateDistanceSelect()
-{
-    if (distanceSelect.value === 'custom') {
-        distanceInput.style.display = 'inline-block';
-        distanceInput.value = '';
-        distanceInput.focus();
-    } 
-    else 
-    {
-        distanceInput.style.display = 'none';
-    }
-}
-
-
-function calculateBoundingBox() {
-
-    latitude = document.getElementById('latitudeInput').value;
-    longitude = document.getElementById('longitudeInput').value;
-    if(document.getElementById('distanceSelect').value != 'custom')
-    {
-        distance = document.getElementById('distanceSelect').value;
-    } else 
-    {
-        distance = document.getElementById('distanceInput').value;
-    }
-
-    // Radius der Erde in Kilometern
-    const earthRadius = 6371;
-    const halfGlobe = 180;
-
-    // Konvertierung der Entfernung von Kilometer in Bogenmaß
-    var distanceRad = distance / earthRadius;
-
-    // Konvertierung von Breiten- und Längengraden in Bogenmaß
-    var latRad = latitude * Math.PI / halfGlobe;
-    var lonRad = longitude * Math.PI / halfGlobe;
-
-    // Berechnung der Breiten- und Längengrad-Differenzen für die Bounding-Box
-    var deltaLat = distanceRad * (halfGlobe / Math.PI);
-    var deltaLon = distanceRad * (halfGlobe / Math.PI) / Math.cos(latRad);
-
-    // Berechnung der Bounding-Box Koordinaten
-    var minLat = (latitude  - deltaLat).toFixed(3);
-    var maxLat = (parseFloat(latitude)  + parseFloat(deltaLat)).toFixed(3);
-    var minLon = (longitude - deltaLon).toFixed(3);
-    var maxLon = (parseFloat(longitude) + parseFloat(deltaLon)).toFixed(3);
-
-    console.log(
-        minLat
-        + '+' + maxLat
-        + '+' + minLon
-        + '+' + maxLon
-    );
-
-    // document.getElementById('bbox-input').value = minLon + ',' + minLat + ',' + maxLon + ',' + maxLat;
-    document.getElementById('bbox-input').value = minLat + ',' + minLon + ',' + maxLat + ',' + maxLon;
-}
-
-</script>
+<script src="../../public/scripts/find.js"></script>
+<script src="../../public/scripts/table.js"></script>
