@@ -54,6 +54,10 @@ h1 {
     border: solid 2px #9fd385;
 }
 
+.input.empty-error {
+    border: solid 2px #FF6961;
+}
+
 div {
     text-overflow: ellipsis;
     overflow: hidden;

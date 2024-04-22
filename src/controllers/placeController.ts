@@ -88,7 +88,7 @@ function flattenObject(obj: any): FlattenedObject {
     }, {});
 }
 
-
+// MARK: index places
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
 
     var _places = await prisma.place.findMany({
@@ -163,16 +163,22 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             {
                 _placeRows = _req.placeRows;
             }
-                    
+
             res.render("place/find", {
                 title: "Found Places",
-                input: _req.query.box,
                 places: placeArray,
-                placerows: _placeRows
+                boxerror: false,
+                placerows: _placeRows,
+                input: { 
+                    latitude: _req.query.latitude,
+                    longitude: _req.query.longitude,
+                    radius: _req.query.radius,
+                    amenity: _req.query.amenity,
+                    box: _req.query.box,
+                },
             } );
-
-
-        } catch(error)
+        } 
+        catch(error)
         {
             console.log(error)
         }
@@ -183,7 +189,14 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             title: "Find Places",
             places: undefined,
             placerows: undefined,
-            input: _req.query.box, 
+            boxerror: _req.query.box === undefined ? false : true,
+            input: { 
+                latitude: _req.query.latitude,
+                longitude: _req.query.longitude,
+                radius: _req.query.radius,
+                amenity: _req.query.amenity,
+                box: _req.query.box,
+            },
         } );
     }
 }
