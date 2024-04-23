@@ -22,5 +22,5 @@ app.use('/', require('./controllers/routes'));
 app.set('view engine', 'ejs');
   
 app.listen(3000, () =>
-  console.log('REST API server ready at: http://localhost:3000'),
+  console.log('OSMOrte ready at: http://localhost:3000'),
 )

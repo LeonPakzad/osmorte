@@ -1,19 +1,38 @@
 # osmorte
-a tool to aid you using open street map locations in your own projects.
-check out open street maps! 
-<a href="https://www.openstreetmap.de/">Open Street Map</a>
+A tool to aid you using open street map locations in your own projects.
+Check out 
+<a href="https://www.openstreetmap.de/">Open Street Maps !</a>
 
 
 ## installation
 
 ### install needed packages
-``` npm install```
+<p style="position: absolute;">terminal</p>
+
+``` 
+npm install
+```
 
 ### database-configurations
-1. alter your DATABASE_URL (add .env)
-```DATABASE_URL="dbtype://name:password@url:port/db-name"```
+add / configure DATABASE_URL in .env
 
-2. ```npx prisma migrate dev --name init```
+<p style="position: absolute;">.env</p>
+
+```
+DATABASE_URL= "dbtype://name:password@url:port/db-name"
+```
+
+update your DATABASE_URL
+<p style="position: absolute;">terminal</p>
+
+```
+npx prisma migrate dev --name init
+```
 
 ### start server
-```npx ts-node index.ts``` 
+<p style="position: absolute;">terminal</p>
+
+```
+    terminal: cd src
+    terminal: npx ts-node index.ts
+``` 

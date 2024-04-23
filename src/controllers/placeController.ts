@@ -90,11 +90,24 @@ function flattenObject(obj: any): FlattenedObject {
 // MARK: index places
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
 
-    var _places = await prisma.place.findMany({
-        include: {
-            restaurant: true,
-        },
-    })
+    const orderBy: any = {};
+    orderBy[_req.params.orderby] = _req.params.orderdirection;
+
+const _places = await prisma.place.findMany({
+    orderBy: [orderBy],
+    include: {
+        restaurant: true,
+    },
+});
+
+    // var _places = await prisma.place.findMany({
+    //     orderBy: [
+    //         _req.params.orderby: _req.params.orderdirection,
+    //     ],
+    //     include: {
+    //         restaurant: true,
+    //     },
+    // })
 
     const flattenedPlace = flattenArrayOfObjects(_places);
 
@@ -102,7 +115,11 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
     { 
         title: "Places",
         places: flattenedPlace,
-        placerows: _restaurantRows
+        placerows: _restaurantRows,
+        input: {
+            orderby: _req.params.orderby,
+            orderdirection: _req.params.orderby
+        },
     });
 }
 
@@ -240,7 +257,6 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
             }
         },
     })
-
     res.redirect("/place-index")
 }
 

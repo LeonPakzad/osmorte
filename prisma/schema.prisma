@@ -41,7 +41,7 @@ model Restaurant {
   cuisine         String?
   lunch           String?
   organic         String?
-  takeaway        Boolean?  @default(false)
+  takeaway        String?
   diet_kosher     Boolean?  @default(false)
   diet_halal      Boolean?  @default(false)
   diet_diabetes   Boolean?  @default(false)
