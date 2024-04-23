@@ -66,7 +66,6 @@ function mapRestaurant(restaurantObject: { elements: { type: any; id: any; lat: 
     });
 }
 
-
 interface FlattenedObject {
     [key: string]: any;
 }

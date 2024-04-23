@@ -2,9 +2,27 @@
 
 <div class="content">
     
+
+    <div class="row-end">
+        <form>
+            <select class="input">
+                <% for (let i = 0 ; i < placerows.length; i++ ) { %>
+                    <option value="<% placerows[i]%>"><%= placerows[i]%></option>
+                <% } %>
+            </select>
+
+            <select class="input">
+                <option value="asc">ascending</option>
+                <option value="asc">descending</option>
+            </select>
+
+            <button class="button">order by</button>
+        </form>
+    </div>
+
     <%- include('../templates/rowToggleButtons'); -%>
 
-        
+
     <div class="head-row">
         <% for (let i = 0 ; i < placerows.length; i++ ) { %>
 
