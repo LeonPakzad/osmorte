@@ -11,8 +11,8 @@ model osm_Place {
   id              Int @id @default(autoincrement())
   restaurant      osm_Restaurant?
 
-  node            Int?
-  name            String  @unique
+  node            Int @unique
+  name            String?
   lat             Float?
   long            Float?
   city            String?

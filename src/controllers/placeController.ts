@@ -2,21 +2,40 @@ import { PrismaClient } from '@prisma/client'
 import fetch from 'node-fetch';
 const prisma = new PrismaClient()
 
-// MARK: row definitions
-const placeRows = [
+// MARK: column definitions
+const placeCols = [
     'id', 'name',
     'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
 ];
 
-const restaurantRows = [  
+const restaurantCols = [  
     'email', 'operator', 'website', 'opening_hours', 
     'wheelchair','outdoor_seating','dog',
     'cuisine','lunch','organic','takeaway',
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
-const restaurantPlaceRows = placeRows.concat(restaurantRows);
+const cafeCols = [  
+    'operator', 'website', 'phone', 'opening_hours', 'brand', 'smoking', 'self_service',
+    'wheelchair','outdoor_seating', 'indoor_seating', 'dog',
+    'cuisine','organic','takeaway', 'ice_cream', 'bakery', 'pastry',
+    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
+];
 
+const fastFoodCols= [
+    'operator', 'website', 'phone', 'brand', 
+    'cuisine','organic','takeaway', 'delivery',
+    'drive_through', 'drive_in', 'opening_hours', 
+    'wheelchair','outdoor_seating', 'capacity', 'dog',
+    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
+];
+
+const restaurantPlaceCols   = placeCols.concat(restaurantCols);
+const cafePlaceCols         = placeCols.concat(cafeCols);
+const fastFoodPlaceCols     = placeCols.concat(fastFoodCols);
+
+
+// MARK: mapping
 interface TagMap {
     [key: string]: string;
 }
@@ -73,6 +92,7 @@ function mapRestaurant(restaurantObject: { elements: { type: any; id: any; lat: 
     });
 }
 
+// MARK: helpers
 interface FlattenedObject {
     [key: string]: any;
 }
@@ -94,7 +114,7 @@ function flattenObject(obj: any): FlattenedObject {
     }, {});
 }
 
-// MARK: index places
+// MARK: index 
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
 
     const orderBy: Record<string, string> = {};
@@ -102,7 +122,7 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
 
     var _places;
 
-    if(placeRows.indexOf(_req.query.orderby) != -1)
+    if(placeCols.indexOf(_req.query.orderby) != -1)
     {
         _places = await prisma.oSM_Place.findMany({
             orderBy: orderBy,
@@ -129,7 +149,7 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
     { 
         title: "Places",
         places: flattenedPlace,
-        placerows: restaurantPlaceRows,
+        placecols: restaurantPlaceCols,
         input: {
             orderby: _req.query.orderby,
             orderdirection: _req.query.orderdirection
@@ -163,8 +183,16 @@ const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void })
     res.redirect("/place-index")
 }
 
-// MARK: find places
+// MARK: find
 const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
+
+    const downloadedPlaces = await prisma.oSM_Place.findMany({
+        select: {
+            node: true,
+        },
+    });
+    const downloadedPlacesNodes = downloadedPlaces.map(item => item.node)
+
     if(_req.query.box != undefined && _req.query.box != '')
     {
         var osmQuery = `
@@ -183,22 +211,26 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             
             var placeArray = mapRestaurant(placeResponse);
 
-            //only refresh placerows if they are not definet yet
-            var _placeRows : string[] = [];
-            if(_req.placeRows == undefined)
+            var _placeCols : string[] = [];
+            switch(_req.query.amenity)
             {
-                _placeRows = restaurantPlaceRows;
+                case 'restaurant':
+                    _placeCols = restaurantPlaceCols;
+                    break;
+                case 'cafe':
+                    _placeCols = cafePlaceCols;
+                    break;
+                case 'fast_food':
+                    _placeCols = fastFoodPlaceCols;
+                    break;
             }
-            else 
-            {
-                _placeRows = _req.placeRows;
-            }
-
+                        
             res.render("place/find", {
                 title: "Found Places",
                 places: placeArray,
                 boxerror: false,
-                placerows: _placeRows,
+                placecols: _placeCols,
+                downloadedPlaces: downloadedPlacesNodes,
                 input: { 
                     latitude: _req.query.latitude,
                     longitude: _req.query.longitude,
@@ -218,8 +250,9 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         res.render("place/find", {
             title: "Find Places",
             places: undefined,
-            placerows: undefined,
+            placecols: undefined,
             boxerror: _req.query.box === undefined ? false : true,
+            downloadedPlaces: downloadedPlacesNodes,
             input: { 
                 latitude: _req.query.latitude,
                 longitude: _req.query.longitude,
@@ -231,47 +264,58 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
     }
 }
 
-// MARK: add place
+// MARK: add
 async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 {
     const place = JSON.parse(decodeURIComponent(_req.params.params))
     
-    await prisma.oSM_Place.create({
-        data: {
-            node:               place.id                == '-' ? null : place.id,
-            name:               place.name              == '-' ? null : place.name,
-            lat:                place.lat               == '-' ? null : place.lat,
-            long:               place.long              == '-' ? null : place.long,        
-            city:               place.city              == '-' ? null : place.city,   
-            housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
-            postcode:           place.postcode          == '-' ? null : Number(place.postcode),
-            street:             place.street            == '-' ? null : place.street,
-            
-            restaurant: {
-                create: {
-                    email:              place.email             == '-' ? null : place.email,
-                    operator:           place.operator          == '-' ? null : place.operator,
-                    website:            place.website           == '-' ? null : place.website,
-                    opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
-                    
-                    wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
-                    outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
-                    dog:                place.dog               == '-' ? null : place.dog,
-  
-                    cuisine:            place.cuisine           == '-' ? null : place.cuisine,
-                    lunch:              place.lunch             == '-' ? null : place.lunch,
-                    organic:            place.organic           == '-' ? null : place.organic,
-                    takeaway:           place.takeaway          == '-' ? null : place.takeaway,
-                    diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
-                    diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
-                    diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
-                    diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
-                    diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
-                } 
-            }
-        },
+    var placeExists: object | null = await prisma.oSM_Place.findFirst({
+        where: {node: place.id}
     })
-    res.redirect("/place-index")
+
+    if(placeExists == null)
+    {
+        await prisma.oSM_Place.create({
+            data: {
+                node:               place.id                == '-' ? null : place.id,
+                name:               place.name              == '-' ? null : place.name,
+                lat:                place.lat               == '-' ? null : place.lat,
+                long:               place.long              == '-' ? null : place.long,        
+                city:               place.city              == '-' ? null : place.city,   
+                housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
+                postcode:           place.postcode          == '-' ? null : Number(place.postcode),
+                street:             place.street            == '-' ? null : place.street,
+                
+                restaurant: {
+                    create: {
+                        email:              place.email             == '-' ? null : place.email,
+                        operator:           place.operator          == '-' ? null : place.operator,
+                        website:            place.website           == '-' ? null : place.website,
+                        opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+                        
+                        wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
+                        outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
+                        dog:                place.dog               == '-' ? null : place.dog,
+    
+                        cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+                        lunch:              place.lunch             == '-' ? null : place.lunch,
+                        organic:            place.organic           == '-' ? null : place.organic,
+                        takeaway:           place.takeaway          == '-' ? null : place.takeaway,
+                        diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
+                        diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
+                        diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
+                        diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+                        diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+                    } 
+                }
+            },
+        })
+        res.redirect("/place-index")
+    }
+    else
+    {
+        res.redirect("/place-find")
+    }
 }
 
 const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
