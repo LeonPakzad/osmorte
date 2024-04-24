@@ -16,7 +16,7 @@ h1 {
     background: white;
     width: 90%;
     margin: 0 auto;
-    border: dotted 2px #9fd385;
+    padding: 10px;
 }
 
 .button {

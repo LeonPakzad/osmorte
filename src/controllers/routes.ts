@@ -11,6 +11,7 @@ const {
 } = require('../controllers/placeController');
 
 router.get('/place-index', placeIndexView);
+router.get('/place-index/:params', placeIndexView);
 router.get('/place-find', placeFind);
 router.get('/place-find/:box', placeFind);
 router.get('/place-edit', placeEdit);

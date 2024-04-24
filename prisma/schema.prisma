@@ -7,9 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Place {
+model osm_Place {
   id              Int @id @default(autoincrement())
-  restaurant      Restaurant?
+  restaurant      osm_Restaurant?
 
   node            Int?
   name            String  @unique
@@ -24,9 +24,9 @@ model Place {
   updated         DateTime  @default(now())
 }
 
-model Restaurant {
+model osm_Restaurant {
   id              Int  @id @default(autoincrement())
-  place           Place @relation(fields: [fk_placeId], references: [id])
+  place           osm_Place @relation(fields: [fk_placeId], references: [id])
   fk_placeId      Int  @unique
 
   email           String?

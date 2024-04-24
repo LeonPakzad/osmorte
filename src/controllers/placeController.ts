@@ -3,13 +3,19 @@ import fetch from 'node-fetch';
 const prisma = new PrismaClient()
 
 // MARK: row definitions
-const _restaurantRows = [  
-    'ID', 'name', 'email', 'operator', 'website', 'opening hours', 
+const placeRows = [
+    'id', 'name',
     'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
+];
+
+const restaurantRows = [  
+    'email', 'operator', 'website', 'opening_hours', 
     'wheelchair','outdoor_seating','dog',
     'cuisine','lunch','organic','takeaway',
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
+
+const restaurantPlaceRows = placeRows.concat(restaurantRows);
 
 interface TagMap {
     [key: string]: string;
@@ -36,17 +42,18 @@ function mapRestaurant(restaurantObject: { elements: { type: any; id: any; lat: 
         return {
             id:                 element.id,
             name:               tags.name               == undefined ? '-' : tags.name,
-            email:              tags.email              == undefined ? '-' : tags.email, 
-            operator:           tags.operator           == undefined ? '-' : tags.operator,
-            website:            tags.website            == undefined ? '-' : tags.website,
-            opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
-            
             lat:                element.lat             == undefined ? '-' : element.lat,
             long:               element.lon             == undefined ? '-' : element.lon,
             city:               tags.city               == undefined ? '-' : tags.city,
             postcode:           tags.postcode           == undefined ? '-' : tags.postcode,
             street:             tags.street             == undefined ? '-' : tags.street,
             housenumber:        tags.housenumber        == undefined ? '-' : tags.housenumber, 
+
+            email:              tags.email              == undefined ? '-' : tags.email, 
+            operator:           tags.operator           == undefined ? '-' : tags.operator,
+            website:            tags.website            == undefined ? '-' : tags.website,
+            opening_hours:      tags.opening_hours      == undefined ? '-' : tags.opening_hours,
+            
             
             wheelchair:         tags.wheelchair         == undefined ? '-' : tags.wheelchair,
             outdoor_seating:    tags.outdoor_seating    == undefined ? '-' : tags.outdoor_seating,
@@ -90,42 +97,49 @@ function flattenObject(obj: any): FlattenedObject {
 // MARK: index places
 const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
 
-    const orderBy: any = {};
-    orderBy[_req.params.orderby] = _req.params.orderdirection;
+    const orderBy: Record<string, string> = {};
+    orderBy[_req.query.orderby as string] = _req.query.orderdirection as string;
 
-const _places = await prisma.place.findMany({
-    orderBy: [orderBy],
-    include: {
-        restaurant: true,
-    },
-});
+    var _places;
 
-    // var _places = await prisma.place.findMany({
-    //     orderBy: [
-    //         _req.params.orderby: _req.params.orderdirection,
-    //     ],
-    //     include: {
-    //         restaurant: true,
-    //     },
-    // })
-
+    if(placeRows.indexOf(_req.query.orderby) != -1)
+    {
+        _places = await prisma.oSM_Place.findMany({
+            orderBy: orderBy,
+            include: {
+                restaurant: true,
+            },
+        });
+    }
+    else 
+    {
+        _places = await prisma.oSM_Place.findMany({
+            orderBy: {
+                restaurant: orderBy
+            },
+            include: {
+                restaurant: true,
+            },
+        });
+    }
+    
     const flattenedPlace = flattenArrayOfObjects(_places);
 
     res.render("place/index", 
     { 
         title: "Places",
         places: flattenedPlace,
-        placerows: _restaurantRows,
+        placerows: restaurantPlaceRows,
         input: {
-            orderby: _req.params.orderby,
-            orderdirection: _req.params.orderby
+            orderby: _req.query.orderby,
+            orderdirection: _req.query.orderdirection
         },
     });
 }
 
 const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     var _id:number = Number(_req.params.id); 
-    var _place = await prisma.place.findUnique({
+    var _place = await prisma.oSM_Place.findUnique({
         where: {id: _id}
     })
 
@@ -139,11 +153,11 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
     var _id:number = Number(_req.params.id); 
     
-    await prisma.restaurant.delete({
+    await prisma.oSM_Restaurant.delete({
         where: {fk_placeId: _id}
     })
 
-    await prisma.place.delete({
+    await prisma.oSM_Place.delete({
         where: {id: _id}
     })
     res.redirect("/place-index")
@@ -173,7 +187,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             var _placeRows : string[] = [];
             if(_req.placeRows == undefined)
             {
-                _placeRows = _restaurantRows;
+                _placeRows = restaurantPlaceRows;
             }
             else 
             {
@@ -222,7 +236,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 {
     const place = JSON.parse(decodeURIComponent(_req.params.params))
     
-    await prisma.place.create({
+    await prisma.oSM_Place.create({
         data: {
             node:               place.id                == '-' ? null : place.id,
             name:               place.name              == '-' ? null : place.name,
@@ -262,7 +276,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 
 const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
 {
-    if (!prisma.place) {
+    if (!prisma.oSM_Place) {
         console.log("some fields are empty");
     }
     

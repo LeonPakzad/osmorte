@@ -5,25 +5,23 @@
 
     <form action="/place-find">
 
-        
-
         <div class="row-end">
             <input id="latitudeInput" class="input" name="latitude" type="text" placeholder="latitude" value="<%=input.latitude %>">
             <input id="longitudeInput" class="input" name="longitude"type="text" placeholder="longitude" value="<%=input.longitude %>">
             <button type="button" class="button" onclick="requestLocation()">find position</button>
         </div>
-
+        
         <div class="row-end">
             <label for="distanceSelect">search radius:</label>
-            <select class="input" name="radius" id="distanceSelect" selected="<%=input.radius %>" onchange="updateDistanceSelect()">
-                <option value="1">1 km</option>
-                <option value="2">2 km</option>
-                <option value="3">3 km</option>
-                <option value="5">5 km</option>
-                <option value="10">10 km</option>
-                <option value="15">15 km</option>
-                <option value="20">20 km</option>
-                <option value="custom">custom (km)</option>
+            <select class="input" name="radius" id="distanceSelect" onchange="updateDistanceSelect()">
+                <option value="1"       <% if (input.radius == 1) { %> selected <% } %>>1 km</option>
+                <option value="2"       <% if (input.radius == 2) { %> selected <% } %>>2 km</option>
+                <option value="3"       <% if (input.radius == 3) { %> selected <% } %>>3 km</option>
+                <option value="5"       <% if (input.radius == 5) { %> selected <% } %>>5 km</option>
+                <option value="10"      <% if (input.radius == 10) { %> selected <% } %>>10 km</option>
+                <option value="15"      <% if (input.radius == 15) { %> selected <% } %>>15 km</option>
+                <option value="20"      <% if (input.radius == 20) { %> selected <% } %>>20 km</option>
+                <option value="custom"  <% if (input.radius == 'custom') { %> selected <% } %>>custom (km)</option>
             </select>
             
             <input class="input" type="number" min="1" max="100" id="distanceInput" style="display: none;">
@@ -67,31 +65,33 @@
         
         <% places.forEach(function(place) { %>
             <div class="body-row">
-                <div class="col-size-1 row-0"   data-tooltip=   <%= place.id %>                 ><%= place.id %></div>
-                <div class="col-size-1 row-1"   data-tooltip=   <%= place.name %>               ><%= place.name %></div>
-                <div class="col-size-1 row-2"   data-tooltip=   <%= place.email %>              ><%= place.email %></div>
-                <div class="col-size-1 row-3"   data-tooltip=   <%= place.operator %>           ><%= place.operator %></div>
-                <div class="col-size-1 row-4"   data-tooltip=   <%= place.website %>            ><%= place.website %></div>
-                <div class="col-size-1 row-5"   data-tooltip=   <%= place.opening_hours %>      ><%= place.opening_hours %></div>  
-                <div class="col-size-1 row-6"   data-tooltip=   <%= place.lat %>                ><%= place.lat %></div>
-                <div class="col-size-1 row-7"   data-tooltip=   <%= place.long %>               ><%= place.long %></div>
-                <div class="col-size-1 row-8"   data-tooltip=   <%= place.city %>               ><%= place.city %></div>
-                <div class="col-size-1 row-9"   data-tooltip=   <%= place.postcode %>           ><%= place.postcode %></div>
-                <div class="col-size-1 row-10"  data-tooltip=   <%= place.street %>             ><%= place.street %></div>
-                <div class="col-size-1 row-11"  data-tooltip=   <%= place.housenumber %>        ><%= place.housenumber %></div>
+                <div class="col-size-1 row-0"   data-tooltip=   "<%= place.id %>"                 ><%= place.id %></div>
+                <div class="col-size-1 row-1"   data-tooltip=   "<%= place.name %>"               ><%= place.name %></div>
+                <div class="col-size-1 row-6"   data-tooltip=   "<%= place.lat %>"                ><%= place.lat %></div>
+                <div class="col-size-1 row-7"   data-tooltip=   "<%= place.long %>"               ><%= place.long %></div>
+                <div class="col-size-1 row-8"   data-tooltip=   "<%= place.city %>"               ><%= place.city %></div>
+                <div class="col-size-1 row-9"   data-tooltip=   "<%= place.postcode %>"           ><%= place.postcode %></div>
+                <div class="col-size-1 row-10"  data-tooltip=   "<%= place.street %>"             ><%= place.street %></div>
+                <div class="col-size-1 row-11"  data-tooltip=   "<%= place.housenumber %>"        ><%= place.housenumber %></div>
+
+                <div class="col-size-1 row-2"   data-tooltip=   "<%= place.email %>"              ><%= place.email %></div>
+                <div class="col-size-1 row-3"   data-tooltip=   "<%= place.operator %>"           ><%= place.operator %></div>
+                <div class="col-size-1 row-4"   data-tooltip=   "<%= place.website %>"            ><%= place.website %></div>
+                <div class="col-size-1 row-5"   data-tooltip=   "<%= place.opening_hours %>"      ><%= place.opening_hours %></div>  
                     
-                <div class="col-size-1 row-12"  data-tooltip=   <%= place.wheelchair %>         ><%= place.wheelchair %></div>
-                <div class="col-size-1 row-13"  data-tooltip=   <%= place.outdoor_seating %>    ><%= place.outdoor_seating %></div>
-                <div class="col-size-1 row-14"  data-tooltip=   <%= place.dog %>                ><%= place.dog %></div>    
-                <div class="col-size-1 row-15"  data-tooltip=   <%= place.cuisine %>            ><%= place.cuisine %></div>
-                <div class="col-size-1 row-16"  data-tooltip=   <%= place.lunch %>              ><%= place.lunch %></div>
-                <div class="col-size-1 row-17"  data-tooltip=   <%= place.organic %>            ><%= place.organic %></div>
-                <div class="col-size-1 row-18"  data-tooltip=   <%= place.takeaway %>           ><%= place.takeaway %></div>   
-                <div class="col-size-1 row-19"  data-tooltip=   <%= place.diet_kosher %>        ><%= place.diet_kosher %></div>
-                <div class="col-size-1 row-20"  data-tooltip=   <%= place.diet_diabetes %>      ><%= place.diet_diabetes %></div>
-                <div class="col-size-1 row-21"  data-tooltip=   <%= place.diet_halal %>         ><%= place.diet_halal %></div>
-                <div class="col-size-1 row-22"  data-tooltip=   <%= place.diet_vegan %>         ><%= place.diet_vegan %></div>
-                <div class="col-size-1 row-23"  data-tooltip=   <%= place.diet_vegetarian%>     ><%= place.diet_vegetarian %></div>
+                <div class="col-size-1 row-12"  data-tooltip=   "<%= place.wheelchair %>"         ><%= place.wheelchair %></div>
+                <div class="col-size-1 row-13"  data-tooltip=   "<%= place.outdoor_seating %>"    ><%= place.outdoor_seating %></div>
+                <div class="col-size-1 row-14"  data-tooltip=   "<%= place.dog %>"                ><%= place.dog %></div>    
+                
+                <div class="col-size-1 row-15"  data-tooltip=   "<%= place.cuisine %>"            ><%= place.cuisine %></div>
+                <div class="col-size-1 row-16"  data-tooltip=   "<%= place.lunch %>"              ><%= place.lunch %></div>
+                <div class="col-size-1 row-17"  data-tooltip=   "<%= place.organic %>"            ><%= place.organic %></div>
+                <div class="col-size-1 row-18"  data-tooltip=   "<%= place.takeaway %>"           ><%= place.takeaway %></div>   
+                <div class="col-size-1 row-19"  data-tooltip=   "<%= place.diet_kosher %>"        ><%= place.diet_kosher %></div>
+                <div class="col-size-1 row-20"  data-tooltip=   "<%= place.diet_diabetes %>"      ><%= place.diet_diabetes %></div>
+                <div class="col-size-1 row-21"  data-tooltip=   "<%= place.diet_halal %>"         ><%= place.diet_halal %></div>
+                <div class="col-size-1 row-22"  data-tooltip=   "<%= place.diet_vegan %>"         ><%= place.diet_vegan %></div>
+                <div class="col-size-1 row-23"  data-tooltip=   "<%= place.diet_vegetarian%>"     ><%= place.diet_vegetarian %></div>
 
                 <div class="col-size-2">
                     <a class="link-button" href="/place-add/<%= encodeURIComponent(JSON.stringify(place)) %>">
