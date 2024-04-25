@@ -30,10 +30,14 @@ const fastFoodCols= [
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
+
 const restaurantPlaceCols   = placeCols.concat(restaurantCols);
 const cafePlaceCols         = placeCols.concat(cafeCols);
 const fastFoodPlaceCols     = placeCols.concat(fastFoodCols);
 
+const availablePlaceTypes= [
+    "restaurant", "cafe", "fast_food"
+]
 
 // MARK: mapping
 interface TagMap {
@@ -93,6 +97,19 @@ function mapRestaurant(restaurantObject: { elements: { type: any; id: any; lat: 
 }
 
 // MARK: helpers
+
+function getPlaceColsByAmenity(_amenity: string) {
+    switch(_amenity)
+    {
+        case availablePlaceTypes[0]:
+            return restaurantPlaceCols;
+        case availablePlaceTypes[1]:
+            return cafePlaceCols;
+        case availablePlaceTypes[2]:
+            return fastFoodPlaceCols;
+    }
+}
+
 interface FlattenedObject {
     [key: string]: any;
 }
@@ -120,46 +137,142 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
     const orderBy: Record<string, string> = {};
     orderBy[_req.query.orderby as string] = _req.query.orderdirection as string;
 
-    var _places;
-
+    var _places: any[] | null | undefined;
+    // depending on if it is place or specified data, the ordering needs to be made accordingly 
     if(placeCols.indexOf(_req.query.orderby) != -1)
     {
-        _places = await prisma.oSM_Place.findMany({
-            orderBy: orderBy,
-            include: {
-                restaurant: true,
-            },
-        });
+        switch(_req.query.amenity)
+        {
+            case availablePlaceTypes[0]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            restaurant: null
+                        }
+                    },
+                    orderBy: orderBy,
+                    include: {
+                        restaurant: true,
+                    },
+                });
+            break;
+
+            case availablePlaceTypes[1]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            cafe: null
+                        }
+                    },
+                    orderBy: orderBy,
+                    include: {
+                        cafe: true,
+                    },
+                });
+            break;
+
+            case availablePlaceTypes[2]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            fast_food: null
+                        }
+                    },
+                    orderBy: orderBy,
+                    include: {
+                        fast_food: true,
+                    },
+                });
+            break;
+        }
     }
     else 
     {
-        _places = await prisma.oSM_Place.findMany({
-            orderBy: {
-                restaurant: orderBy
-            },
-            include: {
-                restaurant: true,
+        switch(_req.query.amenity)
+        {
+            case availablePlaceTypes[0]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            restaurant: null
+                        }
+                    },
+                    orderBy: {
+                        restaurant: orderBy
+                    },
+                    include: {
+                        restaurant: true,
+                    },
+                });
+            break;
+
+            case availablePlaceTypes[1]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            cafe: null
+                        }
+                    },
+                    orderBy: {
+                        cafe: orderBy
+                    },
+                    include: {
+                        cafe: true,
+                    },
+                });
+            break;
+                
+            case availablePlaceTypes[2]:
+                _places = await prisma.osm_Place.findMany({
+                    where: {
+                        NOT: {
+                            fast_food: null
+                        }
+                    },
+                    orderBy: {
+                        fast_food: orderBy
+                    },
+                    include: {
+                        fast_food: true,
+                    },
+                });
+            break;
+        }
+    }
+    if(_places != null && _places != undefined)
+    {
+        const flattenedPlace = flattenArrayOfObjects(_places);
+            
+        res.render("place/index", 
+        { 
+            title: "Places",
+            availablePlaceTypes: availablePlaceTypes,
+            placecols: getPlaceColsByAmenity(_req.query.amenity),
+            places: flattenedPlace,
+            input: {
+                orderby: _req.query.orderby,
+                orderdirection: _req.query.orderdirection,
+                amenity: _req.query.amenity,
             },
         });
     }
-    
-    const flattenedPlace = flattenArrayOfObjects(_places);
-
-    res.render("place/index", 
-    { 
-        title: "Places",
-        places: flattenedPlace,
-        placecols: restaurantPlaceCols,
-        input: {
-            orderby: _req.query.orderby,
-            orderdirection: _req.query.orderdirection
-        },
-    });
+    else
+    {
+        res.render("place/index", {
+            title: "Places",
+            availablePlaceTypes: availablePlaceTypes,
+            placecols: undefined,
+            places: undefined,
+            input: {
+                amenity: _req.query.amenity,
+            }
+            });
+    }
 }
 
 const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     var _id:number = Number(_req.params.id); 
-    var _place = await prisma.oSM_Place.findUnique({
+    var _place = await prisma.osm_Place.findUnique({
         where: {id: _id}
     })
 
@@ -173,11 +286,11 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
     var _id:number = Number(_req.params.id); 
     
-    await prisma.oSM_Restaurant.delete({
+    await prisma.osm_Restaurant.delete({
         where: {fk_placeId: _id}
     })
 
-    await prisma.oSM_Place.delete({
+    await prisma.osm_Place.delete({
         where: {id: _id}
     })
     res.redirect("/place-index")
@@ -186,7 +299,7 @@ const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void })
 // MARK: find
 const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
 
-    const downloadedPlaces = await prisma.oSM_Place.findMany({
+    const downloadedPlaces = await prisma.osm_Place.findMany({
         select: {
             node: true,
         },
@@ -210,26 +323,12 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             var placeResponse = await response.json();
             
             var placeArray = mapRestaurant(placeResponse);
-
-            var _placeCols : string[] = [];
-            switch(_req.query.amenity)
-            {
-                case 'restaurant':
-                    _placeCols = restaurantPlaceCols;
-                    break;
-                case 'cafe':
-                    _placeCols = cafePlaceCols;
-                    break;
-                case 'fast_food':
-                    _placeCols = fastFoodPlaceCols;
-                    break;
-            }
                         
             res.render("place/find", {
                 title: "Found Places",
                 places: placeArray,
                 boxerror: false,
-                placecols: _placeCols,
+                placecols: getPlaceColsByAmenity(_req.query.amenity),
                 downloadedPlaces: downloadedPlacesNodes,
                 input: { 
                     latitude: _req.query.latitude,
@@ -269,13 +368,13 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 {
     const place = JSON.parse(decodeURIComponent(_req.params.params))
     
-    var placeExists: object | null = await prisma.oSM_Place.findFirst({
+    var placeExists: object | null = await prisma.osm_Place.findFirst({
         where: {node: place.id}
     })
 
     if(placeExists == null)
     {
-        await prisma.oSM_Place.create({
+        await prisma.osm_Place.create({
             data: {
                 node:               place.id                == '-' ? null : place.id,
                 name:               place.name              == '-' ? null : place.name,
@@ -320,7 +419,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 
 const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
 {
-    if (!prisma.oSM_Place) {
+    if (!prisma.osm_Place) {
         console.log("some fields are empty");
     }
     

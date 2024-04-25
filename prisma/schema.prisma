@@ -10,6 +10,8 @@ datasource db {
 model osm_Place {
   id              Int @id @default(autoincrement())
   restaurant      osm_Restaurant?
+  cafe            osm_Cafe?
+  fast_food       osm_FastFood?
 
   node            Int @unique
   name            String?
@@ -47,4 +49,69 @@ model osm_Restaurant {
   diet_diabetes   Boolean?  @default(false)
   diet_vegan      Boolean?  @default(false)
   diet_vegetarian Boolean?  @default(false)
+}
+
+model osm_Cafe {
+  id              Int  @id @default(autoincrement())
+  place           osm_Place @relation(fields: [fk_placeId], references: [id])
+  fk_placeId      Int  @unique
+
+  operator        String?
+  website         String?
+  phone           String?
+  opening_hours   String?
+  brand           String?
+  smoking         Boolean?
+  self_service    Boolean?
+  
+  wheelchair      String?
+  outdoor_seating Boolean?   @default(false)
+  indoor_seating  Boolean?   @default(false)
+  dog             Boolean?   @default(false)
+
+  cuisine         String?
+  organic         String?
+  takeaway        String?
+  ice_cream       Boolean?
+  bakery          Boolean?
+  pastry          Boolean?
+
+  diet_kosher     Boolean?  @default(false)
+  diet_halal      Boolean?  @default(false)
+  diet_diabetes   Boolean?  @default(false)
+  diet_vegan      Boolean?  @default(false)
+  diet_vegetarian Boolean?  @default(false)       
+}
+
+model osm_FastFood {
+  id              Int  @id @default(autoincrement())
+  place           osm_Place @relation(fields: [fk_placeId], references: [id])
+  fk_placeId      Int  @unique
+
+  operator        String?
+  website         String?
+  phone           String?
+  brand           String?
+  cuisine         String?
+  organic         String?
+  takeaway        String?
+  delivery        String?
+  drive_through   Boolean? @default(false)
+  drive_in        Boolean? @default(false) 
+  opening_hours   String?
+  
+  wheelchair      String?
+  outdoor_seating Boolean?  @default(false)
+  capacity        String?  
+  dog             Boolean?  @default(false)
+
+  ice_cream       Boolean? @default(false)
+  bakery          Boolean? @default(false)
+  pastry          Boolean? @default(false)
+
+  diet_kosher     Boolean?  @default(false)
+  diet_halal      Boolean?  @default(false)
+  diet_diabetes   Boolean?  @default(false)
+  diet_vegan      Boolean?  @default(false)
+  diet_vegetarian Boolean?  @default(false)      
 }

@@ -3,74 +3,65 @@
 <div class="content">
 
     <div class="row-end">
-        <form action="/place-index">
-            <select class="input" name="orderby" selected="<%=input.orderby %>">
-                <% for (let i = 0 ; i < placecols.length; i++ ) { %>
-                    <option <% if (input.orderby == placecols[i]) { %> selected <% } %> value="<%= placecols[i]%>"><%= placecols[i]%></option>
+        <form action="place-index">
+            <select class="input" name="amenity" %>">
+                <% for (let i = 0 ; i < availablePlaceTypes.length; i++ ) { %>
+                    <option <% if (input.amenity == availablePlaceTypes[i]) { %> selected <% } %> value="<%= availablePlaceTypes[i]%>"><%= availablePlaceTypes[i]%></option>
                 <% } %>
             </select>
-
-            <select class="input" name="orderdirection">
-                <option <% if (input.orderdirection == 'asc')   { %> selected <% } %> value="asc">ascending</option>
-                <option <% if (input.orderdirection == 'desc')  { %> selected <% } %> value="desc">descending</option>
-            </select>
-
-            <button class="button">order by</button>
+            <button class="button">select place type</button>
         </form>
     </div>
 
-    <%- include('../templates/colToggleButtons'); -%>
+    <% if(places != undefined){%>
+        <div class="row-end">
+            <form action="/place-index">
+                <select class="input" name="orderby" selected="<%=input.orderby %>">
+                    <% for (let i = 0 ; i < placecols.length; i++ ) { %>
+                        <option <% if (input.orderby == placecols[i]) { %> selected <% } %> value="<%= placecols[i]%>"><%= placecols[i]%></option>
+                    <% } %>
+                </select>
 
-    <div class="head-row">
-        <% for (let i = 0 ; i < placecols.length; i++ ) { %>
+                <select class="input" name="orderdirection">
+                    <option <% if (input.orderdirection == 'asc')   { %> selected <% } %> value="asc">ascending</option>
+                    <option <% if (input.orderdirection == 'desc')  { %> selected <% } %> value="desc">descending</option>
+                </select>
 
-            <div id="row-<%=i%>" class="col-size-1" data-tooltip="<%=placecols[i]%>">
-                <b><%=placecols[i]%></b>
-            </div>
+                <button class="button">order by</button>
+            </form>
+        </div>
+        
+        <%- include('../templates/colToggleButtons'); -%>
+    <% } %>
+    
 
-        <% } %>
-        <div class="col-size-2" data-tooltip="Actions"><b>Actions</b></div>
-    </div>
+    <% if(places != undefined){%>
+        <div class="head-row">
+            <% for (let i = 0 ; i < placecols.length; i++ ) { %>
 
-    <% places.forEach(function(place) { %>
-        <div class="body-row">
+                <div id="row-<%=i%>" class="col-size-1" data-tooltip="<%=placecols[i]%>">
+                    <b><%=placecols[i]%></b>
+                </div>
 
-            <div class="col-size-1 row-0"   data-tooltip=   "<%= place.id %>"                 ><%= place.id               != null ? place.id               : '-'%></div>
-            <div class="col-size-1 row-1"   data-tooltip=   "<%= place.name %>"               ><%= place.name             != null ? place.name             : '-'%></div>
-            <div class="col-size-1 row-6"   data-tooltip=   "<%= place.lat %>"                ><%= place.lat              != null ? place.lat              : '-'%></div>
-            <div class="col-size-1 row-7"   data-tooltip=   "<%= place.long %>"               ><%= place.long             != null ? place.long             : '-'%></div>
-            <div class="col-size-1 row-8"   data-tooltip=   "<%= place.city %>"               ><%= place.city             != null ? place.city             : '-'%></div>
-            <div class="col-size-1 row-9"   data-tooltip=   "<%= place.postcode %>"           ><%= place.postcode         != null ? place.postcode         : '-'%></div>
-            <div class="col-size-1 row-10"  data-tooltip=   "<%= place.street %>"             ><%= place.street           != null ? place.street           : '-'%></div>
-            <div class="col-size-1 row-11"  data-tooltip=   "<%= place.housenumber %>"        ><%= place.housenumber      != null ? place.housenumber      : '-'%></div>
-      
-            <div class="col-size-1 row-2"   data-tooltip=   "<%= place.email %>"              ><%= place.email            != null ? place.email            : '-'%></div>
-            <div class="col-size-1 row-3"   data-tooltip=   "<%= place.operator %>"           ><%= place.operator         != null ? place.operator         : '-'%></div>
-            <div class="col-size-1 row-4"   data-tooltip=   "<%= place.website %>"            ><%= place.website          != null ? place.website          : '-'%></div>
-            <div class="col-size-1 row-5"   data-tooltip=   "<%= place.opening_hours %>"      ><%= place.opening_hours    != null ? place.opening_hours    : '-'%></div>  
-                
-            <div class="col-size-1 row-12"  data-tooltip=   "<%= place.wheelchair %>"         ><%= place.wheelchair       != null ? place.wheelchair       : '-'%></div>
-            <div class="col-size-1 row-13"  data-tooltip=   "<%= place.outdoor_seating %>"    ><%= place.outdoor_seating  != null ? place.outdoor_seating  : '-'%></div>
-            <div class="col-size-1 row-14"  data-tooltip=   "<%= place.dog %>"                ><%= place.dog              != null ? place.dog              : '-'%></div>    
-            
-            <div class="col-size-1 row-15"  data-tooltip=   "<%= place.cuisine %>"            ><%= place.cuisine          != null ? place.cuisine          : '-'%></div>
-            <div class="col-size-1 row-16"  data-tooltip=   "<%= place.lunch %>"              ><%= place.lunch            != null ? place.lunch            : '-'%></div>
-            <div class="col-size-1 row-17"  data-tooltip=   "<%= place.organic %>"            ><%= place.organic          != null ? place.organic          : '-'%></div>
-            <div class="col-size-1 row-18"  data-tooltip=   "<%= place.takeaway %>"           ><%= place.takeaway         != null ? place.takeaway         : '-'%></div>   
-            <div class="col-size-1 row-19"  data-tooltip=   "<%= place.diet_kosher %>"        ><%= place.diet_kosher      != null ? place.diet_kosher      : '-'%></div>
-            <div class="col-size-1 row-20"  data-tooltip=   "<%= place.diet_diabetes %>"      ><%= place.diet_diabetes    != null ? place.diet_diabetes    : '-'%></div>
-            <div class="col-size-1 row-21"  data-tooltip=   "<%= place.diet_halal %>"         ><%= place.diet_halal       != null ? place.diet_halal       : '-'%></div>
-            <div class="col-size-1 row-22"  data-tooltip=   "<%= place.diet_vegan %>"         ><%= place.diet_vegan       != null ? place.diet_vegan       : '-'%></div>
-            <div class="col-size-1 row-23"  data-tooltip=   "<%= place.diet_vegetarian%>"     ><%= place.diet_vegetarian  != null ? place.diet_vegetarian  : '-'%></div>
+            <% } %>
+            <div class="col-size-2" data-tooltip="Actions"><b>Actions</b></div>
+        </div>
 
-            <div class="col-2">
-                <a class="link-button" href="/place/<%=place.id%>">
-                    <img title="show place" alt="show place" src="../../public/style/assets/icon-show.png">
-                </a>
-                <a class="link-button" href="place-delete/<%=place.id%>">
-                    <img title="delete place" alt="delete place" src="../../public/style/assets/icon-delete.png">
-                </a>
-            </div>
-        </div>  
-    <% }); %>
+        <% places.forEach(function(place) { %>
+            <div class="body-row">
+
+                <%-include('../templates/placecols', {place: place, placecols: placecols}); %>
+
+
+                <div class="col-2">
+                    <a class="link-button" href="/place/<%=place.id%>">
+                        <img title="show place" alt="show place" src="../../public/style/assets/icon-show.png">
+                    </a>
+                    <a class="link-button" href="place-delete/<%=place.id%>">
+                        <img title="delete place" alt="delete place" src="../../public/style/assets/icon-delete.png">
+                    </a>
+                </div>
+            </div>  
+        <% }); %>
+    <% } %>
 </div>
