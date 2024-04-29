@@ -92,6 +92,7 @@ model osm_FastFood {
   website         String?
   phone           String?
   brand           String?
+  
   cuisine         String?
   organic         String?
   takeaway        String?

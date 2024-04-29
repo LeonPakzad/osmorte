@@ -64,6 +64,7 @@ function mapRestaurant(restaurantObject: { elements: { type: any; id: any; lat: 
 
         return {
             id:                 element.id,
+            amenity:            'restaurant',
             name:               tags.name               == undefined ? '-' : tags.name,
             lat:                element.lat             == undefined ? '-' : element.lat,
             long:               element.lon             == undefined ? '-' : element.lon,
@@ -323,7 +324,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             var placeResponse = await response.json();
             
             var placeArray = mapRestaurant(placeResponse);
-                        
+
             res.render("place/find", {
                 title: "Found Places",
                 places: placeArray,
@@ -374,41 +375,141 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 
     if(placeExists == null)
     {
-        await prisma.osm_Place.create({
-            data: {
-                node:               place.id                == '-' ? null : place.id,
-                name:               place.name              == '-' ? null : place.name,
-                lat:                place.lat               == '-' ? null : place.lat,
-                long:               place.long              == '-' ? null : place.long,        
-                city:               place.city              == '-' ? null : place.city,   
-                housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
-                postcode:           place.postcode          == '-' ? null : Number(place.postcode),
-                street:             place.street            == '-' ? null : place.street,
-                
-                restaurant: {
-                    create: {
-                        email:              place.email             == '-' ? null : place.email,
-                        operator:           place.operator          == '-' ? null : place.operator,
-                        website:            place.website           == '-' ? null : place.website,
-                        opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+        console.log(_req.query.amenity)
+        switch(place.amenity)
+        {
+            case availablePlaceTypes[0]:
+                await prisma.osm_Place.create({
+                    data: {
+                        node:               place.id                == '-' ? null : place.id,
+                        name:               place.name              == '-' ? null : place.name,
+                        lat:                place.lat               == '-' ? null : place.lat,
+                        long:               place.long              == '-' ? null : place.long,        
+                        city:               place.city              == '-' ? null : place.city,   
+                        housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
+                        postcode:           place.postcode          == '-' ? null : Number(place.postcode),
+                        street:             place.street            == '-' ? null : place.street,
                         
-                        wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
-                        outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
-                        dog:                place.dog               == '-' ? null : place.dog,
-    
-                        cuisine:            place.cuisine           == '-' ? null : place.cuisine,
-                        lunch:              place.lunch             == '-' ? null : place.lunch,
-                        organic:            place.organic           == '-' ? null : place.organic,
-                        takeaway:           place.takeaway          == '-' ? null : place.takeaway,
-                        diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
-                        diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
-                        diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
-                        diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
-                        diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
-                    } 
-                }
-            },
-        })
+                        restaurant: {
+                            create: {
+                                email:              place.email             == '-' ? null : place.email,
+                                operator:           place.operator          == '-' ? null : place.operator,
+                                website:            place.website           == '-' ? null : place.website,
+                                opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+                                
+                                wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
+                                outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
+                                dog:                place.dog               == '-' ? null : place.dog,
+            
+                                cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+                                lunch:              place.lunch             == '-' ? null : place.lunch,
+                                organic:            place.organic           == '-' ? null : place.organic,
+                                takeaway:           place.takeaway          == '-' ? null : place.takeaway,
+                                diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
+                                diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
+                                diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
+                                diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+                                diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+                            } 
+                        }
+                    },
+                })
+            break;
+
+            case availablePlaceTypes[1]:
+                await prisma.osm_Place.create({
+                    data: {
+                        node:               place.id                == '-' ? null : place.id,
+                        name:               place.name              == '-' ? null : place.name,
+                        lat:                place.lat               == '-' ? null : place.lat,
+                        long:               place.long              == '-' ? null : place.long,        
+                        city:               place.city              == '-' ? null : place.city,   
+                        housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
+                        postcode:           place.postcode          == '-' ? null : Number(place.postcode),
+                        street:             place.street            == '-' ? null : place.street,
+                        
+                        cafe: {
+                            create: {
+                                operator:           place.operator          == '-' ? null : place.operator,
+                                website:            place.website           == '-' ? null : place.website,
+                                phone:              place.phone             == '-' ? null : place.phone,
+                                opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+                                brand:              place.brand             == '-' ? null : place.brand,
+                                
+                                smoking:            place.smoking           == '-' ? undefined : Boolean(place.smoking),
+                                self_service:       place.self_service      == '-' ? undefined : Boolean(place.self_service),
+
+                                wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
+                                outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
+                                indoor_seating:     place.indoor_seating    == '-' ? undefined : Boolean(place.indoor_seating),
+                                dog:                place.dog               == '-' ? null : place.dog,
+            
+                                cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+                                organic:            place.organic           == '-' ? null : place.organic,
+                                takeaway:           place.takeaway          == '-' ? null : place.takeaway,
+                                ice_cream:          place.ice_cream         == '-' ? null : place.ice_cream,
+                                bakery:             place.bakery            == '-' ? undefined : Boolean(place.bakery),
+                                pastry:             place.pastry            == '-' ? undefined : Boolean(place.pastry),
+
+                                diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
+                                diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
+                                diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
+                                diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+                                diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+                            } 
+                        }
+                    },
+                })
+            break;
+
+            case availablePlaceTypes[2]:
+                await prisma.osm_Place.create({
+                    data: {
+                        node:               place.id                == '-' ? null : place.id,
+                        name:               place.name              == '-' ? null : place.name,
+                        lat:                place.lat               == '-' ? null : place.lat,
+                        long:               place.long              == '-' ? null : place.long,        
+                        city:               place.city              == '-' ? null : place.city,   
+                        housenumber:        place.housenumber       == '-' ? null : Number(place.housenumber),
+                        postcode:           place.postcode          == '-' ? null : Number(place.postcode),
+                        street:             place.street            == '-' ? null : place.street,
+                        
+                        fast_food: {
+                            create: {
+                                operator:           place.operator          == '-' ? null : place.operator,
+                                website:            place.website           == '-' ? null : place.website,
+                                phone:              place.phone             == '-' ? null : place.phone,
+                                brand:              place.brand             == '-' ? null : place.brand,
+                                
+                                cuisine:            place.cuisine           == '-' ? null : place.cuisine,
+                                organic:            place.organic           == '-' ? null : place.organic,
+                                takeaway:           place.takeaway          == '-' ? null : place.takeaway,
+                                delivery:           place.delivery          == '-' ? null : place.delivery,
+                                
+                                drive_through:      place.drive_through     == '-' ? undefined : Boolean(place.drive_through),
+                                drive_in:           place.drive_in          == '-' ? undefined : Boolean(place.drive_in),
+                                opening_hours:      place.opening_hours     == '-' ? null : place.opening_hours,
+
+                                wheelchair:         place.wheelchair        == '-' ? null : place.wheelchair,
+                                outdoor_seating:    place.outdoor_seating   == '-' ? undefined : Boolean(place.outdoor_seating),
+                                capacity:           place.wheelchair        == '-' ? null : place.capacity,
+                                dog:                place.dog               == '-' ? null : place.dog,
+            
+                                ice_cream:          place.ice_cream         == '-' ? null : place.ice_cream,
+                                bakery:             place.bakery            == '-' ? undefined : Boolean(place.bakery),
+                                pastry:             place.pastry            == '-' ? undefined : Boolean(place.pastry),
+
+                                diet_kosher:        place.diet_kosher       == '-' ? undefined : Boolean(place.diet_kosher),
+                                diet_diabetes:      place.diet_diabetes     == '-' ? undefined : Boolean(place.diet_diabetes),
+                                diet_halal:         place.diet_halal        == '-' ? undefined : Boolean(place.diet_halal),
+                                diet_vegan:         place.diet_vegan        == '-' ? undefined : Boolean(place.diet_vegan),
+                                diet_vegetarian:    place.diet_vegetarian   == '-' ? undefined : Boolean(place.diet_vegetarian)
+                            } 
+                        }
+                    },
+                })
+            break;
+        }
         res.redirect("/place-index")
     }
     else
