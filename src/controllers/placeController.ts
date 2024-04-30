@@ -5,7 +5,6 @@ const prisma = new PrismaClient()
 //import mapping
 import {mapping} from "../controllers/placeMapping"
 
-
 // MARK: column definitions
 const placeCols = [
     'id', 'name',
@@ -43,7 +42,6 @@ const availablePlaceTypes= [
 ]
 
 // MARK: helpers
-
 function getPlaceColsByAmenity(_amenity: string) {
     switch(_amenity)
     {
@@ -271,13 +269,13 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             var placeArray: any;
             switch(_req.query.amenity)
             {
-                case 'restaurant':
+                case availablePlaceTypes[0]:
                     placeArray = mapping.mapRestaurant(placeResponse);
                 break;
-                case 'cafe':
+                case availablePlaceTypes[1]:
                     placeArray = mapping.mapCafe(placeResponse);
                 break;
-                case 'fast_food':
+                case availablePlaceTypes[2]:
                     placeArray = mapping.mapFastFood(placeResponse);
                 break;
             }

@@ -36,3 +36,13 @@ npx prisma migrate dev --name init
     terminal: cd src
     terminal: npx ts-node index.ts
 ``` 
+
+## add new amenitys
+adding new amenitys requires altering the following data:
+- adding db entry in                    prisma->schema.prisma 
+- adding amenity mapping in             src->controllers->placeMapping.ts
+- adding amenity to the following in    src->controllers->placeControllers.ts
+    - cols,
+    - availablePlaceTypes 
+    - where availablePlaceTypes are used as switch case
+    - create            
