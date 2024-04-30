@@ -214,21 +214,75 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
     }
 }
 
+// MARK: view
 const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     var _id:number = Number(_req.params.id); 
     var _place = await prisma.osm_Place.findUnique({
-        where: {id: _id}
+        where: {id: _id},
+        include: {
+            restaurant: true,
+        },
     })
+
+    console.log(_place);
 
     res.render("place/view", 
     {
         title: "place: " + _place?.name,
-        place: _place
+        place: _place,
+        placeOSM: undefined
     });
 }
 
+async function placeUpdate(_req: any, res: { render: (arg0: string, arg1: {}) => void; })
+{
+    var _id:number = Number(_req.params.id); 
+    
+    console.log(_id);
+
+    var _place = await prisma.osm_Place.findFirst({
+        where: {id: _id},
+    })
+
+    var osmQuery = `
+        [out:json][timeout:25];
+        node(id:placeID); out;
+    `;
+
+    if(_place != null)
+    {
+        try
+        {
+            let node:string = _place.node.toString();
+            console.log(_place.node.toString())
+            
+            var editedOSMQuery = osmQuery.replace('placeID', node);
+            const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(editedOSMQuery)}`)
+
+            var placeResponse = await response.json();
+            console.log(placeResponse);
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
+    }
+    else
+    {
+        console.log("error, place not found")
+    }
+            
+    res.render("place/view", {
+        title: "place: " + _place?.name,
+        place: _place,
+        placeOSM: placeResponse
+    } );
+}
+
+// MARK: delete
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
     var _id:number = Number(_req.params.id); 
+    
     
     await prisma.osm_Restaurant.delete({
         where: {fk_placeId: _id}
@@ -253,13 +307,13 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
     if(_req.query.box != undefined && _req.query.box != '')
     {
         var osmQuery = `
-        [out:json][timeout:25];
-        nwr["amenity"="place"]({{bbox}});
-        out;
+            [out:json][timeout:25];
+            nwr["amenity"="placetype"]({{bbox}});
+            out;
         `;
         
         var boxedOSMQuery = osmQuery.replace('{{bbox}}', _req.query.box);
-        var placedOSMQuery = boxedOSMQuery.replace('place', _req.query.amenity);
+        var placedOSMQuery = boxedOSMQuery.replace('placetype', _req.query.amenity);
 
         try{
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`)
@@ -490,5 +544,6 @@ module.exports =  {
     placeDelete,
     placeEdit,
     placeFind,
-    placeAdd
+    placeAdd,
+    placeUpdate
 };

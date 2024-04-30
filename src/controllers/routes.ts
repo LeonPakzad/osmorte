@@ -7,7 +7,8 @@ const {
     placeEdit,
     placeFind,
     placeDelete,
-    placeAdd 
+    placeAdd,
+    placeUpdate
 } = require('../controllers/placeController');
 
 router.get('/place-index', placeIndexView);
@@ -16,6 +17,7 @@ router.get('/place-find', placeFind);
 router.get('/place-find/:box', placeFind);
 router.get('/place-edit', placeEdit);
 router.get('/place/:id', placeView);
+router.get('/place-update/:id', placeUpdate);
 router.get('/place-delete/:id', placeDelete);
 router.get('/place-add/:params', placeAdd);
 
