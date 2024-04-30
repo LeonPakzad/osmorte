@@ -1,128 +1,132 @@
 
 <% if (Object.values(placecols).indexOf('id') != -1 ) { %>
-    <div class="col-size-1 row-0"   data-tooltip=   "<%= place.id %>"                   ><%= place.id %></div>
+    <div class="col-size-1 col-id"   data-tooltip=   "<%= place.id %>"><%= place.id %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('name') != -1 ) { %>
-    <div class="col-size-1 row-1"   data-tooltip=   "<%= place.name %>"                 ><%= place.name %></div>
+    <div class="col-size-1 col-name"   data-tooltip=   "<%= place.name %>"><%= place.name %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('lat') != -1 ) { %>
-    <div class="col-size-1 row-6"   data-tooltip=   "<%= place.lat %>"                  ><%= place.lat %></div>
+    <div class="col-size-1 col-lat"   data-tooltip=   "<%= place.lat %>"><%= place.lat %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('long') != -1 ) { %>
-    <div class="col-size-1 row-7"   data-tooltip=   "<%= place.long %>"                 ><%= place.long %></div>
+    <div class="col-size-1 col-long"   data-tooltip=   "<%= place.long %>"><%= place.long %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('city') != -1 ) { %>
-    <div class="col-size-1 row-8"   data-tooltip=   "<%= place.city %>"                 ><%= place.city %></div>
+    <div class="col-size-1 col-city"   data-tooltip=   "<%= place.city %>"><%= place.city %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('postcode') != -1 ) { %>
-    <div class="col-size-1 row-9"   data-tooltip=   "<%= place.postcode %>"             ><%= place.postcode %></div>
+    <div class="col-size-1 col-postcode"   data-tooltip=   "<%= place.postcode %>"><%= place.postcode %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('street') != -1 ) { %>
-    <div class="col-size-1 row-10"  data-tooltip=   "<%= place.street %>"               ><%= place.street %></div>
+    <div class="col-size-1 col-street"  data-tooltip=   "<%= place.street %>"><%= place.street %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('housenumber') != -1 ) { %>
-    <div class="col-size-1 row-11"  data-tooltip=   "<%= place.housenumber %>"          ><%= place.housenumber %></div>
+    <div class="col-size-1 col-housenumber"  data-tooltip=   "<%= place.housenumber %>"><%= place.housenumber %></div>
+<% } %>
+
+<% if (Object.values(placecols).indexOf('email') != -1 ) { %>
+    <div class="col-size-1 col-email"  data-tooltip=   "<%= place.email %>"><%= place.email %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('operator') != -1 ) { %>
-    <div class="col-size-1 row-3"   data-tooltip=   "<%= place.operator %>"             ><%= place.operator %></div>
+    <div class="col-size-1 col-operator"   data-tooltip=   "<%= place.operator %>"><%= place.operator %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('website') != -1 ) { %>
-    <div class="col-size-1 row-4"   data-tooltip=   "<%= place.website %>"              ><%= place.website %></div>
+    <div class="col-size-1 col-website"   data-tooltip=   "<%= place.website %>"><%= place.website %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('phone') != -1 ) { %>
-    <div class="col-size-1 row-2"   data-tooltip=   "<%= place.phone %>"                ><%= place.phone %></div>
+    <div class="col-size-1 col-phone"   data-tooltip=   "<%= place.phone %>"><%= place.phone %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('opening_hours') != -1 ) { %>
-    <div class="col-size-1 row-5"   data-tooltip=   "<%= place.opening_hours %>"        ><%= place.opening_hours %></div>  
+    <div class="col-size-1 col-opening_hours"   data-tooltip=   "<%= place.opening_hours %>"><%= place.opening_hours %></div>  
 <% } %>
     
 <% if (Object.values(placecols).indexOf('brand') != -1 ) { %>
-    <div class="col-size-1 row-5"   data-tooltip=   "<%= place.brand %>"                ><%= place.brand %></div>  
+    <div class="col-size-1 col-brand"   data-tooltip=   "<%= place.brand %>"><%= place.brand %></div>  
 <% } %>
 
 <% if (Object.values(placecols).indexOf('smoking') != -1 ) { %>
-    <div class="col-size-1 row-5"   data-tooltip=   "<%= place.smoking %>"              ><%= place.smoking %></div>  
+    <div class="col-size-1 col-smoking"   data-tooltip=   "<%= place.smoking %>"><%= place.smoking %></div>  
 <% } %>
 
 <% if (Object.values(placecols).indexOf('self_service') != -1 ) { %>
-    <div class="col-size-1 row-5"   data-tooltip=   "<%= place.self_service %>"         ><%= place.self_service %></div>  
+    <div class="col-size-1 col-self_service"   data-tooltip=   "<%= place.self_service %>"><%= place.self_service %></div>  
 <% } %>
 
 <% if (Object.values(placecols).indexOf('wheelchair') != -1 ) { %>
-    <div class="col-size-1 row-12"  data-tooltip=   "<%= place.wheelchair %>"           ><%= place.wheelchair %></div>
+    <div class="col-size-1 col-wheelchair"  data-tooltip=   "<%= place.wheelchair %>"><%= place.wheelchair %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('outdoor_seating') != -1 ) { %>
-    <div class="col-size-1 row-13"  data-tooltip=   "<%= place.outdoor_seating %>"      ><%= place.outdoor_seating %></div>
+    <div class="col-size-1 col-outdoor_seating"  data-tooltip=   "<%= place.outdoor_seating %>"><%= place.outdoor_seating %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('outdoor_seating') != -1 ) { %>
-    <div class="col-size-1 row-14"  data-tooltip=   "<%= place.outdoor_seating %>"      ><%= place.outdoor_seating %></div>    
+    <div class="col-size-1 col-outdoor_seating"  data-tooltip=   "<%= place.outdoor_seating %>" ><%= place.outdoor_seating %></div>    
 <% } %>
 
 <% if (Object.values(placecols).indexOf('indoor_seating') != -1 ) { %>
-    <div class="col-size-1 row-14"  data-tooltip=   "<%= place.indoor_seating %>"       ><%= place.indoor_seating %></div>    
+    <div class="col-size-1 col-indoor_seating"  data-tooltip=   "<%= place.indoor_seating %>" ><%= place.indoor_seating %></div>    
 <% } %>
 
 <% if (Object.values(placecols).indexOf('dog') != -1 ) { %>
-    <div class="col-size-1 row-14"  data-tooltip=   "<%= place.dog %>"                  ><%= place.dog %></div>   
+    <div class="col-size-1 col-dog"  data-tooltip=   "<%= place.dog %>" ><%= place.dog %></div>   
 <% } %>
 
 <% if (Object.values(placecols).indexOf('cuisine') != -1 ) { %>
-    <div class="col-size-1 row-15"  data-tooltip=   "<%= place.cuisine %>"              ><%= place.cuisine %></div>
+    <div class="col-size-1 col-cuisine"  data-tooltip=   "<%= place.cuisine %>" ><%= place.cuisine %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('lunch') != -1 ) { %>
-    <div class="col-size-1 row-16"  data-tooltip=   "<%= place.lunch %>"                ><%= place.lunch %></div>
+    <div class="col-size-1 col-lunch"  data-tooltip=   "<%= place.lunch %>" ><%= place.lunch %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('organic') != -1 ) { %>
-    <div class="col-size-1 row-17"  data-tooltip=   "<%= place.organic %>"              ><%= place.organic %></div>
+    <div class="col-size-1 col-organic"  data-tooltip=   "<%= place.organic %>" ><%= place.organic %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('takeaway') != -1 ) { %>
-    <div class="col-size-1 row-18"  data-tooltip=   "<%= place.takeaway %>"             ><%= place.takeaway %></div>   
+    <div class="col-size-1 col-takeaway"  data-tooltip=   "<%= place.takeaway %>" ><%= place.takeaway %></div>   
 <% } %>
 
 <% if (Object.values(placecols).indexOf('ice_cream') != -1 ) { %>
-    <div class="col-size-1 row-18"  data-tooltip=   "<%= place.ice_cream %>"            ><%= place.ice_cream %></div>   
+    <div class="col-size-1 col-ice_cream"  data-tooltip=   "<%= place.ice_cream %>" ><%= place.ice_cream %></div>   
 <% } %>
 
 <% if (Object.values(placecols).indexOf('bakery') != -1 ) { %>
-    <div class="col-size-1 row-18"  data-tooltip=   "<%= place.bakery %>"               ><%= place.bakery %></div>   
+    <div class="col-size-1 col-bakery"  data-tooltip=   "<%= place.bakery %>" ><%= place.bakery %></div>   
 <% } %>
 
 <% if (Object.values(placecols).indexOf('pastry') != -1 ) { %>
-    <div class="col-size-1 row-18"  data-tooltip=   "<%= place.pastry %>"               ><%= place.pastry %></div>   
+    <div class="col-size-1 col-pastry"  data-tooltip=   "<%= place.pastry %>" ><%= place.pastry %></div>   
 <% } %>
 
 <% if (Object.values(placecols).indexOf('diet_kosher') != -1 ) { %>
-    <div class="col-size-1 row-19"  data-tooltip=   "<%= place.diet_kosher %>"          ><%= place.diet_kosher %></div>
+    <div class="col-size-1 col-diet_kosher"  data-tooltip=   "<%= place.diet_kosher %>" ><%= place.diet_kosher %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('diet_diabetes') != -1 ) { %>
-    <div class="col-size-1 row-20"  data-tooltip=   "<%= place.diet_diabetes %>"        ><%= place.diet_diabetes %></div>
+    <div class="col-size-1 col-diet_diabetes"  data-tooltip=   "<%= place.diet_diabetes %>" ><%= place.diet_diabetes %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('diet_halal') != -1 ) { %>
-    <div class="col-size-1 row-21"  data-tooltip=   "<%= place.diet_halal %>"           ><%= place.diet_halal %></div>
+    <div class="col-size-1 col-diet_halal"  data-tooltip=   "<%= place.diet_halal %>" ><%= place.diet_halal %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('diet_vegan') != -1 ) { %>
-    <div class="col-size-1 row-22"  data-tooltip=   "<%= place.diet_vegan %>"           ><%= place.diet_vegan %></div>
+    <div class="col-size-1 col-diet_vegan"  data-tooltip=   "<%= place.diet_vegan %>" ><%= place.diet_vegan %></div>
 <% } %>
 
 <% if (Object.values(placecols).indexOf('diet_vegetarian') != -1 ) { %>
-    <div class="col-size-1 row-23"  data-tooltip=   "<%= place.diet_vegetarian%>"       ><%= place.diet_vegetarian %></div>
+    <div class="col-size-1 col-diet_vegetarian"  data-tooltip=   "<%= place.diet_vegetarian%>" ><%= place.diet_vegetarian %></div>
 <% } %>

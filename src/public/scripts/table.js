@@ -1,19 +1,22 @@
-function toggleRowDisplay(_row) {
+function toggleColDisplay(_col) {
 
-    var row = document.getElementById("row-"+ _row);
-    var bodyrows = Array.from(document.getElementsByClassName("row-"+_row));
-    var button = document.getElementById("display-row-" + _row);
+    var headercol = document.getElementById("header-col-"+ _col);
 
-    if (row.style.display === "none") 
+    var child = headercol.childNodes[1];
+    var colname = child.innerHTML;
+    var bodycols = Array.from(document.getElementsByClassName("col-" + colname));
+    var button = document.getElementById("display-row-" + _col);
+
+    if (headercol.style.display === "none") 
     {
-        row.style.display = "block";
-        bodyrows.forEach((element) => element.style.display="block");
+        headercol.style.display = "block";
+        bodycols.forEach((element) => element.style.display="block");
         button.classList.remove("button-activated");
     } 
     else 
     {
-        row.style.display = "none";
-        bodyrows.forEach((element) => element.style.display="none");
+        headercol.style.display = "none";
+        bodycols.forEach((element) => element.style.display="none");
         button.classList.add("button-activated");
     }
 }
