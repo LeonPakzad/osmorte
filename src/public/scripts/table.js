@@ -20,3 +20,20 @@ function toggleColDisplay(_col) {
         button.classList.add("button-activated");
     }
 }
+
+function toggleColDisplayMenu()
+{
+    var button = document.getElementById("toggle-row-menu-button");
+    var container = document.getElementById("toggle-row-button-container");
+
+    if (container.style.display === "none") 
+    {
+        container.style.display = "flex";
+        button.classList.add("button-activated");
+    } 
+    else 
+    {
+        container.style.display = "none";
+        button.classList.remove("button-activated");
+    }
+}

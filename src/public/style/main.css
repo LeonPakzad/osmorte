@@ -1,3 +1,7 @@
+html {
+    scrollbar-color: #9fd385 #EAF5EA;
+}
+
 body {
     height: 100%;
     background-image: url("../../public/style/assets/background.jpg")
@@ -28,6 +32,22 @@ h1 {
 
 .button:hover {
     cursor:pointer;
+}
+
+.toggle-row-button-container {
+    position: absolute;
+    right: 70px;
+    background: white;
+    max-width: 200px;
+    max-height:200px;
+    overflow-y: scroll;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.button.toggle-row-menu-button.button-activated {
+    color: white !important;
+    background: #7092FF !important;
 }
 
 .toggle-row-button {

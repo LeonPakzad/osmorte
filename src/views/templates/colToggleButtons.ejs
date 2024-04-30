@@ -2,15 +2,23 @@
     <% if(placecols == undefined){%>
 
     <% } else {  %>
-        show / hide columns:
         
-        <% for (let i = 0 ; i < placecols.length; i++) { %>
-            <button id="display-row-<%=i%>" class="toggle-row-button" 
-                <% %>
-                onclick="toggleColDisplay(<%=i%>)">
-                <%= placecols[i] %>
+        <div class="row-end">
+            <button id="toggle-row-menu-button" onclick="toggleColDisplayMenu()" class="button toggle-row-menu-button">
+                show / hide columns
             </button>
-        <% } %>
+            
+        </div>
+        <div id="toggle-row-button-container" class="toggle-row-button-container" style="display:none;">
+            <% for (let i = 0 ; i < placecols.length; i++) { %>
+                <button id="display-row-<%=i%>" class="toggle-row-button" 
+                    <% %>
+                    onclick="toggleColDisplay(<%=i%>)">
+                    <%= placecols[i] %>
+                </button>
+            <% } %>
+        </div>
+
     <%}%>
 </div>
 
