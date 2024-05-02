@@ -4,9 +4,13 @@
 
     <div class="row-end">
         <% if(placeOSM == undefined) { %>
-        <a class="link-button button" href="/place-update-preview/<%=place.id%>">
-            <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
-        </a>
+            <a class="link-button button" href="/place-update-preview/<%=place.id%>">
+                <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
+            </a>
+        <% }else{ %>
+            <a class="link-button button" href="/place-update/<%=place.id%>">
+                <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
+            </a>
         <% } %>
         <a class="button" href='/place-index'>back</a>
     </div>
@@ -22,13 +26,12 @@
                 <div class="place-row" data-tooltip="<%=placeAttributes[i]%>">
                     <b><%=placeAttributes[i]%></b>
                 </div>
-
             <% } %>
         </div>
 
         <div class="place-card-col">
             <h3>
-                current place
+                db place
             </h3>
             <hr>
 
@@ -38,7 +41,7 @@
         <% if(placeOSM != undefined) { %>
             <div class="place-card-col">
                 <h3>
-                    new place
+                    osm place
                 </h3>
                 <hr>
 

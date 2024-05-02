@@ -36,6 +36,7 @@ router.get('/place-edit', checkAdmin, placeEdit);
 router.get('/place/:id', checkAdmin, placeView);
 
 router.get('/place-update-preview/:id', checkAdmin, placeUpdatePreview);
+router.get('/place-update/:id', checkAdmin, placeUpdatePreview);
 router.get('/place-delete/:id', checkAdmin, placeDelete);
 router.get('/place-add/:params', checkAdmin, placeAdd);
 

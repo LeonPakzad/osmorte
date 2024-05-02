@@ -2,10 +2,14 @@ import { PrismaClient } from '@prisma/client'
 import fetch from 'node-fetch';
 const prisma = new PrismaClient()
 
-//import mapping
 import {mapping} from "../controllers/placeMapping"
 
-// MARK: column definitions
+// import places
+import { restaurant } from '../controllers/places/restaurantController';
+import { cafe } from '../controllers/places/cafeController';
+import { fastfood } from '../controllers/places/fastfoodController';
+
+// MARK: place attribute definitions
 const placeAttributes = [
     'id', 'name', 'node', 'updated',
     'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
@@ -298,11 +302,37 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
     } );
 }
 
+// MARK: update
 const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void }) => {
 
+    try {
+        switch(_req.amenity)
+        {
+            case availablePlaceTypes[0]:
 
+            break;
+            case availablePlaceTypes[0]:
+
+            break;
+            case availablePlaceTypes[0]:
+
+            break;
+
+        }
+        const updatePlace = await prisma.osm_Place.update({
+            where: {
+                id: _req.id,
+            },
+            data: {
+                name: 'Viola the Magnificent',
+            },
+        })
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
     res.redirect("/place-index");
-
 }
 
 // MARK: delete

@@ -9,6 +9,7 @@
                     <option <% if (input.amenity == availablePlaceTypes[i]) { %> selected <% } %> value="<%= availablePlaceTypes[i]%>"><%= availablePlaceTypes[i]%></option>
                 <% } %>
             </select>
+
             <button class="button">select place type</button>
         </form>
     </div>
@@ -26,6 +27,8 @@
                     <option <% if (input.orderdirection == 'asc')   { %> selected <% } %> value="asc">ascending</option>
                     <option <% if (input.orderdirection == 'desc')  { %> selected <% } %> value="desc">descending</option>
                 </select>
+
+                <input type="hidden" name="amenity" value="<%=input.amenity%>">
 
                 <button class="button">order by</button>
             </form>

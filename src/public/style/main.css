@@ -135,8 +135,8 @@ summary:hover {
 }
 
 .data-changed {
-    color: white;
-    background: #FF6961 !important;
+    color: black;
+    background: #9fd385 !important;
 }
 
 .head-row {

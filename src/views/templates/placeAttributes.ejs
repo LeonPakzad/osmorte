@@ -5,205 +5,205 @@
 -->
 
 <% if (Object.values(placeAttributes).indexOf('id') != -1 ) { %>
-    <div class="<%= attributeClass %> row-id <% if(isCompareClass==true){ if(place.id != otherPlace.id){ %>data-changed<% } }%>"        data-tooltip= "<%= place.id %>">
+    <div class="<%= attributeClass %> table-cell-id <% if(isCompareClass==true){ if(place.id != otherPlace.id){ %>data-changed<% } }%>"        data-tooltip= "<%= place.id %>">
         <%= place.id == undefined || null? '-' : place.id %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('name') != -1 ) { %>
-    <div class="<%= attributeClass %> row-name <% if(isCompareClass==true){ if(place.name != otherPlace.name){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.name %>">
+    <div class="<%= attributeClass %> table-cell-name <% if(isCompareClass==true){ if(place.name != otherPlace.name){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.name %>">
         <%= place.name == undefined || null? '-' : place.name %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('node') != -1 ) { %>
-    <div class="<%= attributeClass %> row-node <% if(isCompareClass==true){ if(place.node != otherPlace.node){ %>data-changed<% } }%>"             data-tooltip=   "<%= place.node %>">
+    <div class="<%= attributeClass %> table-cell-node <% if(isCompareClass==true){ if(place.node != otherPlace.node){ %>data-changed<% } }%>"             data-tooltip=   "<%= place.node %>">
         <%= place.node == undefined || null? '-' : place.node %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('updated') != -1 ) { %>
-    <div class="<%= attributeClass %> row-updated <% if(isCompareClass==true){ if(place.updated != otherPlace.updated){ %>data-changed<% } }%>" data-tooltip=   "<%= place.updated %>">
+    <div class="<%= attributeClass %> table-cell-updated <% if(isCompareClass==true){ if(place.updated != otherPlace.updated){ %>data-changed<% } }%>" data-tooltip=   "<%= place.updated %>">
         <%= place.updated == undefined || null? '-' : place.updated %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('lat') != -1 ) { %>
-    <div class="<%= attributeClass %> row-lat <% if(isCompareClass==true){ if(place.lat != otherPlace.lat){ %>data-changed<% } }%>"              data-tooltip=   "<%= place.lat %>">
+    <div class="<%= attributeClass %> table-cell-lat <% if(isCompareClass==true){ if(place.lat != otherPlace.lat){ %>data-changed<% } }%>"              data-tooltip=   "<%= place.lat %>">
         <%= place.lat == undefined || null? '-' : place.lat %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('long') != -1 ) { %>
-    <div class="<%= attributeClass %> row-long <% if(isCompareClass==true){ if(place.long != otherPlace.long){ %>data-changed<% } }%>"             data-tooltip=   "<%= place.long %>">
+    <div class="<%= attributeClass %> table-cell-long <% if(isCompareClass==true){ if(place.long != otherPlace.long){ %>data-changed<% } }%>"             data-tooltip=   "<%= place.long %>">
         <%= place.long == undefined || null? '-' : place.long %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('city') != -1 ) { %>
-    <div class="<%= attributeClass %> row-city <% if(isCompareClass) { if (place.city != placeOSM.city){ %> data-changed <% } }%>" data-tooltip=   "<%= place.city %>">
+    <div class="<%= attributeClass %> table-cell-city <% if(isCompareClass) { if (place.city != placeOSM.city){ %> data-changed <% } }%>" data-tooltip=   "<%= place.city %>">
         <%= place.city == undefined || null? '-' : place.city %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('postcode') != -1 ) { %>
-    <div class="<%= attributeClass %> row-postcode <% if(isCompareClass==true){ if(place.postcode != otherPlace.postcode){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.postcode %>">
+    <div class="<%= attributeClass %> table-cell-postcode <% if(isCompareClass==true){ if(place.postcode != otherPlace.postcode){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.postcode %>">
         <%= place.postcode== undefined || null? '-' : place.postcode %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('street') != -1 ) { %>
-    <div class="<%= attributeClass %> row-street <% if(isCompareClass==true){ if(place.street != otherPlace.street){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.street %>">
+    <div class="<%= attributeClass %> table-cell-street <% if(isCompareClass==true){ if(place.street != otherPlace.street){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.street %>">
         <%= place.street == undefined || null? '-' : place.street %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('housenumber') != -1 ) { %>
-    <div class="<%= attributeClass %> row-housenumber <% if(isCompareClass==true){ if(place.housenumber != otherPlace.housenumber){ %>data-changed<% } }%>"      data-tooltip=   "<%= place.housenumber %>">
+    <div class="<%= attributeClass %> table-cell-housenumber <% if(isCompareClass==true){ if(place.housenumber != otherPlace.housenumber){ %>data-changed<% } }%>"      data-tooltip=   "<%= place.housenumber %>">
         <%= place.housenumber == undefined || null? '-' : place.housenumber %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('email') != -1 ) { %>
-    <div class="<%= attributeClass %> row-email <% if(isCompareClass==true){ if(place.email != otherPlace.email){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.email %>">
+    <div class="<%= attributeClass %> table-cell-email <% if(isCompareClass==true){ if(place.email != otherPlace.email){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.email %>">
         <%= place.email == undefined || null? '-' : place.email %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('operator') != -1 ) { %>
-    <div class="<%= attributeClass %> row-operator <% if(isCompareClass==true){ if(place.operator != otherPlace.operator){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.operator %>">
+    <div class="<%= attributeClass %> table-cell-operator <% if(isCompareClass==true){ if(place.operator != otherPlace.operator){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.operator %>">
         <%= place.operator == undefined || null? '-' : place.operator %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('website') != -1 ) { %>
-    <div class="<%= attributeClass %> row-website <% if(isCompareClass==true){ if(place.website != otherPlace.website){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.website %>">
+    <div class="<%= attributeClass %> table-cell-website <% if(isCompareClass==true){ if(place.website != otherPlace.website){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.website %>">
         <%= place.website == undefined || null? '-' : place.website %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('phone') != -1 ) { %>
-    <div class="<%= attributeClass %> row-phone <% if(isCompareClass==true){ if(place.phone != otherPlace.phone){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.phone %>">
+    <div class="<%= attributeClass %> table-cell-phone <% if(isCompareClass==true){ if(place.phone != otherPlace.phone){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.phone %>">
         <%= place.phone == undefined || null? '-' : place.phone %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('opening_hours') != -1 ) { %>
-    <div class="<%= attributeClass %> row-opening_hours <% if(isCompareClass==true){ if(place.opening_hours != otherPlace.opening_hours){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.opening_hours %>">
+    <div class="<%= attributeClass %> table-cell-opening_hours <% if(isCompareClass==true){ if(place.opening_hours != otherPlace.opening_hours){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.opening_hours %>">
         <%= place.opening_hours == undefined || null? '-' : place.opening_hours %>
     </div>  
 <% } %>
     
 <% if (Object.values(placeAttributes).indexOf('brand') != -1 ) { %>
-    <div class="<%= attributeClass %> row-brand <% if(isCompareClass==true){ if(place.brand != otherPlace.brand){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.brand %>">
+    <div class="<%= attributeClass %> table-cell-brand <% if(isCompareClass==true){ if(place.brand != otherPlace.brand){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.brand %>">
         <%= place.brand == undefined || null? '-' : place.brand %>
     </div>  
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('smoking') != -1 ) { %>
-    <div class="<%= attributeClass %> row-smoking <% if(isCompareClass==true){ if(place.smoking != otherPlace.smoking){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.smoking %>">
+    <div class="<%= attributeClass %> table-cell-smoking <% if(isCompareClass==true){ if(place.smoking != otherPlace.smoking){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.smoking %>">
         <%= place.smoking == undefined || null? '-' : place.smoking %>
     </div>  
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('self_service') != -1 ) { %>
-    <div class="<%= attributeClass %> row-self_service <% if(isCompareClass==true){ if(place.self_service != otherPlace.self_service){ %>data-changed<% } }%>"     data-tooltip=   "<%= place.self_service %>">
+    <div class="<%= attributeClass %> table-cell-self_service <% if(isCompareClass==true){ if(place.self_service != otherPlace.self_service){ %>data-changed<% } }%>"     data-tooltip=   "<%= place.self_service %>">
         <%= place.self_service == undefined || null? '-' : place.self_service %>
     </div>  
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('wheelchair') != -1 ) { %>
-    <div class="<%= attributeClass %> row-wheelchair <% if(isCompareClass==true){ if(place.wheelchair != otherPlace.wheelchair){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.wheelchair %>">
+    <div class="<%= attributeClass %> table-cell-wheelchair <% if(isCompareClass==true){ if(place.wheelchair != otherPlace.wheelchair){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.wheelchair %>">
         <%= place.wheelchair == undefined || null? '-' : place.wheelchair %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('outdoor_seating') != -1 ) { %>
-    <div class="<%= attributeClass %> row-outdoor_seating <% if(isCompareClass==true){ if(place.outdoor_seating != otherPlace.outdoor_seating){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.outdoor_seating %>">
+    <div class="<%= attributeClass %> table-cell-outdoor_seating <% if(isCompareClass==true){ if(place.outdoor_seating != otherPlace.outdoor_seating){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.outdoor_seating %>">
         <%= place.outdoor_seating == undefined || null? '-' : place.outdoor_seating %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('indoor_seating') != -1 ) { %>
-    <div class="<%= attributeClass %> row-indoor_seating <% if(isCompareClass==true){ if(place.indoor_seating != otherPlace.indoor_seating){ %>data-changed<% } }%>"   data-tooltip=   "<%= place.indoor_seating %>" >
+    <div class="<%= attributeClass %> table-cell-indoor_seating <% if(isCompareClass==true){ if(place.indoor_seating != otherPlace.indoor_seating){ %>data-changed<% } }%>"   data-tooltip=   "<%= place.indoor_seating %>" >
         <%= place.indoor_seating == undefined || null? '-' : place.indoor_seating %>
     </div>    
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('dog') != -1 ) { %>
-    <div class="<%= attributeClass %> row-dog <% if(isCompareClass==true){ if(place.dog != otherPlace.dog){ %>data-changed<% } }%>"              data-tooltip=   "<%= place.dog %>" >
+    <div class="<%= attributeClass %> table-cell-dog <% if(isCompareClass==true){ if(place.dog != otherPlace.dog){ %>data-changed<% } }%>"              data-tooltip=   "<%= place.dog %>" >
         <%= place.dog == undefined || null? '-' : place.dog %>
     </div>   
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('cuisine') != -1 ) { %>
-    <div class="<%= attributeClass %> row-cuisine <% if(isCompareClass==true){ if(place.cuisine != otherPlace.cuisine){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.cuisine %>" >
+    <div class="<%= attributeClass %> table-cell-cuisine <% if(isCompareClass==true){ if(place.cuisine != otherPlace.cuisine){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.cuisine %>" >
         <%= place.cuisine == undefined || null? '-' : place.cuisine %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('lunch') != -1 ) { %>
-    <div class="<%= attributeClass %> row-lunch <% if(isCompareClass==true){ if(place.lunch != otherPlace.lunch){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.lunch %>" >
+    <div class="<%= attributeClass %> table-cell-lunch <% if(isCompareClass==true){ if(place.lunch != otherPlace.lunch){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.lunch %>" >
         <%= place.lunch == undefined || null? '-' : place.lunch %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('organic') != -1 ) { %>
-    <div class="<%= attributeClass %> row-organic <% if(isCompareClass==true){ if(place.organic != otherPlace.organic){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.organic %>" >
+    <div class="<%= attributeClass %> table-cell-organic <% if(isCompareClass==true){ if(place.organic != otherPlace.organic){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.organic %>" >
         <%= place.organic == undefined || null? '-' : place.organic %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('takeaway') != -1 ) { %>
-    <div class="<%= attributeClass %> row-takeaway <% if(isCompareClass==true){ if(place.takeaway != otherPlace.takeaway){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.takeaway %>" >
+    <div class="<%= attributeClass %> table-cell-takeaway <% if(isCompareClass==true){ if(place.takeaway != otherPlace.takeaway){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.takeaway %>" >
         <%= place.takeaway == undefined || null? '-' : place.takeaway %>
     </div>   
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('ice_cream') != -1 ) { %>
-    <div class="<%= attributeClass %> row-ice_cream <% if(isCompareClass==true){ if(place.ice_cream != otherPlace.ice_cream){ %>data-changed<% } }%>"        data-tooltip=   "<%= place.ice_cream %>" >
+    <div class="<%= attributeClass %> table-cell-ice_cream <% if(isCompareClass==true){ if(place.ice_cream != otherPlace.ice_cream){ %>data-changed<% } }%>"        data-tooltip=   "<%= place.ice_cream %>" >
         <%= place.ice_cream == undefined || null? '-' : place.ice_cream %>
     </div>   
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('bakery') != -1 ) { %>
-    <div class="<%= attributeClass %> row-bakery <% if(isCompareClass==true){ if(place.bakery != otherPlace.bakery){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.bakery %>" >
+    <div class="<%= attributeClass %> table-cell-bakery <% if(isCompareClass==true){ if(place.bakery != otherPlace.bakery){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.bakery %>" >
         <%= place.bakery == undefined || null? '-' : place.bakery %>
     </div>   
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('pastry') != -1 ) { %>
-    <div class="<%= attributeClass %> row-pastry <% if(isCompareClass==true){ if(place.pastry != otherPlace.pastry){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.pastry %>" >
+    <div class="<%= attributeClass %> table-cell-pastry <% if(isCompareClass==true){ if(place.pastry != otherPlace.pastry){ %>data-changed<% } }%>"           data-tooltip=   "<%= place.pastry %>" >
         <%= place.pastry == undefined || null? '-' : place.pastry %>
     </div>   
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('diet_kosher') != -1 ) { %>
-    <div class="<%= attributeClass %> row-diet_kosher <% if(isCompareClass==true){ if(place.diet_kosher != otherPlace.diet_kosher){ %>data-changed<% } }%>"      data-tooltip=   "<%= place.diet_kosher %>" >
+    <div class="<%= attributeClass %> table-cell-diet_kosher <% if(isCompareClass==true){ if(place.diet_kosher != otherPlace.diet_kosher){ %>data-changed<% } }%>"      data-tooltip=   "<%= place.diet_kosher %>" >
         <%= place.diet_kosher == undefined || null? '-' : place.diet_kosher %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('diet_diabetes') != -1 ) { %>
-    <div class="<%= attributeClass %> row-diet_diabetes <% if(isCompareClass==true){ if(place.diet_diabetes != otherPlace.diet_diabetes){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.diet_diabetes %>" >
+    <div class="<%= attributeClass %> table-cell-diet_diabetes <% if(isCompareClass==true){ if(place.diet_diabetes != otherPlace.diet_diabetes){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.diet_diabetes %>" >
         <%= place.diet_diabetes == undefined || null? '-' : place.diet_diabetes %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('diet_halal') != -1 ) { %>
-    <div class="<%= attributeClass %> row-diet_halal <% if(isCompareClass==true){ if(place.diet_halal != otherPlace.diet_halal){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.diet_halal %>" >
+    <div class="<%= attributeClass %> table-cell-diet_halal <% if(isCompareClass==true){ if(place.diet_halal != otherPlace.diet_halal){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.diet_halal %>" >
         <%= place.diet_halal == undefined || null? '-' : place.diet_halal %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('diet_vegan') != -1 ) { %>
-    <div class="<%= attributeClass %> row-diet_vegan <% if(isCompareClass==true){ if(place.diet_vegan != otherPlace.diet_vegan){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.diet_vegan %>" >
+    <div class="<%= attributeClass %> table-cell-diet_vegan <% if(isCompareClass==true){ if(place.diet_vegan != otherPlace.diet_vegan){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.diet_vegan %>" >
         <%= place.diet_vegan == undefined || null? '-' : place.diet_vegan %>
     </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('diet_vegetarian') != -1 ) { %>
-    <div class="<%= attributeClass %> row-diet_vegetarian <% if(isCompareClass==true){ if(place.diet_vegetarian != otherPlace.diet_vegetarian){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.diet_vegetarian%>" >
+    <div class="<%= attributeClass %> table-cell-diet_vegetarian <% if(isCompareClass==true){ if(place.diet_vegetarian != otherPlace.diet_vegetarian){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.diet_vegetarian%>" >
         <%= place.diet_vegetarian == undefined || null? '-' : place.diet_vegetarian %>
     </div>
 <% } %>
