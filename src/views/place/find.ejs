@@ -54,10 +54,10 @@
     <% } else {  %>
         
         <div class="head-row">
-            <% for (let i = 0 ; i < placecols.length; i++ ) { %>
+            <% for (let i = 0 ; i < placeAttributes.length; i++ ) { %>
 
-                <div id="header-col-<%=i%>" class="col-size-1" data-tooltip="<%=placecols[i]%>">
-                    <b><%=placecols[i]%></b>
+                <div id="header-col-<%=i%>" class="place-col" data-tooltip="<%=placeAttributes[i]%>">
+                    <b><%=placeAttributes[i]%></b>
                 </div>
 
             <% } %>
@@ -68,7 +68,7 @@
         <% places.forEach(function(place) { %>
             <div class="body-row">
                 
-                <%-include('../templates/placecols', {place: place, placecols: placecols}); %>
+                <%-include('../templates/placeAttributes', {place: place, placeAttributes: placeAttributes, attributeClass: "place-col", isCompareClass: false}); %>
 
                 <% if (Object.values(downloadedPlaces).indexOf( place.id) != -1 ) { %>
                     <div class=" col-size-2 link-button">

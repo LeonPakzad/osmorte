@@ -3,53 +3,47 @@
 <div class="content">
 
     <div class="row-end">
-        <a class="link-button button" href="/place-update/<%=place.id%>">
+        <% if(placeOSM == undefined) { %>
+        <a class="link-button button" href="/place-update-preview/<%=place.id%>">
             <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
         </a>
-    </div>
-
-    <div class="place-card">
-        <p>node:                <%= place.node %></p>
-        <p>email:               <%= place.email %></p>
-        <p>website:             <%= place.website %></p>
-        <p>opening_hours:       <%= place.opening_hours %></p>
-        <p>lat:                 <%= place.lat %></p>
-        <p>long:                <%= place.long %></p>
-        <p>city:                <%= place.city %></p>
-        <p>housenumber:         <%= place.housenumber %></p>
-        <p>postcode:            <%= place.postcode %></p>
-        <p>street:              <%= place.street %></p>
-        <p>cuisine:             <%= place.cuisine %></p>
-        <p>diet_vegan:          <%= place.diet_vegan %></p>
-        <p>diet_vegetarian:     <%= place.diet_vegetarian %></p>
-        <p>created:             <%= place.created %></p>
-        <p>updated:             <%= place.updated %></p>
-    </div>
-    
-    <% if(placeOSM != undefined) { %>
-        <div class="place-card">
-            <p>node:                <%= placeOSM.node %></p>
-            <p>email:               <%= placeOSM.email %></p>
-            <p>website:             <%= placeOSM.website %></p>
-            <p>opening_hours:       <%= placeOSM.opening_hours %></p>
-            <p>lat:                 <%= placeOSM.lat %></p>
-            <p>long:                <%= placeOSM.long %></p>
-            <p>city:                <%= placeOSM.city %></p>
-            <p>housenumber:         <%= placeOSM.housenumber %></p>
-            <p>postcode:            <%= placeOSM.postcode %></p>
-            <p>street:              <%= placeOSM.street %></p>
-            <p>cuisine:             <%= placeOSM.cuisine %></p>
-            <p>diet_vegan:          <%= placeOSM.diet_vegan %></p>
-            <p>diet_vegetarian:     <%= placeOSM.diet_vegetarian %></p>
-            <p>created:             <%= place.created %></p>
-            <p>updated:             <%= place.updated %></p>
-        </div>
-    <% } %>
-
-    <div class="row-end">
-        <a class="link-button button" href="place-update/<%=place.id%>">
-            <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
-        </a>
+        <% } %>
         <a class="button" href='/place-index'>back</a>
+    </div>
+
+    <div class="row-center">
+
+        <div class="place-card-col">
+            <h3>
+                attributes
+            </h3>
+            <hr>
+            <% for (let i = 0 ; i < placeAttributes.length; i++ ) { %>
+                <div class="place-row" data-tooltip="<%=placeAttributes[i]%>">
+                    <b><%=placeAttributes[i]%></b>
+                </div>
+
+            <% } %>
+        </div>
+
+        <div class="place-card-col">
+            <h3>
+                current place
+            </h3>
+            <hr>
+
+            <%-include('../templates/placeAttributes', {place: place, placeAttributes: placeAttributes, attributeClass: 'place-row', isCompareClass: false}); %>
+        </div>
+        
+        <% if(placeOSM != undefined) { %>
+            <div class="place-card-col">
+                <h3>
+                    new place
+                </h3>
+                <hr>
+
+                <%-include('../templates/placeAttributes', {place: placeOSM, placeAttributes: placeAttributes, attributeClass: 'place-row', isCompareClass: true, otherPlace: place}); %>
+            </div>
+        <% } %>
     </div>
 </div> 

@@ -17,8 +17,8 @@
         <div class="row-end">
             <form action="/place-index">
                 <select class="input" name="orderby" selected="<%=input.orderby %>">
-                    <% for (let i = 0 ; i < placecols.length; i++ ) { %>
-                        <option <% if (input.orderby == placecols[i]) { %> selected <% } %> value="<%= placecols[i]%>"><%= placecols[i]%></option>
+                    <% for (let i = 0 ; i < placeAttributes.length; i++ ) { %>
+                        <option <% if (input.orderby == placeAttributes[i]) { %> selected <% } %> value="<%= placeAttributes[i]%>"><%= placeAttributes[i]%></option>
                     <% } %>
                 </select>
 
@@ -37,10 +37,10 @@
 
     <% if(places != undefined){%>
         <div class="head-row">
-            <% for (let i = 0 ; i < placecols.length; i++ ) { %>
+            <% for (let i = 0 ; i < placeAttributes.length; i++ ) { %>
 
-                <div id="header-col-<%=i%>" class="col-size-1" data-tooltip="<%=placecols[i]%>">
-                    <b><%=placecols[i]%></b>
+                <div id="header-col-<%=i%>" class="place-col" data-tooltip="<%=placeAttributes[i]%>">
+                    <b><%=placeAttributes[i]%></b>
                 </div>
 
             <% } %>
@@ -50,8 +50,7 @@
         <% places.forEach(function(place) { %>
             <div class="body-row">
 
-                <%-include('../templates/placecols', {place: place, placecols: placecols}); %>
-
+                <%-include('../templates/placeAttributes', {place: place, placeAttributes: placeAttributes, attributeClass: "place-col", isCompareClass: false}); %>
 
                 <div class="col-2">
                     <a class="link-button" href="/place/<%=place.id%>">

@@ -12,6 +12,7 @@ model osm_Place {
   restaurant      osm_Restaurant?
   cafe            osm_Cafe?
   fast_food       osm_FastFood?
+  amenity         String?
 
   node            Int @unique
   name            String?

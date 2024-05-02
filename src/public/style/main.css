@@ -95,9 +95,17 @@ summary:hover {
 
 .container, .row {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.row-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .row-end {
+    flex-wrap: wrap;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -106,6 +114,7 @@ summary:hover {
 
 .header-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
 }
@@ -125,6 +134,11 @@ summary:hover {
     background: #9fd385 !important;
 }
 
+.data-changed {
+    color: white;
+    background: #FF6961 !important;
+}
+
 .head-row {
     display: flex;
     align-items: center;
@@ -135,18 +149,23 @@ summary:hover {
     background:#EAF5EA;
 }
 
+.place-card-col {
+    border: solid black 2px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.place-card-col div:nth-child(odd) {
+    background:#EAF5EA;
+}
+
 .body-row {
+    flex-wrap: wrap;
     display: flex;
     align-items: center;
 }
 
-.col-size-0-5 {
-    flex: 0.5;
-    align-items: center;
-    padding:5px;
-}
-
-.col-size-1 {
+.place-col {
     flex: 1;
     align-items: center;
     padding:5px;
@@ -161,8 +180,15 @@ summary:hover {
 .place-card {
     margin: 10px;
     padding: 10px;
-    border: solid 2px black;
 } 
+
+.place-card p {
+    border-bottom: solid 1px black;
+}
+
+.place-row {
+    padding: 5px;
+}
 
 [data-tooltip]:hover::after {
     display: block;
@@ -172,9 +198,4 @@ summary:hover {
     background: white;
     padding: .25em;
     color: black !important;
-}
-
-@media (max-width: 620px) {
-    .hide-mobile {
-    }
 }

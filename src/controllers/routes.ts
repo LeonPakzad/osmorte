@@ -8,23 +8,40 @@ const {
     placeFind,
     placeDelete,
     placeAdd,
-    placeUpdate
+    placeUpdate,
+    placeUpdatePreview
 } = require('../controllers/placeController');
 
-router.get('/place-index', placeIndexView);
-router.get('/place-index/:params', placeIndexView);
-router.get('/place-find', placeFind);
-router.get('/place-find/:box', placeFind);
-router.get('/place-edit', placeEdit);
-router.get('/place/:id', placeView);
-router.get('/place-update/:id', placeUpdate);
-router.get('/place-delete/:id', placeDelete);
-router.get('/place-add/:params', placeAdd);
+function checkAdmin(req: { user: { role: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; }, next: () => void) 
+{
+    next();
+    // todo: authentication
+
+    // if (req.user && req.user.role === 'admin') 
+    // {
+    //     next();
+    // } 
+    // else 
+    // {
+    //     res.status(403).json({ message: 'Access denied' });
+    // }
+}
+router.get('/place-index', checkAdmin, placeIndexView);
+router.get('/place-index/:params', checkAdmin, placeIndexView);
+
+router.get('/place-find', checkAdmin, placeFind);
+router.get('/place-find/:box', checkAdmin, placeFind);
+
+router.get('/place-edit', checkAdmin, placeEdit);
+router.get('/place/:id', checkAdmin, placeView);
+
+router.get('/place-update-preview/:id', checkAdmin, placeUpdatePreview);
+router.get('/place-delete/:id', checkAdmin, placeDelete);
+router.get('/place-add/:params', checkAdmin, placeAdd);
 
 router.get('/', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("dashboard", {
         title: "Dashboard",
-
     } );
 });
 
@@ -32,9 +49,7 @@ router.get('/', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) 
 router.get('*', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("error", {
         title: "404",
-
     } );
 });
-
-
+  
 module.exports = router;

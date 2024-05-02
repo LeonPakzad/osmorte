@@ -6,8 +6,8 @@ const prisma = new PrismaClient()
 import {mapping} from "../controllers/placeMapping"
 
 // MARK: column definitions
-const placeCols = [
-    'id', 'name',
+const placeAttributes = [
+    'id', 'name', 'node', 'updated',
     'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
 ];
 
@@ -33,24 +33,24 @@ const fastFoodCols= [
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
-const restaurantPlaceCols   = placeCols.concat(restaurantCols);
-const cafePlaceCols         = placeCols.concat(cafeCols);
-const fastFoodPlaceCols     = placeCols.concat(fastFoodCols);
+const restaurantplaceAttributes   = placeAttributes.concat(restaurantCols);
+const cafeplaceAttributes         = placeAttributes.concat(cafeCols);
+const fastFoodplaceAttributes     = placeAttributes.concat(fastFoodCols);
 
 const availablePlaceTypes= [
     "restaurant", "cafe", "fast_food"
 ]
 
 // MARK: helpers
-function getPlaceColsByAmenity(_amenity: string) {
+function getPlaceAttributesByAmenity(_amenity: string) {
     switch(_amenity)
     {
         case availablePlaceTypes[0]:
-            return restaurantPlaceCols;
+            return restaurantplaceAttributes;
         case availablePlaceTypes[1]:
-            return cafePlaceCols;
+            return cafeplaceAttributes;
         case availablePlaceTypes[2]:
-            return fastFoodPlaceCols;
+            return fastFoodplaceAttributes;
     }
 }
 
@@ -83,7 +83,7 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
 
     var _places: any[] | null | undefined;
     // depending on if it is place or specified data, the ordering needs to be made accordingly 
-    if(placeCols.indexOf(_req.query.orderby) != -1)
+    if(placeAttributes.indexOf(_req.query.orderby) != -1)
     {
         switch(_req.query.amenity)
         {
@@ -191,7 +191,7 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
         { 
             title: "Places",
             availablePlaceTypes: availablePlaceTypes,
-            placecols: getPlaceColsByAmenity(_req.query.amenity),
+            placeAttributes: getPlaceAttributesByAmenity(_req.query.amenity),
             places: flattenedPlace,
             input: {
                 orderby: _req.query.orderby,
@@ -205,12 +205,12 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
         res.render("place/index", {
             title: "Places",
             availablePlaceTypes: availablePlaceTypes,
-            placecols: undefined,
+            placeAttributes: undefined,
             places: undefined,
             input: {
                 amenity: _req.query.amenity,
             }
-            });
+        });
     }
 }
 
@@ -224,43 +224,56 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         },
     })
 
-    console.log(_place);
-
     res.render("place/view", 
     {
         title: "place: " + _place?.name,
         place: _place,
-        placeOSM: undefined
+        placeOSM: undefined,
+        placeAttributes: getPlaceAttributesByAmenity(_place!.amenity!.toString()),
     });
 }
 
-async function placeUpdate(_req: any, res: { render: (arg0: string, arg1: {}) => void; })
-{
+// MARK: update preview
+async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1: {}) => void; }) {
+
     var _id:number = Number(_req.params.id); 
-    
-    console.log(_id);
 
     var _place = await prisma.osm_Place.findFirst({
         where: {id: _id},
+        include: {
+            restaurant: true
+        }
     })
-
-    var osmQuery = `
-        [out:json][timeout:25];
-        node(id:placeID); out;
-    `;
-
+    
     if(_place != null)
     {
         try
         {
+            var osmQuery = `
+                [out:json][timeout:25];
+                node(id:placeID); out;
+            `;
             let node:string = _place.node.toString();
-            console.log(_place.node.toString())
             
             var editedOSMQuery = osmQuery.replace('placeID', node);
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(editedOSMQuery)}`)
-
+            
             var placeResponse = await response.json();
-            console.log(placeResponse);
+
+            var placeResponseArray: any;
+
+            switch(_place.amenity)
+            {
+                case availablePlaceTypes[0]:
+                    placeResponseArray = mapping.mapRestaurant(placeResponse);
+                break;
+                case availablePlaceTypes[1]:
+                    placeResponseArray = mapping.mapCafe(placeResponse);
+                break;
+                case availablePlaceTypes[2]:
+                    placeResponseArray = mapping.mapFastFood(placeResponse);
+                break;
+            }
         }
         catch(error)
         {
@@ -271,18 +284,30 @@ async function placeUpdate(_req: any, res: { render: (arg0: string, arg1: {}) =>
     {
         console.log("error, place not found")
     }
-            
+
+    var _flattenedPlace = flattenObject(_place);       
+    placeResponseArray[0].id      = _place?.id;
+    placeResponseArray[0].node      = _place?.node;
+    placeResponseArray[0].updated = placeResponse.osm3s.timestamp_osm_base
+
     res.render("place/view", {
         title: "place: " + _place?.name,
-        place: _place,
-        placeOSM: placeResponse
+        place: _flattenedPlace,
+        placeAttributes: getPlaceAttributesByAmenity(_place!.amenity!.toString()),
+        placeOSM: placeResponseArray[0]
     } );
+}
+
+const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void }) => {
+
+
+    res.redirect("/place-index");
+
 }
 
 // MARK: delete
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
     var _id:number = Number(_req.params.id); 
-    
     
     await prisma.osm_Restaurant.delete({
         where: {fk_placeId: _id}
@@ -338,7 +363,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 title: "Found Places",
                 places: placeArray,
                 boxerror: false,
-                placecols: getPlaceColsByAmenity(_req.query.amenity),
+                placeAttributes: getPlaceAttributesByAmenity(_req.query.amenity),
                 downloadedPlaces: downloadedPlacesNodes,
                 input: { 
                     latitude: _req.query.latitude,
@@ -359,7 +384,7 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         res.render("place/find", {
             title: "Find Places",
             places: undefined,
-            placecols: undefined,
+            placeAttributes: undefined,
             boxerror: _req.query.box === undefined ? false : true,
             downloadedPlaces: downloadedPlacesNodes,
             input: { 
@@ -391,6 +416,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
                     data: {
                         node:               place.id                == '-' ? null : place.id,
                         name:               place.name              == '-' ? null : place.name,
+                        amenity:            "restaurant",
                         lat:                place.lat               == '-' ? null : place.lat,
                         long:               place.long              == '-' ? null : place.long,        
                         city:               place.city              == '-' ? null : place.city,   
@@ -429,6 +455,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
                     data: {
                         node:               place.id                == '-' ? null : place.id,
                         name:               place.name              == '-' ? null : place.name,
+                        amenity:            "cafe",
                         lat:                place.lat               == '-' ? null : place.lat,
                         long:               place.long              == '-' ? null : place.long,        
                         city:               place.city              == '-' ? null : place.city,   
@@ -475,6 +502,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
                     data: {
                         node:               place.id                == '-' ? null : place.id,
                         name:               place.name              == '-' ? null : place.name,
+                        amenity:            "fast_food",
                         lat:                place.lat               == '-' ? null : place.lat,
                         long:               place.long              == '-' ? null : place.long,        
                         city:               place.city              == '-' ? null : place.city,   
@@ -545,5 +573,6 @@ module.exports =  {
     placeEdit,
     placeFind,
     placeAdd,
-    placeUpdate
+    placeUpdate,
+    placeUpdatePreview,
 };

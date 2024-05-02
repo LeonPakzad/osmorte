@@ -46,3 +46,4 @@ adding new amenitys requires altering the following data:
     - availablePlaceTypes 
     - where availablePlaceTypes are used as switch case
     - create            
+- add the new amenity attributes to templates->placeAttributes
