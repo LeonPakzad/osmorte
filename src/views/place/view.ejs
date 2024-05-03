@@ -1,14 +1,14 @@
 <%- include('../templates/header'); -%>
 
 <div class="content">
-
+    
     <div class="row-end">
         <% if(placeOSM == undefined) { %>
-            <a class="link-button button" href="/place-update-preview/<%=place.id%>">
-                <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
+            <a class="link-button button" href="/place-update-preview/<%=encodeURIComponent(JSON.stringify({id: place.id, amenity: place.amenity}))%>">
+                <img title="check updates for place" alt="check updates for place" src="../../public/style/assets/icon-update.png">
             </a>
         <% }else{ %>
-            <a class="link-button button" href="/place-update/<%=place.id%>">
+            <a class="link-button button" href="/place-update/<%= encodeURIComponent(JSON.stringify(placeOSM)) %>">
                 <img title="update place" alt="update place" src="../../public/style/assets/icon-update.png">
             </a>
         <% } %>

@@ -16,6 +16,15 @@ h1 {
     color: #9fd385;
 }
 
+.link {
+    text-decoration: none;
+    color: #9fd385;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
 .content {
     background: white;
     width: 90%;

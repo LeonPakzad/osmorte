@@ -29,7 +29,7 @@ model osm_Place {
 
 model osm_Restaurant {
   id              Int  @id @default(autoincrement())
-  place           osm_Place @relation(fields: [fk_placeId], references: [id])
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fk_placeId      Int  @unique
 
   email           String?
@@ -54,7 +54,7 @@ model osm_Restaurant {
 
 model osm_Cafe {
   id              Int  @id @default(autoincrement())
-  place           osm_Place @relation(fields: [fk_placeId], references: [id])
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fk_placeId      Int  @unique
 
   operator        String?
@@ -86,7 +86,7 @@ model osm_Cafe {
 
 model osm_FastFood {
   id              Int  @id @default(autoincrement())
-  place           osm_Place @relation(fields: [fk_placeId], references: [id])
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fk_placeId      Int  @unique
 
   operator        String?

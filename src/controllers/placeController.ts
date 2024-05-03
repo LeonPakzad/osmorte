@@ -62,21 +62,55 @@ interface FlattenedObject {
     [key: string]: any;
 }
 
-function flattenArrayOfObjects(arr: any[]): FlattenedObject[] {
-    return arr.map((obj: any) => {
-        return flattenObject(obj);
+function flattenArrayOfObjects(array: any[]): FlattenedObject[] {
+    return array.map((object: any) => {
+        return flattenObject(object);
     });
 }
 
-function flattenObject(obj: any): FlattenedObject {
-    return Object.keys(obj).reduce((acc: FlattenedObject, key: string) => {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-            const flattened = flattenObject(obj[key]);
-            return { ...acc, ...flattened };
-        } else {
-            return { ...acc, [key]: obj[key] };
+function flattenObject(object: any, parentId?: string): FlattenedObject {
+
+    const flattenedObject: FlattenedObject = {};
+
+    // Iterate over each key in the input object.
+    Object.keys(object).forEach((key: string) => {
+
+        // Check if the current key is "id" and if a parentId is provided. If so, construct a composite key.
+        if (key === 'id' && parentId) 
+        {
+            flattenedObject[`${parentId}_${key}`] = object[key];
         }
-    }, {});
+
+        // If the current value is an object and not null, and it's not an instance of Date, recurse into it.
+        else if (typeof object[key] === 'object' && object[key] !== null && !(object[key] instanceof Date)) 
+        {
+            const flattened = flattenObject(object[key], key);
+            Object.assign(flattenedObject, flattened);
+        }
+        else 
+        {
+            flattenedObject[key] = object[key];
+        }
+    });
+
+    return flattenedObject;
+}
+
+function convertToReadableDate(dateString: string): string {
+    const date = new Date(dateString);
+
+    const options: Intl.DateTimeFormatOptions = {
+        weekday: 'short',
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+    };
+
+    return date.toLocaleString('en-US', options);
 }
 
 // MARK: index 
@@ -86,51 +120,24 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
     orderBy[_req.query.orderby as string] = _req.query.orderdirection as string;
 
     var _places: any[] | null | undefined;
+
     // depending on if it is place or specified data, the ordering needs to be made accordingly 
     if(placeAttributes.indexOf(_req.query.orderby) != -1)
     {
         switch(_req.query.amenity)
         {
             case availablePlaceTypes[0]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            restaurant: null
-                        }
-                    },
-                    orderBy: orderBy,
-                    include: {
-                        restaurant: true,
-                    },
-                });
+                _places = await restaurant.placeReadMany(orderBy, true);
             break;
 
             case availablePlaceTypes[1]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            cafe: null
-                        }
-                    },
-                    orderBy: orderBy,
-                    include: {
-                        cafe: true,
-                    },
-                });
+                _places = await cafe.placeReadMany(orderBy, true);
+
             break;
 
             case availablePlaceTypes[2]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            fast_food: null
-                        }
-                    },
-                    orderBy: orderBy,
-                    include: {
-                        fast_food: true,
-                    },
-                });
+                _places = await fastfood.placeReadMany(orderBy, true);
+
             break;
         }
     }
@@ -139,58 +146,22 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
         switch(_req.query.amenity)
         {
             case availablePlaceTypes[0]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            restaurant: null
-                        }
-                    },
-                    orderBy: {
-                        restaurant: orderBy
-                    },
-                    include: {
-                        restaurant: true,
-                    },
-                });
+                _places = await restaurant.placeReadMany(orderBy, false);
             break;
 
             case availablePlaceTypes[1]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            cafe: null
-                        }
-                    },
-                    orderBy: {
-                        cafe: orderBy
-                    },
-                    include: {
-                        cafe: true,
-                    },
-                });
+                _places = await cafe.placeReadMany(orderBy, false);
             break;
                 
             case availablePlaceTypes[2]:
-                _places = await prisma.osm_Place.findMany({
-                    where: {
-                        NOT: {
-                            fast_food: null
-                        }
-                    },
-                    orderBy: {
-                        fast_food: orderBy
-                    },
-                    include: {
-                        fast_food: true,
-                    },
-                });
+                _places = await fastfood.placeReadMany(orderBy, false);
             break;
         }
     }
+
     if(_places != null && _places != undefined)
     {
         const flattenedPlace = flattenArrayOfObjects(_places);
-            
         res.render("place/index", 
         { 
             title: "Places",
@@ -220,34 +191,67 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
 
 // MARK: view
 const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
-    var _id:number = Number(_req.params.id); 
-    var _place = await prisma.osm_Place.findUnique({
-        where: {id: _id},
-        include: {
-            restaurant: true,
-        },
-    })
+    var place: any;
+    var req = JSON.parse(decodeURIComponent(_req.params.params))
+    var amenity:string = req.amenity;
+    var id:number = Number(req.id); 
+
+    try 
+    {
+        switch(amenity)
+        {
+            case availablePlaceTypes[0]:
+                place = await restaurant.placeReadOne(id);
+            break;
+            case availablePlaceTypes[1]:
+                place = await cafe.placeReadOne(id)
+            break;
+            case availablePlaceTypes[2]:
+                place = await fastfood.placeReadOne(id)
+            break;
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
 
     res.render("place/view", 
     {
-        title: "place: " + _place?.name,
-        place: _place,
+        title: "place: " + place.name,
+        place: flattenObject(place),
         placeOSM: undefined,
-        placeAttributes: getPlaceAttributesByAmenity(_place!.amenity!.toString()),
+        placeAttributes: getPlaceAttributesByAmenity(place.amenity.toString()),
     });
 }
 
 // MARK: update preview
 async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1: {}) => void; }) {
 
-    var _id:number = Number(_req.params.id); 
-
-    var _place = await prisma.osm_Place.findFirst({
-        where: {id: _id},
-        include: {
-            restaurant: true
+    var _place: any;
+    var req = JSON.parse(decodeURIComponent(_req.params.params))
+    var amenity:string = req.amenity;
+    var id:number = Number(req.id); 
+    // todo: this needs a switch instead
+    try 
+    {
+        switch(amenity)
+        {
+            case availablePlaceTypes[0]:
+                _place = await restaurant.placeReadOne(id);
+            break;
+            case availablePlaceTypes[1]:
+                _place = await cafe.placeReadOne(id)
+            break;
+            case availablePlaceTypes[2]:
+                _place = await fastfood.placeReadOne(id)
+            break;
         }
-    })
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
     
     if(_place != null)
     {
@@ -289,10 +293,10 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
         console.log("error, place not found")
     }
 
-    var _flattenedPlace = flattenObject(_place);       
+    var _flattenedPlace = flattenObject(_place); 
     placeResponseArray[0].id      = _place?.id;
-    placeResponseArray[0].node      = _place?.node;
-    placeResponseArray[0].updated = placeResponse.osm3s.timestamp_osm_base
+    placeResponseArray[0].node    = _place?.node;
+    placeResponseArray[0].updated = convertToReadableDate(placeResponse.osm3s.timestamp_osm_base)
 
     res.render("place/view", {
         title: "place: " + _place?.name,
@@ -305,47 +309,43 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
 // MARK: update
 const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void }) => {
 
+    const place = JSON.parse(decodeURIComponent(_req.params.params))
     try {
-        switch(_req.amenity)
+        switch(place.amenity)
         {
             case availablePlaceTypes[0]:
-
+                restaurant.placeUpdate(place);
             break;
-            case availablePlaceTypes[0]:
-
+            case availablePlaceTypes[1]:
+                cafe.placeUpdate(place)
             break;
-            case availablePlaceTypes[0]:
-
+            case availablePlaceTypes[2]:
+                fastfood.placeUpdate(place)
             break;
-
         }
-        const updatePlace = await prisma.osm_Place.update({
-            where: {
-                id: _req.id,
-            },
-            data: {
-                name: 'Viola the Magnificent',
-            },
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+    res.redirect("/place/"+place.id);
+}
+
+// MARK: delete
+const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
+    var _id:number = Number(_req.params.id); 
+
+    try 
+    {
+        await prisma.osm_Place.delete({
+            where: {id: _id}
         })
     }
     catch(error)
     {
         console.log(error)
     }
-    res.redirect("/place-index");
-}
 
-// MARK: delete
-const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
-    var _id:number = Number(_req.params.id); 
-    
-    await prisma.osm_Restaurant.delete({
-        where: {fk_placeId: _id}
-    })
-
-    await prisma.osm_Place.delete({
-        where: {id: _id}
-    })
     res.redirect("/place-index")
 }
 
