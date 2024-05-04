@@ -178,6 +178,7 @@ summary:hover {
     flex: 1;
     align-items: center;
     padding:5px;
+    text-align: center;
 }
 
 .col-size-2 {

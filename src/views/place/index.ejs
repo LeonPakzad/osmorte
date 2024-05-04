@@ -55,7 +55,7 @@
 
                 <%-include('../templates/placeAttributes', {place: place, placeAttributes: placeAttributes, attributeClass: "place-col", isCompareClass: false}); %>
 
-                <div class="col-2">
+                <div class="col-size-2">
                     <a class="link-button" href="/place/<%=encodeURIComponent(JSON.stringify({id: place.id, amenity: place.amenity}))%>">
                         <img title="show place" alt="show place" src="../../public/style/assets/icon-show.png">
                     </a>

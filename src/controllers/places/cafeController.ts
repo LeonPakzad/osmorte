@@ -3,8 +3,52 @@ const prisma = new PrismaClient()
 
 export module cafe {
 
-    export function placeCreate(_place: any) {
+    export async function placeCreate(_place: any) {
 
+        await prisma.osm_Place.create({
+            data: {
+                node:               _place.id                == '-' ? null : _place.id,
+                name:               _place.name              == '-' ? null : _place.name,
+                amenity:            "cafe",
+                lat:                _place.lat               == '-' ? null : _place.lat,
+                long:               _place.long              == '-' ? null : _place.long,        
+                city:               _place.city              == '-' ? null : _place.city,   
+                housenumber:        _place.housenumber       == '-' ? undefined : Number(_place.housenumber),
+                postcode:           _place.postcode          == '-' ? undefined : Number(_place.postcode),
+                street:             _place.street            == '-' ? null : _place.street,
+                
+                cafe: {
+                    create: {
+                        operator:           _place.operator          == '-' ? null      : _place.operator,
+                        website:            _place.website           == '-' ? null      : _place.website,
+                        phone:              _place.phone             == '-' ? null      : _place.phone,
+                        opening_hours:      _place.opening_hours     == '-' ? null      : _place.opening_hours,
+                        brand:              _place.brand             == '-' ? null      : _place.brand,
+                        
+                        smoking:            _place.smoking           == '-' ? undefined : Boolean(_place.smoking),
+                        self_service:       _place.self_service      == '-' ? undefined : Boolean(_place.self_service),
+
+                        wheelchair:         _place.wheelchair        == '-' ? null      : _place.wheelchair,
+                        outdoor_seating:    _place.outdoor_seating   == '-' ? undefined : Boolean(_place.outdoor_seating),
+                        indoor_seating:     _place.indoor_seating    == '-' ? undefined : Boolean(_place.indoor_seating),
+                        dog:                _place.dog               == '-' ? null      : _place.dog,
+    
+                        cuisine:            _place.cuisine           == '-' ? null      : _place.cuisine,
+                        organic:            _place.organic           == '-' ? null      : _place.organic,
+                        takeaway:           _place.takeaway          == '-' ? null      : _place.takeaway,
+                        ice_cream:          _place.ice_cream         == '-' ? undefined : Boolean(_place.ice_cream),
+                        bakery:             _place.bakery            == '-' ? undefined : Boolean(_place.bakery),
+                        pastry:             _place.pastry            == '-' ? undefined : Boolean(_place.pastry),
+
+                        diet_kosher:        _place.diet_kosher       == '-' ? undefined : Boolean(_place.diet_kosher),
+                        diet_diabetes:      _place.diet_diabetes     == '-' ? undefined : Boolean(_place.diet_diabetes),
+                        diet_halal:         _place.diet_halal        == '-' ? undefined : Boolean(_place.diet_halal),
+                        diet_vegan:         _place.diet_vegan        == '-' ? undefined : Boolean(_place.diet_vegan),
+                        diet_vegetarian:    _place.diet_vegetarian   == '-' ? undefined : Boolean(_place.diet_vegetarian)
+                    } 
+                }
+            },
+        })
     }
     
     export async function placeReadOne(_id: number) {
@@ -55,11 +99,12 @@ export module cafe {
 
     export async function placeUpdate
     (
-        place: {   
-            id: number; node: number; name: string; lat: number; long: number; city: string; housenumber: number; postcode: number; street: string;
-            email: string; operator: string; website: string; opening_hours: string; wheelchair: string; outdoor_seating: boolean; dog: boolean; 
-            cuisine: string; lunch: string; organic: string; takeaway: string;
-            diet_kosher: boolean; diet_diabetes: boolean; diet_halal: boolean; diet_vegan: boolean; diet_vegetarian: boolean; 
+        _place: {   
+            id: number, node: number, name: string, lat: number, long: number, city: string, housenumber: number, postcode: number, street: string,
+            operator: string, website: string, phone:string, opening_hours: string, brand:string,
+            smoking:boolean, self_service: boolean, wheelchair: string, outdoor_seating: boolean, indoor_seating:boolean, dog: boolean, 
+            cuisine: string, lunch: string, organic: string, takeaway: string, ice_cream: boolean, bakery: boolean, pastry: boolean,
+            diet_kosher: boolean, diet_diabetes: boolean, diet_halal: boolean, diet_vegan: boolean, diet_vegetarian: boolean, 
         }
     ) 
     {
@@ -67,39 +112,47 @@ export module cafe {
         {
             await prisma.osm_Place.update({
                 where: {
-                    id: place.id,
+                    id: _place.id,
                 },
                 data: {
-                    node:               place.node,
-                    name:               place.name,          
+                    node:               _place.node,
+                    name:               _place.name,          
                     amenity:            "cafe",
-                    lat:                place.lat,           
-                    long:               place.long,          
-                    city:               place.city,          
-                    housenumber:        Number(place.housenumber),   
-                    postcode:           Number(place.postcode),      
-                    street:             place.street,        
+                    lat:                _place.lat,           
+                    long:               _place.long,          
+                    city:               _place.city,          
+                    housenumber:        Number(_place.housenumber),   
+                    postcode:           Number(_place.postcode),      
+                    street:             _place.street,        
                     
-                    restaurant: {
+                    cafe: {
                         update: {
-                            email:              place.email,            
-                            operator:           place.operator,        
-                            website:            place.website,          
-                            opening_hours:      place.opening_hours,    
+                            operator:           _place.operator,        
+                            website:            _place.website,          
+                            phone:              _place.phone,    
+                            opening_hours:      _place.opening_hours,    
+                            brand:              _place.brand,    
                             
-                            wheelchair:         place.wheelchair,       
-                            outdoor_seating:    Boolean(place.outdoor_seating),  
-                            dog:                place.dog,              
+                            smoking:            Boolean(_place.smoking),       
+                            self_service:       Boolean(_place.self_service),
+
+                            wheelchair:         _place.wheelchair,       
+                            outdoor_seating:    Boolean(_place.outdoor_seating),  
+                            indoor_seating:     Boolean(_place.indoor_seating),  
+                            dog:                _place.dog,              
         
-                            cuisine:            place.cuisine,          
-                            lunch:              place.lunch,            
-                            organic:            place.organic,          
-                            takeaway:           place.takeaway,         
-                            diet_kosher:        Boolean(place.diet_kosher),      
-                            diet_diabetes:      Boolean(place.diet_diabetes),    
-                            diet_halal:         Boolean(place.diet_halal),       
-                            diet_vegan:         Boolean(place.diet_vegan),       
-                            diet_vegetarian:    Boolean(place.diet_vegetarian),  
+                            cuisine:            _place.cuisine,          
+                            organic:            _place.organic,          
+                            takeaway:           _place.takeaway,         
+                            ice_cream:          Boolean(_place.ice_cream),            
+                            bakery:             Boolean(_place.bakery),            
+                            pastry:             Boolean(_place.pastry),            
+                            
+                            diet_kosher:        Boolean(_place.diet_kosher),      
+                            diet_diabetes:      Boolean(_place.diet_diabetes),    
+                            diet_halal:         Boolean(_place.diet_halal),       
+                            diet_vegan:         Boolean(_place.diet_vegan),       
+                            diet_vegetarian:    Boolean(_place.diet_vegetarian),  
                         } 
                     }
                 },
