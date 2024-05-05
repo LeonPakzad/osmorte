@@ -2,7 +2,8 @@
 A tool to aid you using open street map locations in your own projects.
 Check out 
 <a href="https://www.openstreetmap.de/">Open Street Maps !</a>
-
+<hr>
+background-image by Fironell
 
 ## installation
 
@@ -42,13 +43,17 @@ npx prisma migrate dev --name init
     terminal: npx ts-node index.ts
 ``` 
 
-## add new amenitys
+## Handling amenitys
+
+### add new amenitys
 adding new amenitys requires altering the following data:
-- adding db entry in                    prisma->schema.prisma 
-- adding amenity mapping in             src->controllers->placeMapping.ts
-- adding amenity to the following in    src->controllers->placeControllers.ts
+- adding db entry in                        prisma->schema.prisma 
+- adding amenity-functions and mapping in   src->controllers->places/newamenity.ts
+- adding amenity to the following in        src->controllers->placeControllers.ts
     - cols,
     - availablePlaceTypes 
     - where availablePlaceTypes are used as switch case
-    - create            
 - add the new amenity attributes to templates->placeAttributes
+
+### delete amenitys
+feel free to delete amenitys if they bloat your db without being used 

@@ -8,7 +8,7 @@
 
     <div class="row-end">
         <form action="place-index">
-            <select class="input" name="amenity" %>">
+            <select class="input" name="amenity">
                 <% for (let i = 0 ; i < availablePlaceTypes.length; i++ ) { %>
                     <option <% if (input.amenity == availablePlaceTypes[i]) { %> selected <% } %> value="<%= availablePlaceTypes[i]%>"><%= availablePlaceTypes[i]%></option>
                 <% } %>

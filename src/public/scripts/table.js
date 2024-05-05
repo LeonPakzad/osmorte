@@ -7,8 +7,6 @@ function toggleColDisplay(_col) {
     var bodycols = Array.from(document.getElementsByClassName("table-cell-" + colname));
     var button = document.getElementById("display-row-" + _col);
 
-    console.log(bodycols[0]);
-
     if (headercol.style.display === "none") 
     {
         headercol.style.display = "block";

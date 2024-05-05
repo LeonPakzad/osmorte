@@ -36,7 +36,8 @@ h1 {
 .button {
     background: none;
     padding: 10px;
-    border: solid 2px #7092FF;
+    background: #eaf5ea;
+    border: solid 2px #9fd385;
     border-radius: 5%;
 }
 
@@ -61,8 +62,7 @@ summary:hover,
 }
 
 .button.toggle-row-menu-button.button-activated {
-    color: white !important;
-    background: #7092FF !important;
+    background: #9fd385 !important;
 }
 
 .button-warning {
@@ -73,10 +73,9 @@ summary:hover,
 }
 
 .toggle-row-button {
-    background: #7092FF;
-    color: white;
+    background: #9fd385;
     border: none;
-    border: solid 2px #7092FF;
+    border: solid 2px #9fd385;
     border-radius: 5%;
     margin: 2px;
 }
@@ -218,4 +217,16 @@ div {
     background: white;
     padding: .25em;
     color: black !important;
+}
+
+.login-success-message {
+    padding: 10px;
+    background: white;
+    border: solid #9fd385;
+}
+
+.login-error-message {
+    padding: 10px;
+    background: white;
+    border: solid #FF6961;
 }

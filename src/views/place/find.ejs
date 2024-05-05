@@ -3,7 +3,7 @@
 
 <div class="content">
 
-    <form action="/place-find">
+    <form onsubmit="checkFindInput()" action="/place-find">
 
         <div class="row-end">
             <input id="latitudeInput" class="input" name="latitude" type="text" placeholder="latitude" value="<%=input.latitude %>">
@@ -40,7 +40,7 @@
         </div>
 
         <div class="row-end">
-            <button class="button">find places</button>
+            <button type="submit" class="button">find places</button>
         </div>
 
     </form>
@@ -81,7 +81,6 @@
                         </a>
                     </div>
                 <% } %>
-                
             </div>  
         <% }); %>
     <%}%>

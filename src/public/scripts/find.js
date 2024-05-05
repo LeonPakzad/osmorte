@@ -35,15 +35,21 @@ function calculateBoundingBox() {
     var latitude = document.getElementById("latitudeInput");
     var longitude = document.getElementById("longitudeInput");
 
-    if (latitude.value === "") {
+    if (latitude.value === "") 
+    {
         latitude.classList.add("empty-error");
-    } else {
+    } 
+    else 
+    {
         latitude.classList.remove("empty-error");
     }
 
-    if (longitude.value === "") {
+    if (longitude.value === "") 
+    {
         longitude.classList.add("empty-error");
-    } else {
+    } 
+    else 
+    {
         longitude.classList.remove("empty-error");
     }
 
