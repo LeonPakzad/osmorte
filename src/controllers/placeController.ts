@@ -408,9 +408,9 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         },
     });
     const downloadedPlacesNodes = downloadedPlaces.map(item => item.node)
-
-    if(_req.query.box != undefined && _req.query.box != '' && _req.query.box != null)
-    { 
+    
+    if(_req.query.box != undefined && _req.query.box.trim() != '' && _req.query.box != null )
+    {                       
         var osmQuery = `
             [out:json][timeout:25];
             nwr["amenity"="placetype"]({{bbox}});
