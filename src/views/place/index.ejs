@@ -2,6 +2,10 @@
 
 <div class="content">
 
+    <a href="/places-delete-all">
+        <button class="button-warning" title="delete all place data">delete all place data</button>
+    </a>
+
     <div class="row-end">
         <form action="place-index">
             <select class="input" name="amenity" %>">
@@ -20,21 +24,25 @@
                 <select class="input" name="orderby" selected="<%=input.orderby %>">
                     <% for (let i = 0 ; i < placeAttributes.length; i++ ) { %>
                         <option <% if (input.orderby == placeAttributes[i]) { %> selected <% } %> value="<%= placeAttributes[i]%>"><%= placeAttributes[i]%></option>
-                    <% } %>
+                        <% } %>
                 </select>
-
+                    
                 <select class="input" name="orderdirection">
                     <option <% if (input.orderdirection == 'asc')   { %> selected <% } %> value="asc">ascending</option>
                     <option <% if (input.orderdirection == 'desc')  { %> selected <% } %> value="desc">descending</option>
                 </select>
-
+                
                 <input type="hidden" name="amenity" value="<%=input.amenity%>">
-
+                
                 <button class="button">order by</button>
             </form>
         </div>
         
         <%- include('../templates/colToggleButtons'); -%>
+        <a class="link-button" href="places-delete/<%=encodeURIComponent(JSON.stringify({amenity: input.amenity}))%>">
+            <img title="delete all <%=input.amenity%> data" alt="delete all places of amenity" src="../../public/style/assets/icon-delete.png">
+        </a>
+
     <% } %>
     
 
@@ -59,7 +67,7 @@
                     <a class="link-button" href="/place/<%=encodeURIComponent(JSON.stringify({id: place.id, amenity: place.amenity}))%>">
                         <img title="show place" alt="show place" src="../../public/style/assets/icon-show.png">
                     </a>
-                    <a class="link-button" href="place-delete/<%=place.id%>">
+                    <a class="link-button" href="place-delete/<%=encodeURIComponent(JSON.stringify({id: place.id, amenity: place.amenity}))%>">
                         <img title="delete place" alt="delete place" src="../../public/style/assets/icon-delete.png">
                     </a>
                 </div>

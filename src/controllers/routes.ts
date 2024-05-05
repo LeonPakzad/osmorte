@@ -11,6 +11,8 @@ const {
     placeEdit,
     placeFind,
     placeDelete,
+    placeDeleteByAmenity,
+    placeDeleteAll,
     placeAdd,
     placeUpdate,
     placeUpdatePreview
@@ -40,9 +42,12 @@ router.get('/place/:params', auth.verifyToken, placeView);
 router.get('/place-update/:params', auth.verifyToken, placeUpdate);
 router.get('/place-update-preview/:params', auth.verifyToken, placeUpdatePreview);
 
-router.get('/place-delete/:id', auth.verifyToken, placeDelete);
+router.get('/place-delete/:params', auth.verifyToken, placeDelete);
+router.get('/places-delete/:params', auth.verifyToken, placeDeleteByAmenity);
+router.get('/places-delete-all/', auth.verifyToken, placeDeleteAll);
+
 router.get('/place-add/:params', auth.verifyToken, placeAdd);
-  
+
 // get 404 error page for all urls that were not specified
 router.get('*', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("error", {

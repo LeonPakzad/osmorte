@@ -21,10 +21,6 @@ h1 {
     color: #9fd385;
 }
 
-.link:hover {
-    cursor: pointer;
-}
-
 .content {
     background: white;
     box-sizing:border-box;
@@ -44,7 +40,12 @@ h1 {
     border-radius: 5%;
 }
 
-.button:hover {
+.button:hover, 
+.button-warning:hover, 
+.toggle-row-button:hover,
+summary:hover,
+.link:hover 
+{
     cursor:pointer;
 }
 
@@ -64,6 +65,13 @@ h1 {
     background: #7092FF !important;
 }
 
+.button-warning {
+    background: none;
+    padding: 10px;
+    border: solid 2px #FF6961;
+    border-radius: 5%;
+}
+
 .toggle-row-button {
     background: #7092FF;
     color: white;
@@ -78,20 +86,21 @@ h1 {
     color: black;
 }
 
-.toggle-row-button:hover {
-    cursor: pointer;
-}
-
 .link-button img{
     width:  40px;
     height: auto;
 }
 
 .input {
+    margin: 5px;
     color: black;
     background: none;
     padding: 10px;
     border: solid 2px #9fd385;
+}
+
+.input option {
+    background-color: #EAF5EA;
 }
 
 .input.empty-error {
@@ -101,10 +110,6 @@ h1 {
 div {
     text-overflow: ellipsis;
     overflow: hidden;
-}
-
-summary:hover {
-    cursor:pointer
 }
 
 .container, .row {
@@ -123,7 +128,7 @@ summary:hover {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin: 10px;
+    margin: 5px;
 }
 
 .header-row {

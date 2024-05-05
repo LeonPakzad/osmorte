@@ -345,13 +345,51 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
 
 // MARK: delete
 const placeDelete = async (_req: any, res: { redirect: (arg0: string) => void }) => {
-    var _id:number = Number(_req.params.id); 
 
+    const place = JSON.parse(decodeURIComponent(_req.params.params))
     try 
     {
         await prisma.osm_Place.delete({
-            where: {id: _id}
+            where: {id: place.id}
         })
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+
+    res.redirect("/place-index?amenity="+place.amenity)
+}
+
+const placeDeleteByAmenity = async (_req: any, res: { redirect: (arg0: string) => void }) => {
+
+    const place = JSON.parse(decodeURIComponent(_req.params.params))
+    try {
+        switch(place.amenity)
+        {
+            case availablePlaceTypes[0]:
+                restaurant.placeDeleteAll();
+            break;
+            case availablePlaceTypes[1]:
+                cafe.placeDeleteAll()
+            break;
+            case availablePlaceTypes[2]:
+                fastfood.placeDeleteAll()
+            break;
+        }
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+    res.redirect("/place-index?amenity="+place.amenity);
+}
+
+const placeDeleteAll = async (_req: any, res: { redirect: (arg0: string) => void }) => {
+
+    try 
+    {
+        await prisma.osm_Place.deleteMany({})
     }
     catch(error)
     {
@@ -489,6 +527,8 @@ module.exports =  {
     placeIndexView,
     placeView,
     placeDelete,
+    placeDeleteByAmenity,
+    placeDeleteAll,
     placeEdit,
     placeFind,
     placeAdd,

@@ -3,6 +3,8 @@ const prisma = new PrismaClient()
 
 export module fastfood {
 
+    const amenity = "fast_food";
+
     export async function placeCreate(_place: any) {
         try
         {
@@ -10,7 +12,7 @@ export module fastfood {
                 data: {
                     node:               _place.id                == '-' ? null : _place.id,
                     name:               _place.name              == '-' ? null : _place.name,
-                    amenity:            "fast_food",
+                    amenity:            amenity,
                     lat:                _place.lat               == '-' ? null : _place.lat,
                     long:               _place.long              == '-' ? null : _place.long,        
                     city:               _place.city              == '-' ? null : _place.city,   
@@ -129,7 +131,7 @@ export module fastfood {
                 data: {
                     node:               _place.node,
                     name:               _place.name,          
-                    amenity:            "fast_food",
+                    amenity:            amenity,
                     lat:                _place.lat,           
                     long:               _place.long,          
                     city:               _place.city,          
@@ -184,6 +186,21 @@ export module fastfood {
         {
             await prisma.osm_Place.delete({
                 where: {id: _id}
+            })
+        }
+        catch(error)
+        {
+            console.log(error)
+        }
+    }
+
+    export async function placeDeleteAll() {
+        try
+        {
+            await prisma.osm_Place.deleteMany({
+                where: {
+                    amenity : amenity,
+                }
             })
         }
         catch(error)

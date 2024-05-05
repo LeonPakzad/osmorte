@@ -13,14 +13,18 @@ Check out
 npm install
 ```
 
-### database-configurations
-add / configure DATABASE_URL and your TOKEN_SECRET for JWT in .env
+### configurations
+add / configure DATABASE_URL and your TOKEN_SECRET, username and password for JWT in .env<br>
+You will need to add a cookie "token" into requests. <br>
+This token needs to be signed just like in the tool to access OSMOrte routes with your own project
 
 <p style="position: absolute;">.env</p>
 
 ```
 DATABASE_URL= "dbtype://name:password@url:port/db-name"
 TOKEN_SECRET= "your very safe token string"
+USERNAME="your username"
+PASSWORD="password"
 ```
 
 update your DATABASE_URL
