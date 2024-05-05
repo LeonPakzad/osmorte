@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
 import fetch from 'node-fetch';
-const prisma = new PrismaClient()
 
 import {mapping} from "../controllers/placeMapping"
 
@@ -8,6 +6,9 @@ import {mapping} from "../controllers/placeMapping"
 import { restaurant } from '../controllers/places/restaurantController';
 import { cafe } from '../controllers/places/cafeController';
 import { fastfood } from '../controllers/places/fastfoodController';
+
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 // MARK: place attribute definitions
 const placeAttributes = [

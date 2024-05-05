@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+import { auth } from '../controllers/auth';
 
 const {
     placeIndexView,
@@ -12,41 +16,33 @@ const {
     placeUpdatePreview
 } = require('../controllers/placeController');
 
-function checkAdmin(req: { user: { role: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; }, next: () => void) 
-{
-    next();
-    // todo: authentication
+dotenv.config();
+router.use(cookieParser());
 
-    // if (req.user && req.user.role === 'admin') 
-    // {
-    //     next();
-    // } 
-    // else 
-    // {
-    //     res.status(403).json({ message: 'Access denied' });
-    // }
-}
-router.get('/place-index', checkAdmin, placeIndexView);
-router.get('/place-index/:params', checkAdmin, placeIndexView);
+router.post('/login', auth.login);
 
-router.get('/place-find', checkAdmin, placeFind);
-router.get('/place-find/:box', checkAdmin, placeFind);
-
-router.get('/place-edit', checkAdmin, placeEdit);
-router.get('/place/:params', checkAdmin, placeView);
-
-router.get('/place-update/:params', checkAdmin, placeUpdate);
-router.get('/place-update-preview/:params', checkAdmin, placeUpdatePreview);
-
-router.get('/place-delete/:id', checkAdmin, placeDelete);
-router.get('/place-add/:params', checkAdmin, placeAdd);
-
+// Osmorte Tool routes
 router.get('/', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("dashboard", {
         title: "Dashboard",
     } );
 });
 
+router.get('/place-index', auth.verifyToken, placeIndexView);
+router.get('/place-index/:params', auth.verifyToken, placeIndexView);
+
+router.get('/place-find', placeFind);
+router.get('/place-find/:box', placeFind);
+
+router.get('/place-edit', auth.verifyToken, placeEdit);
+router.get('/place/:params', auth.verifyToken, placeView);
+
+router.get('/place-update/:params', auth.verifyToken, placeUpdate);
+router.get('/place-update-preview/:params', auth.verifyToken, placeUpdatePreview);
+
+router.get('/place-delete/:id', auth.verifyToken, placeDelete);
+router.get('/place-add/:params', auth.verifyToken, placeAdd);
+  
 // get 404 error page for all urls that were not specified
 router.get('*', (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => {
     res.render("error", {

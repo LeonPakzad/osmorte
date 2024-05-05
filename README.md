@@ -14,12 +14,13 @@ npm install
 ```
 
 ### database-configurations
-add / configure DATABASE_URL in .env
+add / configure DATABASE_URL and your TOKEN_SECRET for JWT in .env
 
 <p style="position: absolute;">.env</p>
 
 ```
 DATABASE_URL= "dbtype://name:password@url:port/db-name"
+TOKEN_SECRET= "your very safe token string"
 ```
 
 update your DATABASE_URL

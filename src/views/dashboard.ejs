@@ -1,4 +1,17 @@
 <%- include('templates/header'); -%>
+
+<div class="content">
+    <div class="row-end">
+        <form id="loginForm">
+            <input class="input" id="username" name="username" placeholder="username" required/>
+            <input class="input" id="password" name="password" type="password" placeholder="password" required/>
+            <button class="button" type="submit">Login</button>
+        </form>
+    </div>
+</div>
+
+<br>
+
 <div class="content">
     <p>This is where Data of your downloaded places could be seen in the future.</p>
     <p>Until then, heres a shoutout:</p>
@@ -8,5 +21,7 @@
     <p>Check out the <a class="link" href="https://www.openstreetmap.org/copyright">OSM copyright page</a> for more legal informations.</p>
     <p>tl;dr: If you use OSM-data in your projects, give credit to OSM so more people get to know of it.</p>
     <hr>
-    <p>Im not to be hold liable for any databases destroyed by this tool, use with care.</p>
+    <p>Im not to be hold liable for any databases destroyed by this tool. Use with care and feel free to suggest changes :)</p>
 </div>
+
+<script src="../../public/scripts/login.js"></script>
