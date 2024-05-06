@@ -16,6 +16,7 @@ model osm_Place {
 
   school          osm_School?
   university      osm_University?
+  atm             osm_ATM?
 
   amenity         String?
 
@@ -30,6 +31,26 @@ model osm_Place {
 
   created         DateTime  @default(now())
   updated         DateTime  @default(now())
+}
+
+model osm_ATM {
+  id                  Int  @id @default(autoincrement())
+  place               osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_placeId          Int  @unique
+
+  description         String?
+  operator            String?
+  brand               String?
+  network             String?
+  level               Int?
+  cash_in             Boolean?
+
+  indoor              Boolean?
+  man_made            String?
+  opening_hours       String?
+
+  wheelchair          String?
+  surveillence        String?
 }
 
 model osm_Bar {

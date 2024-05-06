@@ -118,6 +118,36 @@
     </div>  
 <% } %>
 
+<% if (Object.values(placeAttributes).indexOf('network') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-network <% if(isCompareClass==true){ if(place.network != otherPlace.network){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.network %>">
+        <%= place.network == undefined || null? '-' : place.network %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('level') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-level <% if(isCompareClass==true){ if(place.level != otherPlace.level){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.level %>">
+        <%= place.level == undefined || null? '-' : place.level %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('cash_in') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-cash_in <% if(isCompareClass==true){ if(place.cash_in != otherPlace.cash_in){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.cash_in %>">
+        <%= place.cash_in == undefined || null? '-' : place.cash_in %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('indoor') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-indoor <% if(isCompareClass==true){ if(place.indoor != otherPlace.network){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.indoor %>">
+        <%= place.indoor == undefined || null? '-' : place.indoor %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('man_made') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-man_made <% if(isCompareClass==true){ if(place.man_made != otherPlace.man_made){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.man_made %>">
+        <%= place.man_made == undefined || null? '-' : place.man_made %>
+    </div>  
+<% } %>
+
 <% if (Object.values(placeAttributes).indexOf('opening_hours') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-opening_hours <% if(isCompareClass==true){ if(place.opening_hours != otherPlace.opening_hours){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.opening_hours %>">
         <%= place.opening_hours == undefined || null? '-' : place.opening_hours %>
@@ -181,6 +211,12 @@
 <% if (Object.values(placeAttributes).indexOf('wheelchair') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-wheelchair <% if(isCompareClass==true){ if(place.wheelchair != otherPlace.wheelchair){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.wheelchair %>">
         <%= place.wheelchair == undefined || null? '-' : place.wheelchair %>
+    </div>
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('surveillence') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-surveillence <% if(isCompareClass==true){ if(place.surveillence != otherPlace.surveillence){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.surveillence %>">
+        <%= place.surveillence == undefined || null? '-' : place.surveillence %>
     </div>
 <% } %>
 
