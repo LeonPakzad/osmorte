@@ -70,9 +70,21 @@
 <!-- 
     individual attributes
  -->
-<% if (Object.values(placeAttributes).indexOf('description') != -1 ) { %>
+ <% if (Object.values(placeAttributes).indexOf('old_name') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-old_name <% if(isCompareClass==true){ if(place.old_name != otherPlace.old_name){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.old_name %>">
+        <%= place.old_name == undefined || null? '-' : place.old_name %>
+    </div>
+<% } %>
+
+ <% if (Object.values(placeAttributes).indexOf('description') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-description <% if(isCompareClass==true){ if(place.description != otherPlace.description){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.description %>">
         <%= place.description == undefined || null? '-' : place.description %>
+    </div>
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('note') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-note <% if(isCompareClass==true){ if(place.note != otherPlace.note){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.note %>">
+        <%= place.note == undefined || null? '-' : place.note %>
     </div>
 <% } %>
 
@@ -109,6 +121,18 @@
 <% if (Object.values(placeAttributes).indexOf('opening_hours') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-opening_hours <% if(isCompareClass==true){ if(place.opening_hours != otherPlace.opening_hours){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.opening_hours %>">
         <%= place.opening_hours == undefined || null? '-' : place.opening_hours %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('grades') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-grades <% if(isCompareClass==true){ if(place.grades != otherPlace.grades){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.grades %>">
+        <%= place.grades == undefined || null? '-' : place.grades %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('isced') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-isced <% if(isCompareClass==true){ if(place.isced != otherPlace.isced){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.isced %>">
+        <%= place.isced == undefined || null? '-' : place.isced %>
     </div>  
 <% } %>
 

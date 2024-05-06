@@ -5,6 +5,7 @@ import { bar } from '../controllers/places/barController';
 import { cafe } from '../controllers/places/cafeController';
 import { fastfood } from '../controllers/places/fastfoodController';
 import { restaurant } from '../controllers/places/restaurantController';
+import { school } from '../controllers/places/schoolController';
 import { university } from '../controllers/places/universityController';
 
 import { PrismaClient } from '@prisma/client'
@@ -62,6 +63,16 @@ const restaurantCols = [
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
+const schoolCols = [
+    'old_name', 
+    'description', 'note', 'email', 'operator', 'website', 'phone', 'opening_hours', 
+    
+    'grades', 'isced',
+
+    'wheelchair',
+    'wikipedia',
+];
+
 const universityCols = [
     'description', 'email', 'operator', 'website', 'phone',
     'internet_access', 'internet_access_fee',
@@ -74,6 +85,7 @@ const barPlaceAttributes            = placeAttributes.concat(barCols);
 const cafePlaceAttributes           = placeAttributes.concat(cafeCols);
 const fastFoodPlaceAttributes       = placeAttributes.concat(fastFoodCols);
 const restaurantPlaceAttributes     = placeAttributes.concat(restaurantCols);
+const schoolPlaceAttributes         = placeAttributes.concat(schoolCols);
 const universityPlaceAttributes     = placeAttributes.concat(universityCols);
 
 const availablePlaceTypes= [
@@ -81,6 +93,7 @@ const availablePlaceTypes= [
     "cafe",
     "fast_food",
     "restaurant",
+    "school",
     "university",
 ];
 
@@ -97,6 +110,8 @@ function getPlaceAttributesByAmenity(_amenity: string) {
         case availablePlaceTypes[3]:
             return restaurantPlaceAttributes;
         case availablePlaceTypes[4]:
+            return schoolPlaceAttributes;
+        case availablePlaceTypes[5]:
             return universityPlaceAttributes;
     }
 }
@@ -187,6 +202,10 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
             break;
 
             case availablePlaceTypes[4]:
+                _places = await school.placeReadMany(orderBy, true);
+            break;
+
+            case availablePlaceTypes[5]:
                 _places = await university.placeReadMany(orderBy, true);
             break;
         }
@@ -212,6 +231,10 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
             break;
 
             case availablePlaceTypes[4]:
+                _places = await school.placeReadMany(orderBy, false);
+            break;
+
+            case availablePlaceTypes[5]:
                 _places = await university.placeReadMany(orderBy, false);
             break;
         }
@@ -271,6 +294,9 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 place = await restaurant.placeReadOne(id)
             break;
             case availablePlaceTypes[4]:
+                place = await school.placeReadOne(id)
+            break;
+            case availablePlaceTypes[5]:
                 place = await university.placeReadOne(id)
             break;
         }
@@ -314,6 +340,9 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
                 _place = await restaurant.placeReadOne(id)
             break;
             case availablePlaceTypes[4]:
+                _place = await school.placeReadOne(id)
+            break;
+            case availablePlaceTypes[5]:
                 _place = await university.placeReadOne(id)
             break;
         }
@@ -355,6 +384,9 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
                     placeResponseArray = restaurant.map(placeResponse);
                 break;
                 case availablePlaceTypes[4]:
+                    placeResponseArray = school.map(placeResponse);
+                break;
+                case availablePlaceTypes[5]:
                     placeResponseArray = university.map(placeResponse);
                 break;
             }
@@ -402,6 +434,9 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
                 restaurant.placeUpdate(place)
             break;
             case availablePlaceTypes[4]:
+                school.placeUpdate(place)
+            break;
+            case availablePlaceTypes[5]:
                 university.placeUpdate(place)
             break;
         }
@@ -450,6 +485,9 @@ const placeDeleteByAmenity = async (_req: any, res: { redirect: (arg0: string) =
                 restaurant.placeDeleteAll()
             break;
             case availablePlaceTypes[4]:
+                school.placeDeleteAll()
+            break;
+            case availablePlaceTypes[5]:
                 university.placeDeleteAll()
             break;
         }
@@ -517,6 +555,9 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                     placeArray = restaurant.map(placeResponse);
                 break;
                 case availablePlaceTypes[4]:
+                    placeArray = school.map(placeResponse);
+                break;
+                case availablePlaceTypes[5]:
                     placeArray = university.map(placeResponse);
                 break;
             }
@@ -594,6 +635,9 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
             break;
 
             case availablePlaceTypes[4]:
+                await school.placeCreate(place)
+            break;
+            case availablePlaceTypes[5]:
                 await university.placeCreate(place)
             break;
         }
