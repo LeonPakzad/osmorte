@@ -85,6 +85,11 @@ summary:hover,
     color: black;
 }
 
+.link-button{
+    margin-right: 5px;
+    padding: 0;
+}
+
 .link-button img{
     width:  40px;
     height: auto;

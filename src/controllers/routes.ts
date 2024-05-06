@@ -8,7 +8,6 @@ import { auth } from '../controllers/auth';
 const {
     placeIndexView,
     placeView,
-    placeEdit,
     placeFind,
     placeDelete,
     placeDeleteByAmenity,
@@ -36,7 +35,6 @@ router.get('/place-index/:params', auth.verifyToken, placeIndexView);
 router.get('/place-find', placeFind);
 router.get('/place-find/:box', placeFind);
 
-router.get('/place-edit', auth.verifyToken, placeEdit);
 router.get('/place/:params', auth.verifyToken, placeView);
 
 router.get('/place-update/:params', auth.verifyToken, placeUpdate);

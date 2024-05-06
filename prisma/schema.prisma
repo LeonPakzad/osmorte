@@ -9,9 +9,12 @@ datasource db {
 
 model osm_Place {
   id              Int @id @default(autoincrement())
-  restaurant      osm_Restaurant?
+  bar             osm_Bar?
   cafe            osm_Cafe?
   fast_food       osm_FastFood?
+
+  restaurant      osm_Restaurant?
+
   amenity         String?
 
   node            Int @unique
@@ -51,6 +54,37 @@ model osm_Restaurant {
   diet_diabetes   Boolean?  @default(false)
   diet_vegan      Boolean?  @default(false)
   diet_vegetarian Boolean?  @default(false)
+}
+
+model osm_Bar {
+  id              Int  @id @default(autoincrement())
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_placeId      Int  @unique
+
+  operator        String?
+  website         String?
+  phone           String?
+  opening_hours   String?
+  brand           String?
+
+  smoking         Boolean?
+  internet_access String?
+  
+  wheelchair      String?
+  outdoor_seating Boolean?   @default(false)
+  indoor_seating  Boolean?   @default(false)
+  dog             Boolean?   @default(false)
+
+  cuisine         String?
+  organic         String?
+  takeaway        String?
+  brewery         Boolean?  @default(false)
+
+  diet_kosher     Boolean?  @default(false)
+  diet_halal      Boolean?  @default(false)
+  diet_diabetes   Boolean?  @default(false)
+  diet_vegan      Boolean?  @default(false)
+  diet_vegetarian Boolean?  @default(false)       
 }
 
 model osm_Cafe {

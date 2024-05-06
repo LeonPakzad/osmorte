@@ -3,7 +3,7 @@
 
 <div class="content">
 
-    <form onsubmit="checkFindInput()" action="/place-find">
+    <form action="/place-find">
 
         <div class="row-end">
             <input id="latitudeInput" class="input" name="latitude" type="text" placeholder="latitude" value="<%=input.latitude %>">
@@ -28,9 +28,11 @@
         
             <label for="amenitySelect">amenity:</label>
             <select class="input" name="amenity" selected="<%= input.amenity %>" id="amenitySelect">
-                <option <% if (input.amenity == 'restaurant') { %> selected <% } %> value ="restaurant">restaurant</option>
-                <option <% if (input.amenity == 'cafe') { %> selected <% } %>       value ="cafe">cafe</option>
-                <option <% if (input.amenity == 'fast_food') { %> selected <% } %>  value ="fast_food">fast food</option>
+                <% for (let i = 0 ; i < availablePlaceTypes.length; i++ ) { %>
+                    <option <% if (input.amenity == availablePlaceTypes[i]) { %> selected <% } %> value ="<%=availablePlaceTypes[i]%>">
+                        <%=availablePlaceTypes[i]%>
+                    </option>
+                <% } %>
             </select>
         </div>
 

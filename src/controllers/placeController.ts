@@ -1,11 +1,10 @@
 import fetch from 'node-fetch';
 
-import {mapping} from "../controllers/placeMapping"
-
 // import places
-import { restaurant } from '../controllers/places/restaurantController';
+import { bar } from '../controllers/places/barController';
 import { cafe } from '../controllers/places/cafeController';
 import { fastfood } from '../controllers/places/fastfoodController';
+import { restaurant } from '../controllers/places/restaurantController';
 
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
@@ -14,6 +13,19 @@ const prisma = new PrismaClient()
 const placeAttributes = [
     'id', 'name', 'node', 'updated',
     'lat', 'long', 'city', 'postcode', 'street', 'housenumber',
+];
+
+const barCols = [
+    'email', 'operator', 'website', 'opening_hours', 
+
+    'smoking', 'internet_access',
+
+    'wheelchair','outdoor_seating','dog',
+    'cuisine','lunch','organic','takeaway',
+
+    'brewery', 
+
+    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
 const restaurantCols = [  
@@ -49,12 +61,16 @@ const fastFoodCols= [
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
-const restaurantplaceAttributes   = placeAttributes.concat(restaurantCols);
-const cafeplaceAttributes         = placeAttributes.concat(cafeCols);
+const barPlaceAttributes          = placeAttributes.concat(barCols);
+const cafePlaceAttributes         = placeAttributes.concat(cafeCols);
 const fastFoodplaceAttributes     = placeAttributes.concat(fastFoodCols);
+const restaurantplaceAttributes   = placeAttributes.concat(restaurantCols);
 
 const availablePlaceTypes= [
-    "restaurant", "cafe", "fast_food"
+    "bar",
+    "cafe",
+    "fast_food",
+    "restaurant",
 ]
 
 // MARK: helpers
@@ -62,11 +78,13 @@ function getPlaceAttributesByAmenity(_amenity: string) {
     switch(_amenity)
     {
         case availablePlaceTypes[0]:
-            return restaurantplaceAttributes;
+            return barPlaceAttributes;
         case availablePlaceTypes[1]:
-            return cafeplaceAttributes;
+            return cafePlaceAttributes;
         case availablePlaceTypes[2]:
             return fastFoodplaceAttributes;
+        case availablePlaceTypes[3]:
+            return restaurantplaceAttributes;
     }
 }
 
@@ -139,17 +157,20 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
         switch(_req.query.amenity)
         {
             case availablePlaceTypes[0]:
-                _places = await restaurant.placeReadMany(orderBy, true);
+                _places = await bar.placeReadMany(orderBy, true);
+
             break;
 
             case availablePlaceTypes[1]:
                 _places = await cafe.placeReadMany(orderBy, true);
-
             break;
 
             case availablePlaceTypes[2]:
                 _places = await fastfood.placeReadMany(orderBy, true);
+            break;
 
+            case availablePlaceTypes[3]:
+                _places = await restaurant.placeReadMany(orderBy, true);
             break;
         }
     }
@@ -158,15 +179,19 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
         switch(_req.query.amenity)
         {
             case availablePlaceTypes[0]:
-                _places = await restaurant.placeReadMany(orderBy, false);
+                _places = await bar.placeReadMany(orderBy, false);
             break;
-
+                
             case availablePlaceTypes[1]:
                 _places = await cafe.placeReadMany(orderBy, false);
             break;
-                
+                    
             case availablePlaceTypes[2]:
                 _places = await fastfood.placeReadMany(orderBy, false);
+            break;
+                        
+            case availablePlaceTypes[3]:
+                _places = await restaurant.placeReadMany(orderBy, false);
             break;
         }
     }
@@ -213,13 +238,16 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
         switch(amenity)
         {
             case availablePlaceTypes[0]:
-                place = await restaurant.placeReadOne(id);
+                place = await bar.placeReadOne(id);
             break;
             case availablePlaceTypes[1]:
                 place = await cafe.placeReadOne(id)
             break;
             case availablePlaceTypes[2]:
                 place = await fastfood.placeReadOne(id)
+            break;
+            case availablePlaceTypes[3]:
+                place = await restaurant.placeReadOne(id)
             break;
         }
     }
@@ -250,13 +278,16 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
         switch(amenity)
         {
             case availablePlaceTypes[0]:
-                _place = await restaurant.placeReadOne(id);
+                _place = await bar.placeReadOne(id);
             break;
             case availablePlaceTypes[1]:
                 _place = await cafe.placeReadOne(id)
             break;
             case availablePlaceTypes[2]:
                 _place = await fastfood.placeReadOne(id)
+            break;
+            case availablePlaceTypes[3]:
+                _place = await restaurant.placeReadOne(id)
             break;
         }
     }
@@ -285,13 +316,16 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
             switch(_place.amenity)
             {
                 case availablePlaceTypes[0]:
-                    placeResponseArray = mapping.mapRestaurant(placeResponse);
+                    placeResponseArray = bar.map(placeResponse);
                 break;
                 case availablePlaceTypes[1]:
-                    placeResponseArray = mapping.mapCafe(placeResponse);
+                    placeResponseArray = cafe.map(placeResponse);
                 break;
                 case availablePlaceTypes[2]:
-                    placeResponseArray = mapping.mapFastFood(placeResponse);
+                    placeResponseArray = fastfood.map(placeResponse);
+                break;
+                case availablePlaceTypes[3]:
+                    placeResponseArray = restaurant.map(placeResponse);
                 break;
             }
         }
@@ -326,7 +360,7 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
         switch(place.amenity)
         {
             case availablePlaceTypes[0]:
-                restaurant.placeUpdate(place);
+                bar.placeUpdate(place);
             break;
             case availablePlaceTypes[1]:
                 cafe.placeUpdate(place)
@@ -334,13 +368,16 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
             case availablePlaceTypes[2]:
                 fastfood.placeUpdate(place)
             break;
+            case availablePlaceTypes[3]:
+                restaurant.placeUpdate(place)
+            break;
         }
     }
     catch(error)
     {
         console.log(error)
     }
-    res.redirect("/place/"+_req.params.params);
+    res.redirect("/place/"+_req.params.params.id);
 }
 
 // MARK: delete
@@ -368,13 +405,16 @@ const placeDeleteByAmenity = async (_req: any, res: { redirect: (arg0: string) =
         switch(place.amenity)
         {
             case availablePlaceTypes[0]:
-                restaurant.placeDeleteAll();
+                bar.placeDeleteAll();
             break;
             case availablePlaceTypes[1]:
                 cafe.placeDeleteAll()
             break;
             case availablePlaceTypes[2]:
                 fastfood.placeDeleteAll()
+            break;
+            case availablePlaceTypes[3]:
+                restaurant.placeDeleteAll()
             break;
         }
     }
@@ -429,13 +469,16 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             switch(_req.query.amenity)
             {
                 case availablePlaceTypes[0]:
-                    placeArray = mapping.mapRestaurant(placeResponse);
+                    placeArray = bar.map(placeResponse);
                 break;
                 case availablePlaceTypes[1]:
-                    placeArray = mapping.mapCafe(placeResponse);
+                    placeArray = cafe.map(placeResponse);
                 break;
                 case availablePlaceTypes[2]:
-                    placeArray = mapping.mapFastFood(placeResponse);
+                    placeArray = fastfood.map(placeResponse);
+                break;
+                case availablePlaceTypes[3]:
+                    placeArray = restaurant.map(placeResponse);
                 break;
             }
             
@@ -445,6 +488,8 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 boxerror: false,
                 placeAttributes: getPlaceAttributesByAmenity(_req.query.amenity),
                 downloadedPlaces: downloadedPlacesNodes,
+                availablePlaceTypes: availablePlaceTypes,
+
                 input: { 
                     latitude: _req.query.latitude,
                     longitude: _req.query.longitude,
@@ -459,14 +504,16 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             console.log(error)
         }
     }
-    else 
-    {
+    else
+    {   
         res.render("place/find", {
             title: "Find Places",
             places: undefined,
             placeAttributes: undefined,
             boxerror: _req.query.box === undefined ? false : true,
             downloadedPlaces: downloadedPlacesNodes,
+            availablePlaceTypes: availablePlaceTypes,
+
             input: { 
                 latitude: _req.query.latitude,
                 longitude: _req.query.longitude,
@@ -492,7 +539,7 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
         switch(place.amenity)
         {
             case availablePlaceTypes[0]:
-                await restaurant.placeCreate(place);
+                await bar.placeCreate(place);
             break;
 
             case availablePlaceTypes[1]:
@@ -501,6 +548,10 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 
             case availablePlaceTypes[2]:
                 await fastfood.placeCreate(place)
+            break;
+
+            case availablePlaceTypes[3]:
+                await restaurant.placeCreate(place)
             break;
         }
         res.redirect("/place-index")
@@ -511,17 +562,6 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
     }
 }
 
-const placeEdit = (_req: any, res: { render: (arg0: string, arg1: {}) => void; }) => 
-{
-    if (!prisma.osm_Place) {
-        console.log("some fields are empty");
-    }
-    
-    res.render("place/edit", {
-        
-    } );
-}
-
 // MARK: function export
 module.exports =  {
     placeIndexView,
@@ -529,7 +569,6 @@ module.exports =  {
     placeDelete,
     placeDeleteByAmenity,
     placeDeleteAll,
-    placeEdit,
     placeFind,
     placeAdd,
     placeUpdate,

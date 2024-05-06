@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export module cafe {
+export module bar {
 
-    const amenity = "cafe";
+    const amenity = "bar";
     
     interface TagMap {
         [key: string]: string;
@@ -43,19 +43,19 @@ export module cafe {
                 phone:              tags.phone              == undefined || null? null  : tags.phone,
                 opening_hours:      tags.opening_hours      == undefined || null? null  : tags.opening_hours,
                 brand:              tags.brand              == undefined || null? null  : tags.brand,
-                smoking:            tags.smoking            == undefined || null? false: tags.smoking, 
-                self_service:       tags.self_service       == undefined || null? false: tags.self_service, 
+                smoking:            tags.smoking            == undefined || null? false : tags.smoking, 
+                internet_access:    tags.internet_access    == undefined || null? false : tags.internet_access, 
                 
                 
-                wheelchair:         tags.wheelchair         == undefined || null ? null  : tags.wheelchair,
+                wheelchair:         tags.wheelchair         == undefined || null ? null : tags.wheelchair,
                 outdoor_seating:    tags.outdoor_seating    == undefined || null ? false: tags.outdoor_seating,
                 indoor_seating:    tags.indoor_seating      == undefined || null ? false: tags.indoor_seating,
-                dog:                tags.dog                == undefined || null ? null  : tags.dog,
+                dog:                tags.dog                == undefined || null ? null : tags.dog,
                 
-                cuisine:            tags.cuisine            == undefined || null ? null  : tags.cuisine,
-                organic:            tags.organic            == undefined || null ? null  : tags.organic,
-                takeaway:           tags.takeaway           == undefined || null ? null  : tags.takeaway,
-                ice_cream:          tags.ice_cream          == undefined || null ? null  : tags.ice_cream,
+                cuisine:            tags.cuisine            == undefined || null ? null : tags.cuisine,
+                organic:            tags.organic            == undefined || null ? null : tags.organic,
+                takeaway:           tags.takeaway           == undefined || null ? null : tags.takeaway,
+                ice_cream:          tags.ice_cream          == undefined || null ? null : tags.ice_cream,
                 bakery:             tags.bakery             == undefined || null ? false: tags.bakery,
                 pastry:             tags.pastry             == undefined || null ? false: tags.pastry,
                 
@@ -82,7 +82,7 @@ export module cafe {
                 postcode:           _place.postcode          == '-' ? undefined : Number(_place.postcode),
                 street:             _place.street            == '-' ? null : _place.street,
                 
-                cafe: {
+                bar: {
                     create: {
                         operator:           _place.operator          == '-' ? null      : _place.operator,
                         website:            _place.website           == '-' ? null      : _place.website,
@@ -91,7 +91,7 @@ export module cafe {
                         brand:              _place.brand             == '-' ? null      : _place.brand,
                         
                         smoking:            _place.smoking           == '-' ? undefined : Boolean(_place.smoking),
-                        self_service:       _place.self_service      == '-' ? undefined : Boolean(_place.self_service),
+                        internet_access:    _place.internet_access      == '-' ? null      :_place.internet_access,
 
                         wheelchair:         _place.wheelchair        == '-' ? null      : _place.wheelchair,
                         outdoor_seating:    _place.outdoor_seating   == '-' ? undefined : Boolean(_place.outdoor_seating),
@@ -101,9 +101,7 @@ export module cafe {
                         cuisine:            _place.cuisine           == '-' ? null      : _place.cuisine,
                         organic:            _place.organic           == '-' ? null      : _place.organic,
                         takeaway:           _place.takeaway          == '-' ? null      : _place.takeaway,
-                        ice_cream:          _place.ice_cream         == '-' ? undefined : Boolean(_place.ice_cream),
-                        bakery:             _place.bakery            == '-' ? undefined : Boolean(_place.bakery),
-                        pastry:             _place.pastry            == '-' ? undefined : Boolean(_place.pastry),
+                        brewery:            _place.brewery           == '-' ? undefined : Boolean(_place.brewery),
 
                         diet_kosher:        _place.diet_kosher       == '-' ? undefined : Boolean(_place.diet_kosher),
                         diet_diabetes:      _place.diet_diabetes     == '-' ? undefined : Boolean(_place.diet_diabetes),
@@ -120,7 +118,7 @@ export module cafe {
         var place = await prisma.osm_Place.findFirst({
             where: {id: _id},
             include: {
-                cafe: true,
+                bar: true,
             },
         })
         return place;
@@ -133,12 +131,12 @@ export module cafe {
             places = await prisma.osm_Place.findMany({
                 where: {
                     NOT: {
-                        cafe: null
+                        bar: null
                     }
                 },
                 orderBy: _orderBy,
                 include: {
-                    cafe: true,
+                    bar: true,
                 },
             });
         }
@@ -147,14 +145,14 @@ export module cafe {
             places = await prisma.osm_Place.findMany({
                 where: {
                     NOT: {
-                        cafe: null
+                        bar: null
                     }
                 },
                 orderBy: {
-                    cafe: _orderBy
+                    bar: _orderBy
                 },
                 include: {
-                    cafe: true,
+                    bar: true,
                 },
             });
         }
@@ -167,8 +165,8 @@ export module cafe {
         _place: {   
             id: number, node: number, name: string, lat: number, long: number, city: string, housenumber: number, postcode: number, street: string,
             operator: string, website: string, phone:string, opening_hours: string, brand:string,
-            smoking:boolean, self_service: boolean, wheelchair: string, outdoor_seating: boolean, indoor_seating:boolean, dog: boolean, 
-            cuisine: string, lunch: string, organic: string, takeaway: string, ice_cream: boolean, bakery: boolean, pastry: boolean,
+            smoking:boolean, internet_access: string, wheelchair: string, outdoor_seating: boolean, indoor_seating:boolean, dog: boolean, 
+            cuisine: string, lunch: string, organic: string, takeaway: string, brewery: boolean
             diet_kosher: boolean, diet_diabetes: boolean, diet_halal: boolean, diet_vegan: boolean, diet_vegetarian: boolean, 
         }
     ) 
@@ -190,7 +188,7 @@ export module cafe {
                     postcode:           Number(_place.postcode),      
                     street:             _place.street,        
                     
-                    cafe: {
+                    bar: {
                         update: {
                             operator:           _place.operator,        
                             website:            _place.website,          
@@ -199,7 +197,7 @@ export module cafe {
                             brand:              _place.brand,    
                             
                             smoking:            Boolean(_place.smoking),       
-                            self_service:       Boolean(_place.self_service),
+                            internet_access:    _place.internet_access,
 
                             wheelchair:         _place.wheelchair,       
                             outdoor_seating:    Boolean(_place.outdoor_seating),  
@@ -209,9 +207,8 @@ export module cafe {
                             cuisine:            _place.cuisine,          
                             organic:            _place.organic,          
                             takeaway:           _place.takeaway,         
-                            ice_cream:          Boolean(_place.ice_cream),            
-                            bakery:             Boolean(_place.bakery),            
-                            pastry:             Boolean(_place.pastry),            
+                            brewery:            Boolean(_place.brewery),            
+          
                             
                             diet_kosher:        Boolean(_place.diet_kosher),      
                             diet_diabetes:      Boolean(_place.diet_diabetes),    

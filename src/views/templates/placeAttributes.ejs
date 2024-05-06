@@ -112,6 +112,12 @@
     </div>  
 <% } %>
 
+<% if (Object.values(placeAttributes).indexOf('internet_access') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-internet_access <% if(isCompareClass==true){ if(place.internet_access != otherPlace.internet_access){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.internet_access %>">
+        <%= place.internet_access == undefined || null? '-' : place.internet_access %>
+    </div>  
+<% } %>
+
 <% if (Object.values(placeAttributes).indexOf('self_service') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-self_service <% if(isCompareClass==true){ if(place.self_service != otherPlace.self_service){ %>data-changed<% } }%>"     data-tooltip=   "<%= place.self_service %>">
         <%= place.self_service == undefined || null? '-' : place.self_service %>
@@ -181,6 +187,12 @@
 <% if (Object.values(placeAttributes).indexOf('takeaway') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-takeaway <% if(isCompareClass==true){ if(place.takeaway != otherPlace.takeaway){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.takeaway %>" >
         <%= place.takeaway == undefined || null? '-' : place.takeaway %>
+    </div>   
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('brewery') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-brewery <% if(isCompareClass==true){ if(place.brewery != otherPlace.brewery){ %>data-changed<% } }%>"         data-tooltip=   "<%= place.brewery %>" >
+        <%= place.brewery == undefined || null? '-' : place.brewery %>
     </div>   
 <% } %>
 
