@@ -377,7 +377,7 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
     {
         console.log(error)
     }
-    res.redirect("/place/"+_req.params.params.id);
+    res.redirect("/place/"+encodeURIComponent(JSON.stringify({id: place.id, amenity: place.amenity})))
 }
 
 // MARK: delete
