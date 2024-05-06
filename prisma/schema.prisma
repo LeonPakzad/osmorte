@@ -9,19 +9,22 @@ datasource db {
 
 model osm_Place {
   id              Int @id @default(autoincrement())
+  amenity         String?
   bar             osm_Bar?
   cafe            osm_Cafe?
   fast_food       osm_FastFood?
   restaurant      osm_Restaurant?
 
-  school          osm_School?
-  university      osm_University?
+  doctors         osm_Doctors?
+  
   atm             osm_ATM?
 
-  amenity         String?
+  school          osm_School?
+  university      osm_University?
 
   node            Int @unique
   name            String?
+
   lat             Float?
   long            Float?
   city            String?
@@ -116,6 +119,24 @@ model osm_Cafe {
   diet_diabetes   Boolean?  @default(false)
   diet_vegan      Boolean?  @default(false)
   diet_vegetarian Boolean?  @default(false)       
+}
+
+model osm_Doctors {
+  id              Int  @id @default(autoincrement())
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_placeId      Int  @unique
+
+  operator        String?
+  website         String?
+  phone           String?
+  brand           String?
+  opening_hours   String?
+  
+  healthcare      String?
+  speciality      String?
+  emergency       Boolean?
+
+  wheelchair      String?
 }
 
 model osm_FastFood {
@@ -214,6 +235,6 @@ model osm_University {
   internet_access     String?
   internet_access_fee String?
   office              String?
-  wheelchair           String?
+  wheelchair          String?
   wikipedia           String?
 }

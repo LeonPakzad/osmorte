@@ -72,20 +72,20 @@ export module school {
                 
                 school: {
                     create: {
-                        old_name:           _place.old_name           == '-' ? null : _place.email,
-                        description:        _place.description        == '-' ? null : _place.email,
-                        note:               _place.note               == '-' ? null : _place.email,
+                        old_name:           _place.old_name           == '-' ? null : _place.old_name,
+                        description:        _place.description        == '-' ? null : _place.description,
+                        note:               _place.note               == '-' ? null : _place.note,
                         email:              _place.email              == '-' ? null : _place.email,
-                        operator:           _place.operator           == '-' ? null : _place.email,
-                        website:            _place.website            == '-' ? null : _place.email,
-                        phone:              _place.phone              == '-' ? null : _place.email,
-                        opening_hours:      _place.opening_hours      == '-' ? null : _place.email,
+                        operator:           _place.operator           == '-' ? null : _place.operator,
+                        website:            _place.website            == '-' ? null : _place.website,
+                        phone:              _place.phone              == '-' ? null : _place.phone,
+                        opening_hours:      _place.opening_hours      == '-' ? null : _place.opening_hours,
                                         
                                         
-                        grades:             _place.grades             == '-' ? null : _place.email, 
-                        isced:              _place.isced              == '-' ? null : _place.email,
-                        wheelchair:         _place.wheelchair         == '-' ? null : _place.email,
-                        wikipedia:          _place.wikipedia          == '-' ? null : _place.email,
+                        grades:             _place.grades             == '-' ? null : _place.grades, 
+                        isced:              _place.isced              == '-' ? null : _place.isced,
+                        wheelchair:         _place.wheelchair         == '-' ? null : _place.wheelchair,
+                        wikipedia:          _place.wikipedia          == '-' ? null : _place.wikipedia,
                     } 
                 }
             },

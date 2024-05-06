@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-export module atm {
+export module doctors {
 
-    const amenity = "atm";
+    const amenity = "doctors";
     
     interface TagMap {
         [key: string]: string;
@@ -38,18 +38,16 @@ export module atm {
                 street:             tags.street             == undefined || null? null  : tags.street,
                 housenumber:        tags.housenumber        == undefined || null? null  : tags.housenumber, 
 
-                description:        tags.description        == undefined || null? null  : tags.description,
                 operator:           tags.operator           == undefined || null? null  : tags.operator,
+                website:            tags.website            == undefined || null? null  : tags.website,
+                phone:              tags.phone              == undefined || null? null  : tags.phone,
                 brand:              tags.brand              == undefined || null? null  : tags.brand,
-                network:            tags.network            == undefined || null? null  : tags.network,
-                level:              tags.level              == undefined || null? null  : tags.level,
-                cash_in:            tags.cash_in            == undefined || null? null  : tags.cash_in,
-                indoor:             tags.indoor             == undefined || null? null  : tags.indoor,
-                man_made:           tags.man_made           == undefined || null? null  : tags.man_made,
                 opening_hours:      tags.opening_hours      == undefined || null? null  : tags.opening_hours,
-                
-                wheelchair:         tags.wheelchair         == undefined || null? null : tags.wheelchair,
-                surveillence:       tags.brand              == undefined || null? null  : tags.surveillence,
+
+                healthcare:         tags.healthcare         == undefined || null? null  : tags.healthcare,
+                speciality:         tags.speciality         == undefined || null? null  : tags.speciality,
+                emergency:          tags.emergency          == undefined || null? null  : tags.emergency,
+                wheelchair:         tags.wheelchair         == undefined || null? null  : tags.wheelchair,
 
             };
         });
@@ -69,22 +67,19 @@ export module atm {
                 postcode:           _place.postcode          == '-' ? undefined : Number(_place.postcode),
                 street:             _place.street            == '-' ? null : _place.street,
                 
-                atm: {
+                doctors: {
                     create: {
 
-                        description:        _place.description        == '-' ? null      : _place.description,
-                        operator:           _place.operator           == '-' ? null      : _place.operator,
-                        brand:              _place.brand              == '-' ? null      : _place.brand,
-                        network:            _place.network            == '-' ? null      : _place.network,
-                        level:              _place.level              == '-' ? undefined : Number(_place.level),
-                        cash_in:            _place.cash_in            == '-' ? undefined : Boolean(_place.cash_in),
-                        indoor:             _place.indoor             == '-' ? undefined : Boolean(_place.indoor),
-                        man_made:           _place.man_made           == '-' ? null      : _place.man_made,
-                        opening_hours:      _place.opening_hours      == '-' ? null      : _place.opening_hours,
+                        operator:           _place.operator          == '-' ? null      : _place.operator,
+                        website:            _place.website           == '-' ? null      : _place.website,
+                        phone:              _place.phone             == '-' ? null      : _place.phone,
+                        brand:              _place.brand             == '-' ? null      : _place.brand,
+                        opening_hours:      _place.opening_hours     == '-' ? null      : _place.opening_hours,
                         
-                        
+                        healthcare:         _place.healthcare         == '-' ? null      : _place.healthcare,
+                        speciality:         _place.speciality         == '-' ? null      : _place.speciality,
+                        emergency:          _place.emergency          == '-' ? undefined : Boolean(_place.diet_kosher),
                         wheelchair:         _place.wheelchair         == '-' ? null      : _place.wheelchair,
-                        surveillence:       _place.surveillence       == '-' ? null      : _place.surveillence,
                     } 
                 }
             },
@@ -95,7 +90,7 @@ export module atm {
         var place = await prisma.osm_Place.findFirst({
             where: {id: _id},
             include: {
-                atm: true,
+                doctors: true,
             },
         })
         return place;
@@ -108,12 +103,12 @@ export module atm {
             places = await prisma.osm_Place.findMany({
                 where: {
                     NOT: {
-                        atm: null
+                        doctors: null
                     }
                 },
                 orderBy: _orderBy,
                 include: {
-                    atm: true,
+                    doctors: true,
                 },
             });
         }
@@ -122,14 +117,14 @@ export module atm {
             places = await prisma.osm_Place.findMany({
                 where: {
                     NOT: {
-                        atm: null
+                        doctors: null
                     }
                 },
                 orderBy: {
-                    atm: _orderBy
+                    doctors: _orderBy
                 },
                 include: {
-                    atm: true,
+                    doctors: true,
                 },
             });
         }
@@ -141,8 +136,9 @@ export module atm {
     (
         _place: {   
             id: number, node: number, name: string, lat: number, long: number, city: string, housenumber: number, postcode: number, street: string,
-            description: string, operator: string, brand:string, network: string, level:number, cash_in:boolean, indoor: boolean,
-            man_made: string, opening_hours: string, wheelchair: string, surveillence: string,
+            operator: string, website: string, phone:string, opening_hours: string, brand:string,
+            healthcare: string, speciality: string, emergency: boolean, wheelchair: string,
+ 
         }
     ) 
     {
@@ -163,21 +159,18 @@ export module atm {
                     postcode:           Number(_place.postcode),      
                     street:             _place.street,        
                     
-                    atm: {
+                    doctors: {
                         update: {
-                            description:        _place.description,  
-                            operator:           _place.operator,  
-                            brand:              _place.brand,  
-                            network:            _place.network,  
-                            level:              _place.level,  
-                            cash_in:            _place.cash_in,  
-                            indoor:             _place.indoor,  
-                            man_made:           _place.man_made,  
-                            opening_hours:      _place.opening_hours,  
-                            
-                            
-                            wheelchair:         _place.wheelchair,  
-                            surveillence:       _place.surveillence,  
+                            operator:           _place.operator,        
+                            website:            _place.website,          
+                            phone:              _place.phone,    
+                            brand:              _place.brand,    
+                            opening_hours:      _place.opening_hours,    
+                        
+                            healthcare:         _place.healthcare, 
+                            speciality:         _place.speciality, 
+                            emergency:          _place.emergency,
+                            wheelchair:         _place.wheelchair, 
                         } 
                     }
                 },

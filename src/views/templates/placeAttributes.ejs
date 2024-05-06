@@ -154,6 +154,24 @@
     </div>  
 <% } %>
 
+<% if (Object.values(placeAttributes).indexOf('healthcare') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-healthcare <% if(isCompareClass==true){ if(place.healthcare != otherPlace.healthcare){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.healthcare %>">
+        <%= place.healthcare == undefined || null? '-' : place.healthcare %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('speciality') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-speciality <% if(isCompareClass==true){ if(place.speciality != otherPlace.speciality){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.speciality %>">
+        <%= place.speciality == undefined || null? '-' : place.speciality %>
+    </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('emergency') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-emergency <% if(isCompareClass==true){ if(place.emergency != otherPlace.emergency){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.emergency %>">
+        <%= place.emergency == undefined || null? '-' : place.emergency %>
+    </div>  
+<% } %>
+
 <% if (Object.values(placeAttributes).indexOf('grades') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-grades <% if(isCompareClass==true){ if(place.grades != otherPlace.grades){ %>data-changed<% } }%>"    data-tooltip=   "<%= place.grades %>">
         <%= place.grades == undefined || null? '-' : place.grades %>
