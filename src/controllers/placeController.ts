@@ -5,6 +5,7 @@ import { bar } from '../controllers/places/barController';
 import { cafe } from '../controllers/places/cafeController';
 import { fastfood } from '../controllers/places/fastfoodController';
 import { restaurant } from '../controllers/places/restaurantController';
+import { university } from '../controllers/places/universityController';
 
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
@@ -24,15 +25,6 @@ const barCols = [
     'cuisine','lunch','organic','takeaway',
 
     'brewery', 
-
-    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
-];
-
-const restaurantCols = [  
-    'email', 'operator', 'website', 'opening_hours', 
-
-    'wheelchair','outdoor_seating','dog',
-    'cuisine','lunch','organic','takeaway',
 
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
@@ -61,17 +53,36 @@ const fastFoodCols= [
     'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
 ];
 
-const barPlaceAttributes          = placeAttributes.concat(barCols);
-const cafePlaceAttributes         = placeAttributes.concat(cafeCols);
-const fastFoodplaceAttributes     = placeAttributes.concat(fastFoodCols);
-const restaurantplaceAttributes   = placeAttributes.concat(restaurantCols);
+const restaurantCols = [  
+    'email', 'operator', 'website', 'opening_hours', 
+
+    'wheelchair','outdoor_seating','dog',
+    'cuisine','lunch','organic','takeaway',
+
+    'diet_kosher','diet_diabetes','diet_halal','diet_vegan','diet_vegetarian',   
+];
+
+const universityCols = [
+    'description', 'email', 'operator', 'website', 'phone',
+    'internet_access', 'internet_access_fee',
+    'office',
+    'wheelchair',
+    'wikipedia',
+];
+
+const barPlaceAttributes            = placeAttributes.concat(barCols);
+const cafePlaceAttributes           = placeAttributes.concat(cafeCols);
+const fastFoodPlaceAttributes       = placeAttributes.concat(fastFoodCols);
+const restaurantPlaceAttributes     = placeAttributes.concat(restaurantCols);
+const universityPlaceAttributes     = placeAttributes.concat(universityCols);
 
 const availablePlaceTypes= [
     "bar",
     "cafe",
     "fast_food",
     "restaurant",
-]
+    "university",
+];
 
 // MARK: helpers
 function getPlaceAttributesByAmenity(_amenity: string) {
@@ -82,9 +93,11 @@ function getPlaceAttributesByAmenity(_amenity: string) {
         case availablePlaceTypes[1]:
             return cafePlaceAttributes;
         case availablePlaceTypes[2]:
-            return fastFoodplaceAttributes;
+            return fastFoodPlaceAttributes;
         case availablePlaceTypes[3]:
-            return restaurantplaceAttributes;
+            return restaurantPlaceAttributes;
+        case availablePlaceTypes[4]:
+            return universityPlaceAttributes;
     }
 }
 
@@ -172,6 +185,10 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
             case availablePlaceTypes[3]:
                 _places = await restaurant.placeReadMany(orderBy, true);
             break;
+
+            case availablePlaceTypes[4]:
+                _places = await university.placeReadMany(orderBy, true);
+            break;
         }
     }
     else 
@@ -192,6 +209,10 @@ const placeIndexView = async (_req: any, res: { render: (arg0: string, arg1: {})
                         
             case availablePlaceTypes[3]:
                 _places = await restaurant.placeReadMany(orderBy, false);
+            break;
+
+            case availablePlaceTypes[4]:
+                _places = await university.placeReadMany(orderBy, false);
             break;
         }
     }
@@ -249,6 +270,9 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             case availablePlaceTypes[3]:
                 place = await restaurant.placeReadOne(id)
             break;
+            case availablePlaceTypes[4]:
+                place = await university.placeReadOne(id)
+            break;
         }
     }
     catch(error)
@@ -289,6 +313,9 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
             case availablePlaceTypes[3]:
                 _place = await restaurant.placeReadOne(id)
             break;
+            case availablePlaceTypes[4]:
+                _place = await university.placeReadOne(id)
+            break;
         }
     }
     catch(error)
@@ -326,6 +353,9 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
                 break;
                 case availablePlaceTypes[3]:
                     placeResponseArray = restaurant.map(placeResponse);
+                break;
+                case availablePlaceTypes[4]:
+                    placeResponseArray = university.map(placeResponse);
                 break;
             }
         }
@@ -371,6 +401,9 @@ const placeUpdate = async (_req: any, res: { redirect: (arg0: string) => void })
             case availablePlaceTypes[3]:
                 restaurant.placeUpdate(place)
             break;
+            case availablePlaceTypes[4]:
+                university.placeUpdate(place)
+            break;
         }
     }
     catch(error)
@@ -415,6 +448,9 @@ const placeDeleteByAmenity = async (_req: any, res: { redirect: (arg0: string) =
             break;
             case availablePlaceTypes[3]:
                 restaurant.placeDeleteAll()
+            break;
+            case availablePlaceTypes[4]:
+                university.placeDeleteAll()
             break;
         }
     }
@@ -479,6 +515,9 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
                 break;
                 case availablePlaceTypes[3]:
                     placeArray = restaurant.map(placeResponse);
+                break;
+                case availablePlaceTypes[4]:
+                    placeArray = university.map(placeResponse);
                 break;
             }
             
@@ -552,6 +591,10 @@ async function placeAdd(_req: any, res: { redirect: (arg0: string) => void})
 
             case availablePlaceTypes[3]:
                 await restaurant.placeCreate(place)
+            break;
+
+            case availablePlaceTypes[4]:
+                await university.placeCreate(place)
             break;
         }
         res.redirect("/place-index")

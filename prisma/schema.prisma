@@ -12,8 +12,9 @@ model osm_Place {
   bar             osm_Bar?
   cafe            osm_Cafe?
   fast_food       osm_FastFood?
-
   restaurant      osm_Restaurant?
+
+  university      osm_University?
 
   amenity         String?
 
@@ -28,32 +29,6 @@ model osm_Place {
 
   created         DateTime  @default(now())
   updated         DateTime  @default(now())
-}
-
-model osm_Restaurant {
-  id              Int  @id @default(autoincrement())
-  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_placeId      Int  @unique
-
-  email           String?
-  operator        String?
-  website         String?
-  opening_hours   String?
-
-  wheelchair      String?
-  outdoor_seating Boolean?   @default(false)
-  dog             Boolean?   @default(false)
-
-  cuisine         String?
-  lunch           String?
-  organic         String?
-  takeaway        String?
-  
-  diet_kosher     Boolean?  @default(false)
-  diet_halal      Boolean?  @default(false)
-  diet_diabetes   Boolean?  @default(false)
-  diet_vegan      Boolean?  @default(false)
-  diet_vegetarian Boolean?  @default(false)
 }
 
 model osm_Bar {
@@ -154,4 +129,48 @@ model osm_FastFood {
   diet_diabetes   Boolean?  @default(false)
   diet_vegan      Boolean?  @default(false)
   diet_vegetarian Boolean?  @default(false)      
+}
+
+model osm_Restaurant {
+  id              Int  @id @default(autoincrement())
+  place           osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_placeId      Int  @unique
+
+  email           String?
+  operator        String?
+  website         String?
+  opening_hours   String?
+
+  wheelchair      String?
+  outdoor_seating Boolean?   @default(false)
+  dog             Boolean?   @default(false)
+
+  cuisine         String?
+  lunch           String?
+  organic         String?
+  takeaway        String?
+  
+  diet_kosher     Boolean?  @default(false)
+  diet_halal      Boolean?  @default(false)
+  diet_diabetes   Boolean?  @default(false)
+  diet_vegan      Boolean?  @default(false)
+  diet_vegetarian Boolean?  @default(false)
+}
+
+model osm_University {
+  id                  Int  @id @default(autoincrement())
+  place               osm_Place @relation(fields: [fk_placeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_placeId          Int  @unique
+
+  description         String?
+  email               String?
+  operator            String?
+  website             String?
+  phone               String?
+
+  internet_access     String?
+  internet_access_fee String?
+  office              String?
+  wheelchar           String?
+  wikipedia           String?
 }

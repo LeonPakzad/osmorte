@@ -70,6 +70,12 @@
 <!-- 
     individual attributes
  -->
+<% if (Object.values(placeAttributes).indexOf('description') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-description <% if(isCompareClass==true){ if(place.description != otherPlace.description){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.description %>">
+        <%= place.description == undefined || null? '-' : place.description %>
+    </div>
+<% } %>
+
 <% if (Object.values(placeAttributes).indexOf('email') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-email <% if(isCompareClass==true){ if(place.email != otherPlace.email){ %>data-changed<% } }%>"            data-tooltip=   "<%= place.email %>">
         <%= place.email == undefined || null? '-' : place.email %>
@@ -118,6 +124,12 @@
     </div>  
 <% } %>
 
+<% if (Object.values(placeAttributes).indexOf('internet_access_fee') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-internet_access_fee <% if(isCompareClass==true){ if(place.internet_access_fee != otherPlace.internet_access_fee){ %>data-changed<% } }%>"          data-tooltip=   "<%= place.internet_access_fee %>">
+        <%= place.internet_access_fee == undefined || null? '-' : place.internet_access_fee %>
+    </div>  
+<% } %>
+
 <% if (Object.values(placeAttributes).indexOf('self_service') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-self_service <% if(isCompareClass==true){ if(place.self_service != otherPlace.self_service){ %>data-changed<% } }%>"     data-tooltip=   "<%= place.self_service %>">
         <%= place.self_service == undefined || null? '-' : place.self_service %>
@@ -134,6 +146,12 @@
     <div class="<%= attributeClass %> table-cell-drive_in <% if(isCompareClass==true){ if(place.drive_in != otherPlace.drive_in){ %>data-changed<% } }%>"     data-tooltip=   "<%= place.drive_in %>">
         <%= place.drive_in == undefined || null? '-' : place.drive_in %>
     </div>  
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('office') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-office <% if(isCompareClass==true){ if(place.office != otherPlace.office){ %>data-changed<% } }%>"       data-tooltip=   "<%= place.office %>">
+        <%= place.office == undefined || null? '-' : place.office %>
+    </div>
 <% } %>
 
 <% if (Object.values(placeAttributes).indexOf('wheelchair') != -1 ) { %>
@@ -247,5 +265,11 @@
 <% if (Object.values(placeAttributes).indexOf('diet_vegetarian') != -1 ) { %>
     <div class="<%= attributeClass %> table-cell-diet_vegetarian <% if(isCompareClass==true){ if(place.diet_vegetarian != otherPlace.diet_vegetarian){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.diet_vegetarian%>" >
         <%= place.diet_vegetarian == undefined || null? '-' : place.diet_vegetarian %>
+    </div>
+<% } %>
+
+<% if (Object.values(placeAttributes).indexOf('wikipedia') != -1 ) { %>
+    <div class="<%= attributeClass %> table-cell-wikipedia <% if(isCompareClass==true){ if(place.wikipedia != otherPlace.wikipedia){ %>data-changed<% } }%>"  data-tooltip=   "<%= place.wikipedia%>" >
+        <%= place.wikipedia == undefined || null? '-' : place.wikipedia %>
     </div>
 <% } %>
