@@ -165,7 +165,7 @@ export module bar {
         _place: {   
             id: number, node: number, name: string, lat: number, long: number, city: string, housenumber: number, postcode: number, street: string,
             operator: string, website: string, phone:string, opening_hours: string, brand:string,
-            smoking:boolean, internet_access: string, wheelchair: string, outdoor_seating: boolean, indoor_seating:boolean, dog: boolean, 
+            smoking:boolean, internet_access: boolean, wheelchair: string, outdoor_seating: boolean, indoor_seating:boolean, dog: boolean, 
             cuisine: string, lunch: string, organic: string, takeaway: string, brewery: boolean
             diet_kosher: boolean, diet_diabetes: boolean, diet_halal: boolean, diet_vegan: boolean, diet_vegetarian: boolean, 
         }
@@ -197,7 +197,7 @@ export module bar {
                             brand:              _place.brand,    
                             
                             smoking:            Boolean(_place.smoking),       
-                            internet_access:    _place.internet_access,
+                            internet_access:    Boolean(_place.internet_access),
 
                             wheelchair:         _place.wheelchair,       
                             outdoor_seating:    Boolean(_place.outdoor_seating),  

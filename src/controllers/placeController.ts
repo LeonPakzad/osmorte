@@ -336,6 +336,7 @@ const placeView = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
 
     res.render("place/view", 
     {
+        error: undefined,
         title: "place: " + place.name ? place.name : place.node,
         place: flattenObject(place),
         placeOSM: undefined,
@@ -403,6 +404,11 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
 
             var placeResponseArray: any;
 
+            if(placeResponse.elements.length === 0)
+            {
+                throw new Error("response is empty");
+            }
+
             switch(_place.amenity)
             {
                 case availablePlaceTypes[0]:
@@ -430,10 +436,23 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
                     placeResponseArray = university.map(placeResponse);
                 break;
             }
+            
+            var _flattenedPlace = flattenObject(_place); 
+            placeResponseArray[0].id      = _place?.id;
+            placeResponseArray[0].node    = _place?.node;
+            placeResponseArray[0].updated = convertToReadableDate(placeResponse.osm3s.timestamp_osm_base)
+        
+            res.render("place/view", {
+                error: undefined,
+                title: "place: " + _place?.name,
+                place: _flattenedPlace,
+                placeAttributes: getPlaceAttributesByAmenity(_place!.amenity!.toString()),
+                placeOSM: placeResponseArray[0]
+            } );
         }
-        catch(error)
+        catch(e)
         {
-            console.log(error)
+            console.log(e)
         }
     }
     else
@@ -441,17 +460,14 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
         console.log("error, place not found")
     }
 
-    var _flattenedPlace = flattenObject(_place); 
-    placeResponseArray[0].id      = _place?.id;
-    placeResponseArray[0].node    = _place?.node;
-    placeResponseArray[0].updated = convertToReadableDate(placeResponse.osm3s.timestamp_osm_base)
+    res.render("place/view", 
+    {
+        title: "place: " + _place.name ? _place.name : _place.node,
+        place: flattenObject(_place),
+        placeOSM: undefined,
+        placeAttributes: getPlaceAttributesByAmenity(_place.amenity.toString()),
+    });
 
-    res.render("place/view", {
-        title: "place: " + _place?.name,
-        place: _flattenedPlace,
-        placeAttributes: getPlaceAttributesByAmenity(_place!.amenity!.toString()),
-        placeOSM: placeResponseArray[0]
-    } );
 }
 
 // MARK: update

@@ -52,7 +52,7 @@ adding new amenitys requires altering the following data:
 - adding amenity to the following in        src->controllers->placeControllers.ts
     - cols,
     - availablePlaceTypes 
-    - where availablePlaceTypes are used as switch case
+    - switch cases for amenity CRUD
 - add the new amenity attributes to templates->placeAttributes
 
 ### delete amenitys

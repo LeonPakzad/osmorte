@@ -224,13 +224,13 @@ div {
     color: black !important;
 }
 
-.login-success-message {
+.success-message {
     padding: 10px;
     background: white;
     border: solid #9fd385;
 }
 
-.login-error-message {
+.error-message {
     padding: 10px;
     background: white;
     border: solid #FF6961;

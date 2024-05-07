@@ -68,7 +68,7 @@ model osm_Bar {
   brand           String?
 
   smoking         Boolean?
-  internet_access String?
+  internet_access Boolean?
   
   wheelchair      String?
   outdoor_seating Boolean?   @default(false)

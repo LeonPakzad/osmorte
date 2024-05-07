@@ -27,6 +27,8 @@ export module atm {
                 tags[alteredKey] = value;
             }
 
+            
+
             return {
                 id:                 element.id,
                 amenity:            amenity,
@@ -34,17 +36,17 @@ export module atm {
                 lat:                element.lat             == undefined || null? null  : element.lat,
                 long:               element.lon             == undefined || null? null  : element.lon,
                 city:               tags.city               == undefined || null? null  : tags.city,
-                postcode:           tags.postcode           == undefined || null? null  : tags.postcode,
+                postcode:           tags.postcode           == undefined || null? null  : Boolean(tags.postcode),
                 street:             tags.street             == undefined || null? null  : tags.street,
-                housenumber:        tags.housenumber        == undefined || null? null  : tags.housenumber, 
+                housenumber:        tags.housenumber        == undefined || null? null  : Boolean(tags.housenumber), 
 
                 description:        tags.description        == undefined || null? null  : tags.description,
                 operator:           tags.operator           == undefined || null? null  : tags.operator,
                 brand:              tags.brand              == undefined || null? null  : tags.brand,
                 network:            tags.network            == undefined || null? null  : tags.network,
-                level:              tags.level              == undefined || null? null  : tags.level,
-                cash_in:            tags.cash_in            == undefined || null? null  : tags.cash_in,
-                indoor:             tags.indoor             == undefined || null? null  : tags.indoor,
+                level:              tags.level              == undefined || null? null  : Number(tags.level),
+                cash_in:            tags.cash_in            == undefined || null? null  : Boolean(tags.cash_in),
+                indoor:             tags.indoor             == undefined || null? null  : Boolean(tags.indoor),
                 man_made:           tags.man_made           == undefined || null? null  : tags.man_made,
                 opening_hours:      tags.opening_hours      == undefined || null? null  : tags.opening_hours,
                 
@@ -170,8 +172,8 @@ export module atm {
                             brand:              _place.brand,  
                             network:            _place.network,  
                             level:              _place.level,  
-                            cash_in:            _place.cash_in,  
-                            indoor:             _place.indoor,  
+                            cash_in:            Boolean(_place.cash_in),  
+                            indoor:             Boolean(_place.indoor),  
                             man_made:           _place.man_made,  
                             opening_hours:      _place.opening_hours,  
                             

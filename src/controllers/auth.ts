@@ -22,7 +22,7 @@ export module auth {
         }
     }
 
-    export function login(req: { body: { username: string; password: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): any; new(): any; }; }; cookie: (arg0: string, arg1: any, arg2: { httpOnly: boolean; }) => void; json: (arg0: { message: string; }) => void; }) {
+    export function login(req: { body: { username: string; password: string; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): any; new(): any; }; }; cookie: (arg0: string, arg1: any, arg2: { httpOnly: boolean, sameSite: string }) => void; json: (arg0: { message: string; }) => void; }) {
         const { username, password } = req.body;
         if (process.env.TOKEN_USERNAME == username && process.env.TOKEN_PASSWORD == password) {
             // Create JWT token
@@ -32,7 +32,7 @@ export module auth {
                 }
     
                 // Set token as an HTTP cookie
-                res.cookie('token', token, { httpOnly: true });
+                res.cookie('token', token, { httpOnly: true, sameSite: 'Strict'});
                 res.json({ message: 'Login successful' });
             });
         } else {
