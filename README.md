@@ -28,7 +28,7 @@ USERNAME=       "your username"
 PASSWORD=       "password"
 ```
 
-update your DATABASE_URL
+### update your DATABASE_URL
 <p style="position: absolute;">terminal</p>
 
 ```

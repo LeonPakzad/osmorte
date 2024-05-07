@@ -391,12 +391,11 @@ async function placeUpdatePreview(_req: any, res: { render: (arg0: string, arg1:
     {
         try
         {
+            let node:string = _place.node.toString();
             var osmQuery = `
                 [out:json][timeout:25];
                 node(id:placeID); out;
             `;
-            let node:string = _place.node.toString();
-            
             var editedOSMQuery = osmQuery.replace('placeID', node);
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(editedOSMQuery)}`)
             
@@ -599,14 +598,14 @@ const placeFind = async (_req: any, res: { render: (arg0: string, arg1: {}) => v
             out;
         `;
         
-        var boxedOSMQuery = osmQuery.replace('{{bbox}}', _req.query.box);
-        var placedOSMQuery = boxedOSMQuery.replace('placetype', _req.query.amenity);
+        var boxedOSMQuery   = osmQuery.replace('{{bbox}}', _req.query.box);
+        var placedOSMQuery  = boxedOSMQuery.replace('placetype', _req.query.amenity);
 
         try{
             const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(placedOSMQuery)}`)
             
             var placeResponse = await response.json();
-            
+        
             var placeArray: any;
             switch(_req.query.amenity)
             {
