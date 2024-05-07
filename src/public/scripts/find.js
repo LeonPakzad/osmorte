@@ -1,5 +1,6 @@
 
-function showPosition(position) {
+function showPosition(position) 
+{
     document.getElementById('latitudeInput').value = position.coords.latitude;
     document.getElementById('longitudeInput').value = position.coords.longitude;
 }
@@ -30,7 +31,8 @@ function updateDistanceSelect()
     }
 }
 
-function calculateBoundingBox() {
+function calculateBoundingBox() 
+{
 
     var latitude = document.getElementById("latitudeInput");
     var longitude = document.getElementById("longitudeInput");

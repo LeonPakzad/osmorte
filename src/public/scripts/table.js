@@ -1,4 +1,5 @@
-function toggleColDisplay(_col) {
+function toggleColDisplay(_col) 
+{
 
     var headercol = document.getElementById("header-col-"+ _col);
 
