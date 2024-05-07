@@ -22,10 +22,10 @@ This token needs to be signed just like in the tool to access OSMOrte routes wit
 <p style="position: absolute;">.env</p>
 
 ```
-DATABASE_URL= "dbtype://name:password@url:port/db-name"
-TOKEN_SECRET= "your very safe token string"
-USERNAME="your username"
-PASSWORD="password"
+DATABASE_URL=   "dbtype://name:password@url:port/db-name"
+TOKEN_SECRET=   "your very safe token string"
+USERNAME=       "your username"
+PASSWORD=       "password"
 ```
 
 update your DATABASE_URL
