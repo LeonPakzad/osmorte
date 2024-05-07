@@ -39,8 +39,8 @@ npx prisma migrate dev --name init
 <p style="position: absolute;">terminal</p>
 
 ```
-    terminal: cd src
-    terminal: npx ts-node index.ts
+    cd src
+    npx ts-node index.ts
 ``` 
 
 ## Handling amenitys
